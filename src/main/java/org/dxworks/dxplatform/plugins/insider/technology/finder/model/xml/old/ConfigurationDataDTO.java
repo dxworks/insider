@@ -1,4 +1,4 @@
-package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml;
+package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml.old;
 
 import lombok.Data;
 
@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "data")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class ConfigurationData {
+public class ConfigurationDataDTO {
 
     @XmlElement(name = "languages")
-    private Languages languages;
+    private LanguagesDTO languages;
 }

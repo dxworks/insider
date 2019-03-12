@@ -49,15 +49,15 @@ public class Insider implements Runnable {
             description = {"TechnologyFinder is an analysis that find regular expressions",
                     "( that should be provided in a configuration file )",
                     "in your project files."},
-            paramLabel = "fingerprints_file")
-    private String technologyFinderFile;
+            paramLabel = "technology-finder")
+    private boolean technologyFinderFile;
 
-    @Option(names = {"-tf", "--technology-finder"},
-            description = {"TechnologyFinder is an analysis that find regular expressions",
-                    "( that should be provided in a configuration file )",
-                    "in your project files."},
-            paramLabel = "fingerprints_file")
-    private String libraryDiscovery;
+    @Option(names = {"-ld", "--library-discovery"},
+            description = {"Library discovery is a regex based analysis that finds all import statements",
+                    "in Java or C-based projects (C, Objective C, C++). It also aggregates the results",
+                    "on packages (for Java), or on libraries (through a header to library mapping file for C-based)"},
+            paramLabel = "library-discovery")
+    private boolean libraryDiscovery;
 
     public static void main(String[] args) {
         CommandLine.run(new Insider(), System.out, args);

@@ -1,5 +1,4 @@
-package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml;
-
+package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml.old;
 
 import lombok.Data;
 
@@ -9,13 +8,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "technology")
+@XmlRootElement(name = "languages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class Category {
+public class LanguagesDTO {
 
-    private String name;
-
-    @XmlElement(name = "fingerprint")
-    private List<Fingerprint> fingerprints;
+    @XmlElement(name = "language")
+    private List<LanguageDTO> languages;
 }

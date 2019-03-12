@@ -1,4 +1,4 @@
-package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml;
+package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml.old;
 
 import lombok.Data;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @XmlRootElement(name = "technology")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class Technology {
+public class TechnologyDTO {
     private String name;
 
     @XmlElement(name = "category")
-    private List<Category> categories;
+    private List<CategoryDTO> categories;
 }

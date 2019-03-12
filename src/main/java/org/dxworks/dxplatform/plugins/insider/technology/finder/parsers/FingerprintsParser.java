@@ -1,5 +1,10 @@
 package org.dxworks.dxplatform.plugins.insider.technology.finder.parsers;
 
-public interface FingerprintsParser {
+import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
 
+import javax.xml.bind.JAXBException;
+import java.util.List;
+
+public interface FingerprintsParser {
+    List<Technology> parseTechnologiesFile(String filePath) throws JAXBException;
 }

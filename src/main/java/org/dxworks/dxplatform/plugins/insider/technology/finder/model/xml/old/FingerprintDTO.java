@@ -1,4 +1,4 @@
-package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml;
+package org.dxworks.dxplatform.plugins.insider.technology.finder.model.xml.old;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "fingerprint")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class Fingerprint {
+public class FingerprintDTO {
 
     @XmlValue
     private String value;
