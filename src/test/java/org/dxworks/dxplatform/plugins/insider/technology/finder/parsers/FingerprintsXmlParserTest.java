@@ -10,6 +10,6 @@ public class FingerprintsXmlParserTest {
     public void parseString() throws JAXBException {
         FingerprintsXmlParser fingerprintsXmlParser = new FingerprintsXmlParser();
 
-//        fingerprintsXmlParser.parseString(Paths.get("C:\\Users\\Mario\\Desktop\\libraries.xml").toFile());
+//        fingerprintsXmlParser.parseString(Paths.get("config\\libraries.xml").toFile());
     }
 }

@@ -6,13 +6,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
-@XmlRootElement(name = "languages")
+@XmlRootElement(name = "data")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class LanguagesDTO {
+public class ConfigurationDataXmlDTO {
 
-    @XmlElement(name = "language")
-    private List<LanguageDTO> languages;
+    @XmlElement(name = "languages")
+    private LanguagesXmlDTO languages;
 }

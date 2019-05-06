@@ -8,12 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "technology")
+@XmlRootElement(name = "language")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class TechnologyDTO {
+public class LanguageXmlDTO {
     private String name;
+    private int version;
 
-    @XmlElement(name = "category")
-    private List<CategoryDTO> categories;
+    @XmlElement(name = "technology")
+    private List<TechnologyXmlDTO> technologies;
 }

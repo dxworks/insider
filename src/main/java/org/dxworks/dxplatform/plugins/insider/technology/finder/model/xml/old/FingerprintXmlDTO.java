@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "fingerprint")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class FingerprintDTO {
+public class FingerprintXmlDTO {
 
     @XmlValue
     private String value;

@@ -13,5 +13,5 @@ public class XmlConfigurationDTO {
     private String name;
     private int version;
 
-    private ConfigurationDataDTO data;
+    private ConfigurationDataXmlDTO data;
 }

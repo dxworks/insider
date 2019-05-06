@@ -25,4 +25,9 @@ public class TechnologyFinder implements InsiderAnalysis {
     public List<InsiderResult> analyze(InsiderFile insiderFile) {
         return null;
     }
+
+    @Override
+    public boolean accepts(String extension) {
+        return false;
+    }
 }

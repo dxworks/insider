@@ -1,7 +1,7 @@
 package org.dxworks.dxplatform.plugins.insider.technology.finder.model;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dxworks.dxplatform.plugins.insider.InsiderAnalysis;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class Technology implements InsiderAnalysis {
 
     private final LanguageRegistry languageRegistry = LanguageRegistry.getInstance();
@@ -50,6 +50,12 @@ public class Technology implements InsiderAnalysis {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean accepts(String extension) {
+        return languages.stream().anyMatch(language -> languageRegistry.isOfLanguage(language, extension))
+                || extensions.contains(extension);
+    }
+
     private int getPatternOccurrencesInFile(InsiderFile insiderFile, Pattern pattern) {
         int fileOcc = 0;
         Matcher matcher = pattern.matcher(insiderFile.getContent());
@@ -59,8 +65,8 @@ public class Technology implements InsiderAnalysis {
         return fileOcc;
     }
 
-    private boolean accepts(String extension) {
-        return languages.stream().anyMatch(language -> languageRegistry.isOfLanguage(language, extension))
-                || extensions.contains(extension);
+    public void setFingerprints(List<String> fingerprints) {
+        this.fingerprints = fingerprints;
+        patterns = fingerprints.stream().map(Pattern::compile).collect(Collectors.toList());
     }
 }
