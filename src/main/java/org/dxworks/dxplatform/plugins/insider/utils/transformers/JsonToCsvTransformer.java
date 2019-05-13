@@ -46,7 +46,7 @@ public class JsonToCsvTransformer {
                 LibraryImport libraryImport = new LibraryImport(ImportUtils.unwrapImportPackage(fingerPrint), technology.getName());
                 Technology tech = jsonTechnologies.stream().filter(t -> t.getFingerprints().contains(fingerPrint)).findFirst().orElse(null);
                 if (tech != null) { //fingerprint already exists in JSON file
-                    if (technology.getName().equals(tech.getName())) {
+                    if (technology.getName().equalsIgnoreCase(tech.getName())) {
                         identicalImportsAlreadyInFile.add(libraryImport);
                         return;
                     }
@@ -76,34 +76,36 @@ public class JsonToCsvTransformer {
 
         jsonFingerprintParser.writeTechnologiesToFile(jsonTechnologies, Paths.get(jsonFile));
 
-        printFingerPrintReport(identicalImportsAlreadyInFile, "Fingerprints already present in file to the same Technology:");
+        printFingerPrintReport(identicalImportsAlreadyInFile, "Fingerprints already present in file to the same Technology (No action taken):");
         printFingerPrintsReport(importsAlreadyInFileWithDifferentTechnology);
         printFingerPrintReport(importsAddedToNewTechnology, "Fingerprints added to a new Technology:");
         printFingerPrintReport(importsAddedToExistingTechnology, "Fingerprints added to an existing Technology:");
     }
 
     private void printFingerPrintsReport(List<LibraryImportInOtherTechnology> importsAlreadyInFileWithDifferentTechnology) {
-        System.out.println("Fingerprints already present in file, but mapped to a different Technology:");
         System.out.println(STARS);
+        System.out.println("Fingerprints already present in file, but mapped to a different Technology (No action taken):");
         System.out.println();
-        System.out.println(importsAlreadyInFileWithDifferentTechnology.stream()
-                .map(libraryImport -> "\t" + String.join(", ", libraryImport.get_import(), libraryImport.getLibrary(), libraryImport.getOtherTechnology()))
-                .collect(Collectors.joining("\n")));
+        if (importsAlreadyInFileWithDifferentTechnology.isEmpty())
+            System.out.println("None Detected");
+        else
+            System.out.println(importsAlreadyInFileWithDifferentTechnology.stream()
+                    .map(libraryImport -> "\t" + String.join(", ", libraryImport.get_import(), libraryImport.getLibrary(), libraryImport.getOtherTechnology()))
+                    .collect(Collectors.joining("\n")));
         System.out.println();
-        System.out.println(STARS);
-        System.out.println(STARS);
     }
 
     private void printFingerPrintReport(List<LibraryImport> identicalImportsAlreadyInFile, String headerMessage) {
         System.out.println(headerMessage);
         System.out.println(STARS);
         System.out.println();
-        System.out.println(identicalImportsAlreadyInFile.stream()
-                .map(libraryImport -> "\t" + String.join(", ", libraryImport.get_import(), libraryImport.getLibrary()))
-                .collect(Collectors.joining("\n")));
+        if (identicalImportsAlreadyInFile.isEmpty())
+            System.out.println("None Detected");
+        else
+            System.out.println(identicalImportsAlreadyInFile.stream()
+                    .map(libraryImport -> "\t" + String.join(", ", libraryImport.get_import(), libraryImport.getLibrary()))
+                    .collect(Collectors.joining("\n")));
         System.out.println();
-        System.out.println(STARS);
-        System.out.println(STARS);
     }
 
     public void diagnoseJsonFile(String jsonFile) {
