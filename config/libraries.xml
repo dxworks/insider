@@ -18,6 +18,41 @@
                         </fingerprint>
                     </category>
                     <category>
+                        <name>reactor</name>
+                        <fingerprint>(reactor)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+                    <category>
+                        <name>cassandraunit</name>
+                        <fingerprint>(org\.cassandraunit)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
+                        </fingerprint>
+                    </category>
+                    <category>
+                        <name>gherkin-formatter</name>
+                        <fingerprint>(gherkin\.formatter)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
+                        </fingerprint>
+                    </category>
+                    <category>
+                        <name>micrometer</name>
+                        <fingerprint>(io\.micrometer)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+                    <category>
+                        <name>cucumber-api</name>
+                        <fingerprint>(cucumber\.api)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+                    <category>
+                        <name>sun-xml</name>
+                        <fingerprint>(com\.sun\.xml)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+                    <category>
+                        <name>mozilla-javascript</name>
+                        <fingerprint>(org\.mozilla\.javascript)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
+                        </fingerprint>
+                    </category>
+                    <category>
+                        <name>evosuite</name>
+                        <fingerprint>(org\.evosuite)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+                    <category>
                         <name>google-crypto</name>
                         <fingerprint>(com\.google\.crypto)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
                         </fingerprint>
@@ -152,6 +187,7 @@
                         <name>restassured</name>
                         <fingerprint>(com\.jayway\.restassured)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
                         </fingerprint>
+                        <fingerprint>(io\.restassured)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
                     </category>
                     <category>
                         <name>i18n</name>
@@ -1056,6 +1092,9 @@
                         <fingerprint>
                             (com\.sun\.org\.apache\.xpath)([a-zA-Z_0-9]*\.)+(internal)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
                         </fingerprint>
+                        <fingerprint>
+                            (org\.apache\.xpath)([a-zA-Z_0-9]*\.)+(internal)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
+                        </fingerprint>
                     </category>
 
                     <category>
@@ -1328,6 +1367,12 @@
                     </category>
 
                     <category>
+                        <name>jaxws-rs</name>
+                        <fingerprint>(javax\.ws\.rs)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}</fingerprint>
+                    </category>
+
+
+                    <category>
                         <name>xalan</name>
                         <fingerprint>(org\.apache\.xalan)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
                         </fingerprint>
@@ -1544,8 +1589,10 @@
                     </category>
 
                     <category>
-                        <name>atlassian-util</name>
+                        <name>atlassian</name>
                         <fingerprint>(com\.atlassian\.util)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
+                        </fingerprint>
+                        <fingerprint>(com\.atlassian\.oai)([\.;])([a-zA-Z_0-9]*\.)*([a-zA-Z_0-9]*|\*)*(;){0,1}
                         </fingerprint>
                     </category>
 

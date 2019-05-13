@@ -31,7 +31,6 @@ public class LibraryDetector implements InsiderAnalysis {
             importsContainer = new JavaImportsContainer();
     }
 
-
     public List<InsiderResult> analyze(InsiderFile file) {
         int importNumber = 0;
         String content = file.getContent();
@@ -40,7 +39,8 @@ public class LibraryDetector implements InsiderAnalysis {
 
         if (file.getExtension().equals("java")) {
             importNumber = analyzeForJava(content, file.getPath());
-        } else if (file.getExtension().equals("m") || file.getExtension().equals("mm") || file.getExtension().equals("h") || file.getExtension().equals("cpp") || file.getExtension().equals("c")) {
+        } else if (file.getExtension().equals("m") || file.getExtension().equals("mm") || file.getExtension()
+                .equals("h") || file.getExtension().equals("cpp") || file.getExtension().equals("c")) {
             importNumber = analyzeForC_Like(content);
         }
 
@@ -53,13 +53,15 @@ public class LibraryDetector implements InsiderAnalysis {
 
     private int analyzeForC_Like(String content) {
         int importNumber = 0;
-        importNumber += getImportNumberForC_Like(content, "(#(include|import)[ \t]*<[^>]*>)", line -> {
+        importNumber += getImportNumberForC_Like(content, "(#(include|import)[ \t]*<[^>]*>)", line ->
+        {
             int firstIndex = line.indexOf('<');
             int lastIndex = line.indexOf('>');
             return line.substring(firstIndex + 1, lastIndex);
         });
 
-        importNumber += getImportNumberForC_Like(content, "(#(include|import)[ \t]*\"[^\"]*\")", line -> {
+        importNumber += getImportNumberForC_Like(content, "(#(include|import)[ \t]*\"[^\"]*\")", line ->
+        {
             int firstIndex = line.indexOf('\"');
             int lastIndex = line.indexOf('\"', firstIndex + 1);
             return line.substring(firstIndex + 1, lastIndex);
@@ -68,7 +70,8 @@ public class LibraryDetector implements InsiderAnalysis {
         return importNumber;
     }
 
-    private int getImportNumberForC_Like(String content, String usedPattern, C_LikeImportExtractor cLikeImportExtractor) {
+    private int getImportNumberForC_Like(String content, String usedPattern,
+                                         C_LikeImportExtractor cLikeImportExtractor) {
         int importNumber = 0;
         Pattern pattern = Pattern.compile(usedPattern);
         Matcher matcher = pattern.matcher(content);
@@ -128,7 +131,6 @@ public class LibraryDetector implements InsiderAnalysis {
 
         return false;
     }
-
 
     public void generateResults() {
         importsContainer.writeFilesWithImports();

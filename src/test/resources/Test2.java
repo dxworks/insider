@@ -15,7 +15,7 @@ class Test1 { //####### #######
     /*  ##### ## ######### #######
     #### ##### #### #######
      */
-    public void amethod(){
+    public void amethod() {
 
     }
 }

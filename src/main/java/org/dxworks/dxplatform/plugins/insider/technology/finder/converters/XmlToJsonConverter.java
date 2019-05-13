@@ -19,7 +19,7 @@ public class XmlToJsonConverter {
     public static void main(String[] args) {
         XmlToJsonConverter xmlToJsonConverter = new XmlToJsonConverter();
 
-        xmlToJsonConverter.convertXmlFileTOJson("config\\_extLibs.xml");
+        xmlToJsonConverter.convertXmlFileTOJson("config\\libraries.xml");
 
     }
 

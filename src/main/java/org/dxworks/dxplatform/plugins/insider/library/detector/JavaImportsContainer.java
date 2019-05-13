@@ -11,11 +11,11 @@ import java.util.List;
 
 @Slf4j
 public class JavaImportsContainer extends ImportsContainer {
-    private static final String IGNORED_IMPORTS_FILE_NAME = "config" + File.separator + "IgnoredImports.txt";
+    private static final String IGNORED_IMPORTS_FILE_NAME = "config" + File.separator + "ignoredImports.txt";
 
-    private static final String IMPORTS_OUTPUT_FILE_NAME = "results" + File.separator + "Imports.tsv";
-    private static final String FILES_WITH_IMPORTS_NAME = "results" + File.separator + "FilesWithImports.tsv";
-    private static final String PACKAGE_IMPORTS_OUTPUT_FILE_NAME = "results" + File.separator + "PackageImports.tsv";
+    private static final String IMPORTS_OUTPUT_FILE_NAME = "Imports.csv";
+    private static final String FILES_WITH_IMPORTS_NAME = "FilesWithImports.csv";
+    private static final String PACKAGE_IMPORTS_OUTPUT_FILE_NAME = "PackageImports.csv";
 
     private List<String> ignoredImports;
 

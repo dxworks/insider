@@ -1,19 +1,14 @@
 package org.dxworks.dxplatform.plugins.insider;
 
+import lombok.extern.slf4j.Slf4j;
 import me.tongfei.progressbar.ProgressBar;
-import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.io.FilenameUtils;
+import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
-import org.dxworks.dxplatform.plugins.insider.library.detector.LibraryDetector;
-import org.dxworks.dxplatform.plugins.insider.library.detector.LibraryDetectorLanguage;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.parsers.FingerprintsXmlParser;
-import picocli.CommandLine;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,66 +18,92 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@Command(version = "Insider v0.0.1", header = "%nInsider%n",
-        description = {"Insider is a semantic analysis tool.",
-                "It searches for 'fingerprints' in your project and helps",
-                "finding how much your project relies on libraries."})
-public class Insider implements Runnable {
+import static org.dxworks.dxplatform.plugins.insider.commands.InsiderCommand.*;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
 
+@Slf4j
+public class Insider {
 
-    @Option(names = {"-f", "--file"},
-            description = "The path to the configuration file.",
-            paramLabel = "configuration_file",
-            required = true)
-    private String configFile;
-
-    @Option(names = {"-h", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Option(names = {"-V", "--version"}, versionHelp = true,
-            description = "Print version information and exit.")
-    private boolean versionRequested;
-
-//    @Option(names = {"-tf", "--technology-finder"},
-//            description = {"TechnologyFinder is an analysis that find regular expressions",
-//                    "( that should be provided in a configuration file )",
-//                    "in your project files."},
-//            paramLabel = "technology-finder")
-//    private boolean technologyFinderFile;
-//
-//    @Option(names = {"-cif", "--clean", "--clean-imports-file"},
-//            description = "The path to the imports CSV file you want to clean.",
-//            paramLabel = "imports_file",
-//            required = true)
-//    private String cleanFile;
-//
-//    @Option(names = {"-diag", "--diag", "--diagnose-imports-file"},
-//            description = "The path to the imports CSV file you want to diagnose.",
-//            paramLabel = "imports_file",
-//            required = true)
-//    private String diagnoseFile;
-//
-//    @Option(names = {"-ld", "--library-discovery"},
-//            description = {"Library discovery is a regex based analysis that finds all import statements",
-//                    "in Java or C-based projects (C, Objective C, C++). It also aggregates the results",
-//                    "on packages (for Java), or on libraries (through a header to library mapping file for C-based)"},
-//            paramLabel = "library-discovery")
-//    private boolean libraryDiscovery;
-
+    private static HelpCommand helpCommand = new HelpCommand();
+    private static VersionCommand versionCommand = new VersionCommand();
 
     public static void main(String[] args) {
-        CommandLine.run(new Insider(), System.out, args);
+
+        if (args == null) {
+            System.err.println("Arguments cannot be null");
+            return;
+        }
+        if (args.length == 0) {
+            System.err.println("No command found");
+            helpCommand.execute(null, args);
+            return;
+        }
+
+        if (versionCommand.parse(args)) {
+            versionCommand.execute(null, args);
+            return;
+        }
+
+        if (helpCommand.parse(args)) {
+            helpCommand.execute(null, args);
+            return;
+        }
+
+        String command = args[0];
+
+        InsiderCommand insiderCommand = getInsiderCommand(command);
+
+        if (insiderCommand == null) {
+            System.err.println("Invalid command!");
+            helpCommand.execute(null, args);
+            return;
+        }
+
+        boolean isValidInput = insiderCommand.parse(args);
+        if (!isValidInput) {
+            log.error("Input is not valid!");
+            helpCommand.execute(null, args);
+            return;
+        }
+
+        if (insiderCommand instanceof NoFilesCommand) {
+            insiderCommand.execute(null, args);
+        } else {
+            List<InsiderFile> insiderFiles = readInsiderConfiguration();
+            insiderCommand.execute(insiderFiles, args);
+        }
+
+        System.out.println("Insider 1.0 finished analysis");
     }
 
-    @Override
-    public void run() {
+    private static InsiderCommand getInsiderCommand(String command) {
+        switch (command) {
+            case FIND:
+                return new FindCommand();
+            case DETECT:
+                return new DetectCommand();
+            case ADD:
+                return new AddCommand();
+            case DIAGNOSE:
+                return new DiagnoseCommand();
+            case CONVERT:
+                return new ConvertCommand();
+            default:
+                return null;
+        }
+    }
 
-        System.out.println("Reading configuration file: " + configFile);
+    private static List<InsiderFile> readInsiderConfiguration() {
+        System.out.println("Reading configuration file: " + CONFIGURATION_FILE);
 
-        Path configFilePath = Paths.get(configFile);
+        Path configFilePath = Paths.get(CONFIGURATION_FOLDER, CONFIGURATION_FILE);
+
+        File resultsFolder = new File(RESULTS_FOLDER);
+        if (!resultsFolder.exists())
+            resultsFolder.mkdirs();
+
+
         Properties properties = new Properties();
         try {
             properties.load(new FileReader(configFilePath.toFile()));
@@ -94,20 +115,11 @@ public class Insider implements Runnable {
 
         String rootFolder = InsiderConfiguration.getInstance().getProperty(InsiderConstants.ROOT_FOLDER);
 
-        List<InsiderFile> insiderFiles = new ArrayList<>();
-        readProjectFiles(rootFolder, insiderFiles);
-
-//        runTechnologyFinder(insiderFiles);
-
-        LibraryDetector libraryDetector = new LibraryDetector(LibraryDetectorLanguage.JAVA);
-        insiderFiles.stream()
-                .filter(insiderFile -> libraryDetector.accepts(insiderFile.getExtension()))
-                .forEach(libraryDetector::analyze);
-
-        libraryDetector.generateResults();
+        return readProjectFiles(rootFolder);
     }
 
-    private void readProjectFiles(String rootFolder, List<InsiderFile> insiderFiles) {
+    private static List<InsiderFile> readProjectFiles(String rootFolder) {
+        List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
             List<Path> pathList = Files.walk(Paths.get(rootFolder)).collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
@@ -130,36 +142,7 @@ public class Insider implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    //TODO: extract this to the Technology Finder analyzer.
-    private void runTechnologyFinder(List<InsiderFile> insiderFiles) {
-
-        FingerprintsXmlParser fingerprintsXmlParser = new FingerprintsXmlParser();
-
-        List<Technology> technologies = fingerprintsXmlParser.parseTechnologiesFile("config\\libraries.xml");
-
-        List<InsiderResult> insiderResults;
-
-        try (ProgressBar pb = new ProgressBarBuilder()
-                .setInitialMax(insiderFiles.size())
-                .setUnit("Files", 1)
-                .setTaskName("Matching")
-                .setStyle(ProgressBarStyle.ASCII)
-                .setUpdateIntervalMillis(100)
-                .setPrintStream(System.err)
-                .build()) {
-            insiderResults = insiderFiles.parallelStream()
-                    .flatMap(insiderFile -> {
-                        Stream<InsiderResult> insiderResultStream = technologies.parallelStream()
-                                .flatMap(technology -> technology.analyze(insiderFile).stream());
-                        pb.step();
-                        return insiderResultStream;
-                    })
-                    .collect(Collectors.toList());
-        }
-        int sum = insiderResults.stream().mapToInt(InsiderResult::getValue).sum();
-
-        System.out.println(sum);
+        return insiderFiles;
     }
 }

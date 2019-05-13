@@ -10,6 +10,5 @@ public class JsonConfigurationDTO {
 
     private boolean useProjectPrefix = true;
 
-
     private List<TechnologyJsonDTO> technologies;
 }

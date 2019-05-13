@@ -15,7 +15,7 @@ class Test1 { //another comment
     /*  start of multiline Comment
     some multi line comment
      */
-    public void amethod(){
+    public void amethod() {
 
     }
 }

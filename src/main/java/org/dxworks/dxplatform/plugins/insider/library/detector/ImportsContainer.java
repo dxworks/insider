@@ -1,6 +1,7 @@
 package org.dxworks.dxplatform.plugins.insider.library.detector;
 
 import lombok.extern.slf4j.Slf4j;
+import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.library.detector.model.PackagingUnit;
 import org.dxworks.dxplatform.plugins.insider.utils.MapUtils;
 
@@ -9,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.PROJECT_ID;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j
 public abstract class ImportsContainer {
@@ -39,8 +43,10 @@ public abstract class ImportsContainer {
 
         String content = getContentFromMap(importedFilesToNumberOfTimesBeingImportedMap);
 
+        content = "Packages,Appearances,\n" + content;
+
         try {
-            Files.write(Paths.get(getImportsResultFilePath()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getImportsResultFilePath()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write Imports file!", e);
         }
@@ -48,7 +54,7 @@ public abstract class ImportsContainer {
 
     private String getContentFromMap(Map<String, Integer> map) {
         return map.entrySet().stream()
-                .map(entry -> String.join("\t", entry.getKey(), entry.getValue().toString()))
+                .map(entry -> String.join(",", entry.getKey(), entry.getValue().toString()))
                 .collect(Collectors.joining("\n"));
     }
 
@@ -59,8 +65,9 @@ public abstract class ImportsContainer {
 
         String content = getContentFromMap(filesToNumberOfImportsMap);
 
+        content = "Files,Imports,\n" + content;
         try {
-            Files.write(Paths.get(getFilesWithImportsResultFile()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getFilesWithImportsResultFile()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write Imports file!", e);
         }
@@ -71,18 +78,20 @@ public abstract class ImportsContainer {
     public void writePackagingUnits() {
         List<PackagingUnit> packagingUnitList = createPackagingUnitList();
         packagingUnitList = packagingUnitList.stream()
-                .sorted(Comparator.comparing(PackagingUnit::getFrequency).reversed())
+                .sorted(Comparator.comparing(PackagingUnit::getName).reversed())
                 .collect(Collectors.toList());
 
         String content = packagingUnitList.stream()
-                .map(packagingUnit -> String.join("\t",
+                .map(packagingUnit -> String.join(",",
                         packagingUnit.getName(),
                         packagingUnit.getFrequency() + "",
                         packagingUnit.getUnitNumber() + ""))
                 .collect(Collectors.joining("\n"));
 
+        content = "Packages,Appearances,Different Files\n" + content;
+
         try {
-            Files.write(Paths.get(getPackagingUnitResultFilePath()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getPackagingUnitResultFilePath()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write packaging unit result file file!", e);
         }

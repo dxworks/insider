@@ -24,7 +24,7 @@ public class LanguageRegistry {
     private void loadLanguagesToExtensionsFromConfigurationFile() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileReader(Paths.get(LANGUAGES_TO_EXTENSIONS_CONFIG_FILE_NAME).toFile()));
+            properties.load(new FileReader(Paths.get("config", LANGUAGES_TO_EXTENSIONS_CONFIG_FILE_NAME).toFile()));
         } catch (IOException e) {
             throw new InsiderException(
                     "Could not load extension to languages mapping file. Please make sure a file called "

@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks.dxplatform'
-version '0.0.1-SNAPSHOT'
+version '1.0.0-ALPHA'
 
 sourceCompatibility = 1.8
 
@@ -15,13 +15,13 @@ repositories {
 dependencies {
 
     //command line runner
-    compile group: 'info.picocli', name: 'picocli', version: '3.9.5'
+    compile group: 'info.picocli', name: 'picocli', version: '4.0.0-alpha-2'
 
     compile group: 'me.tongfei', name: 'progressbar', version: '0.7.2'
 
     //data format parsers
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
-    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+    compile 'com.opencsv:opencsv:4.1'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'

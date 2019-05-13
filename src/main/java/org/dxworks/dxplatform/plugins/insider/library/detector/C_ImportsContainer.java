@@ -12,11 +12,11 @@ import java.util.List;
 @Slf4j
 public class C_ImportsContainer extends ImportsContainer {
 
-    private static final String HEADERS_TO_LIBRARIES_MAPPING_FILE_NAME = "config" + File.separator + "headersToLibraries.tsv";
+    private static final String HEADERS_TO_LIBRARIES_MAPPING_FILE_NAME = "config" + File.separator + "headersToLibraries.csv";
 
-    private static final String HEADERS_IMPORTED_OUTPUT_FILE_NAME = "results" + File.separator + "Headers.tsv";
-    private static final String FILES_WHIT_HEADERS_OUTPUT_FILE_NAME = "results" + File.separator + "FilesWithHeaders.tsv";
-    private static final String LIBRARIES_OUTPUT_FILE_NAME = "results" + File.separator + "Libraries.tsv";
+    private static final String HEADERS_IMPORTED_OUTPUT_FILE_NAME = "Headers.csv";
+    private static final String FILES_WHIT_HEADERS_OUTPUT_FILE_NAME = "FilesWithHeaders.csv";
+    private static final String LIBRARIES_OUTPUT_FILE_NAME = "Libraries.csv";
 
     private HashMap<String, String> headersToLibraries = new HashMap<>();
 
@@ -25,10 +25,11 @@ public class C_ImportsContainer extends ImportsContainer {
 
         try {
             List<String> stringList = Files.readAllLines(Paths.get(HEADERS_TO_LIBRARIES_MAPPING_FILE_NAME));
-            stringList.forEach(line -> {
+            stringList.forEach(line ->
+            {
                 String[] pair = line.split("\t");
                 if (pair.length != 2) {
-                    log.error("Incorrect input type for 'headersToLibraries.tsv'. Headers and libraries have to be tab separated!");
+                    log.error("Incorrect input type for 'headersToLibraries.csv'. Headers and libraries have to be tab separated!");
                     return;
                 }
                 String header = pair[0];
@@ -42,7 +43,7 @@ public class C_ImportsContainer extends ImportsContainer {
                 headersToLibraries.put(header, library);
             });
         } catch (IOException e) {
-            log.error("Could not read headersToLibraries.tsv file!");
+            log.error("Could not read headersToLibraries.csv file!");
         }
     }
 
