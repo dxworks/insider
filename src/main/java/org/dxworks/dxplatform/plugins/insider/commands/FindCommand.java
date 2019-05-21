@@ -65,7 +65,8 @@ public class FindCommand implements InsiderCommand {
                         .flatMap(insiderFile ->
                         {
                             Stream<InsiderResult> insiderResultStream = technologies.parallelStream()
-                                    .flatMap(technology -> technology.analyze(insiderFile).stream());
+                                    .flatMap(technology -> technology.analyze(insiderFile).stream())
+                                    .filter(insiderResult -> insiderResult.getValue() > 0);
                             pb.step();
                             return insiderResultStream;
                         })
