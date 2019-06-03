@@ -45,7 +45,7 @@ public class JavaImportsContainer extends ImportsContainer {
 
     @Override
     public boolean accepts(String importString) {
-        return ignoredImports.stream().noneMatch(ignoredImportPattern -> importString.matches(ignoredImportPattern));
+        return ignoredImports.stream().noneMatch(importString::startsWith);
     }
 
     @Override

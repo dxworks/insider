@@ -39,7 +39,7 @@ public class FindCommand implements InsiderCommand {
         String[] files = Arrays.copyOfRange(args, 1, args.length);
         fingerprintFiles = Arrays.stream(files).filter(this::fileExists).collect(Collectors.toList());
 
-        return fingerprintFiles.size() > 0 && files.length == fingerprintFiles.size();
+        return !fingerprintFiles.isEmpty() && files.length == fingerprintFiles.size();
     }
 
     @Override

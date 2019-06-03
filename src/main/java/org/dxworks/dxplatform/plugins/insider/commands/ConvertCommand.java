@@ -23,7 +23,7 @@ public class ConvertCommand implements NoFilesCommand {
         sourceFile = args[1];
         targetFile = args[2];
 
-        return fileExists(sourceFile) && fileExists(targetFile);
+        return fileExists(sourceFile);
     }
 
     @Override
