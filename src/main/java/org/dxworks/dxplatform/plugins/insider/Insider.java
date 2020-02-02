@@ -121,21 +121,19 @@ public class Insider {
     private static List<InsiderFile> readProjectFiles(String rootFolder) {
         List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
-            List<Path> pathList = Files.walk(Paths.get(rootFolder)).collect(Collectors.toList());
+            List<Path> pathList = Files.walk(Paths.get(rootFolder)).filter(Files::isRegularFile).collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
                 for (Path path : pathList) {
                     pb.step();
-                    if (FilenameUtils.getExtension(path.getFileName().toString()).equals("java")) {
-                        try {
-                            insiderFiles.add(InsiderFile.builder()
-                                    .path(path.toAbsolutePath().toString())
-                                    .name(path.getFileName().toString())
-                                    .extension(FilenameUtils.getExtension(path.getFileName().toString()))
-                                    .content(new String(Files.readAllBytes(path)))
-                                    .build());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        insiderFiles.add(InsiderFile.builder()
+                                .path(path.toAbsolutePath().toString())
+                                .name(path.getFileName().toString())
+                                .extension(FilenameUtils.getExtension(path.getFileName().toString()))
+                                .content(new String(Files.readAllBytes(path)))
+                                .build());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks.dxplatform'
-version '1.0.0-ALPHA'
+version '1.0.3-ALPHA'
 
 sourceCompatibility = 1.8
 
