@@ -7,6 +7,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
 
 import java.io.File;
 import java.io.FileReader;
@@ -28,7 +29,9 @@ public class Insider {
     private static HelpCommand helpCommand = new HelpCommand();
     private static VersionCommand versionCommand = new VersionCommand();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+
+        Thread.sleep(5000);
 
         if (args == null) {
             System.err.println("Arguments cannot be null");
@@ -114,14 +117,22 @@ public class Insider {
         InsiderConfiguration.loadProperties(properties);
 
         String rootFolder = InsiderConfiguration.getInstance().getProperty(InsiderConstants.ROOT_FOLDER);
+        reportUnknownExtensions();
 
         return readProjectFiles(rootFolder);
+    }
+
+    private static void reportUnknownExtensions() {
+        List<String> requiredLanguages = InsiderConfiguration.getInstance().getListProperty(LANGUAGES);
+        requiredLanguages.stream()
+                .filter(lang -> !LanguageRegistry.getInstance().containsLanguage(lang))
+                .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
     private static List<InsiderFile> readProjectFiles(String rootFolder) {
         List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
-            List<Path> pathList = Files.walk(Paths.get(rootFolder)).filter(Files::isRegularFile).collect(Collectors.toList());
+            List<Path> pathList = Files.walk(Paths.get(rootFolder)).filter(Files::isRegularFile).filter(Insider::hasAcceptedExtension).collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
                 for (Path path : pathList) {
                     pb.step();
@@ -142,5 +153,14 @@ public class Insider {
         }
 
         return insiderFiles;
+    }
+
+    private static boolean hasAcceptedExtension(Path path) {
+        String extension = FilenameUtils.getExtension(path.getFileName().toString());
+        LanguageRegistry languageRegistry = LanguageRegistry.getInstance();
+        List<String> requiredLanguages = InsiderConfiguration.getInstance().getListProperty(LANGUAGES);
+
+        return requiredLanguages.stream()
+                .anyMatch(lang -> languageRegistry.isOfLanguage(lang, extension));
     }
 }
