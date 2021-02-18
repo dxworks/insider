@@ -26,8 +26,7 @@ public class FileService {
                                 .map(Object::toString)
                                 .collect(Collectors.joining("\n"));
                         files.add(new MyFile(path.toString(), content, extension));
-                    }
-                    catch(Exception e) {
+                    } catch (Exception e) {
                         e.getStackTrace();
                     }
                 });

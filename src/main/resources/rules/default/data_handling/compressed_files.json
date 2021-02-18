@@ -11,8 +11,13 @@
       {
         "pattern": "\\.(zip|gz|gzip|gem|tar|tgz|tar\\.gz|xz|7z)",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }

@@ -11,8 +11,12 @@
       {
         "pattern": "todo",
         "type": "regex",
-        "scopes": [ "comment" ],
-        "modifiers": [ "i" ]
+        "scopes": [
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -28,8 +32,12 @@
       {
         "pattern": "fixme|broke|broken",
         "type": "regex",
-        "scopes": [ "comment" ],
-        "modifiers": [ "i" ]
+        "scopes": [
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -45,8 +53,12 @@
       {
         "pattern": "hack|insecure|black magic|high risk|risky|riskiest|obfuscation|obfuscate|obfuscated",
         "type": "regex",
-        "scopes": [ "comment" ],
-        "modifiers": [ "i" ]
+        "scopes": [
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   }

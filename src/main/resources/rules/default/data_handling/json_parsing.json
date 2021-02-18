@@ -3,7 +3,9 @@
     "name": "Data: Parses JSON",
     "id": "AI013600",
     "description": "Data: Parses JSON",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "Data.Parsing.JSON"
     ],
@@ -23,7 +25,9 @@
     "name": "Data: Parses JSON",
     "id": "AI013700",
     "description": "Data: Parses JSON",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.Parsing.JSON"
     ],

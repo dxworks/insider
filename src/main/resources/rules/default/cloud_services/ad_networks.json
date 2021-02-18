@@ -11,7 +11,10 @@
       {
         "pattern": "adsense|googleadservices\\.com",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
         "modifiers": []
       }
     ]
@@ -28,7 +31,9 @@
       {
         "pattern": "outbrain.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -45,7 +50,9 @@
       {
         "pattern": "outbrain.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]

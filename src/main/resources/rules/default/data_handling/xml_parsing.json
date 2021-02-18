@@ -22,7 +22,9 @@
     "name": "Data: Parses XML",
     "id": "AI014200",
     "description": "Data: Parses XML",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.Parsing.XML"
     ],
@@ -42,7 +44,9 @@
     "name": "Data: Parses XML",
     "id": "AI014300",
     "description": "Data: Parses XML",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "Data.Parsing.XML"
     ],
@@ -62,7 +66,9 @@
     "name": "Data: Parses XML",
     "id": "AI014400",
     "description": "Data: Parses XML",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Data.Parsing.XML"
     ],
@@ -82,7 +88,9 @@
     "name": "Data: XSLT Transformations",
     "id": "AI014500",
     "description": "Data: XSLT Transformations",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.Parsing.XSLT"
     ],
@@ -102,7 +110,9 @@
     "name": "Data: XSLT Transformations",
     "id": "AI014600",
     "description": "Data: XSLT Transformations",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Data.Parsing.XSLT"
     ],
@@ -122,7 +132,9 @@
     "name": "Data: XSLT Transformations",
     "id": "AI014700",
     "description": "Data: XSLT Transformations",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "Data.Parsing.XSLT"
     ],
@@ -169,7 +181,9 @@
       {
         "pattern": "xslt|xsl:stylesheet",
         "type": "regex-word",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "scopes": [
           "code"

@@ -14,7 +14,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -35,7 +37,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -55,7 +59,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -76,7 +82,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -96,7 +104,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -117,7 +127,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ]

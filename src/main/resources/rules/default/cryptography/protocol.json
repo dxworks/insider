@@ -23,9 +23,13 @@
       {
         "pattern": "SslStream|SecurityProtocolType\\.(Ssl|Tls)|SslPolicyErrors|onReceivedSslError|SslContext",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       }
     ]
@@ -61,7 +65,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-1,1)",
@@ -87,66 +93,94 @@
       {
         "pattern": "(kCF|NS)StreamSocketSecurityLevel(None|SSLv2|SSLv3|TLSv1|NegotiatedSSL)",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "kSSLProtocol(2|3Only|All|Unknown)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "k(D)?(SSL|TLS)Protocol(1|1Only|2|3Only|All)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "ssl",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": "e.g. ssl_crl, ssl_ecdh_curve, others"
       },
       {
         "pattern": "SSLCADNRequest|SSLCARevocation|SSLCompression|SSLEngine|SSLFIPS|SSLInsecureRenegotiation",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "SSLOCSP(DefaultResponder|Enable|OverrideResponder|ProxyURL|ResponderTimeout|ResponseMaxAge|ResponseTimeSkew|UseRequestNonce)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "SSLOpenSSLConfCmd|SSLOptions|SSLPassPhraseDialog|SSLProtocol|SSLProxy",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "SSLRandomSeed|SSLRenegBufferSize|SSLRequire|SSLSessionCache|SSLSRPUnknownUserSeed|SSLSRPVerifierFile|SSLStapling",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "SSLStrictSNIVHostCheck|SSLUserName|SSLUseStapling|SSLVerify",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       }
     ]
@@ -163,7 +197,9 @@
       {
         "pattern": "ssh",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -180,9 +216,14 @@
       {
         "pattern": "DiffieHellman|ECDsa",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i", "comment" ],
+        "modifiers": [
+          "i",
+          "comment"
+        ],
         "_comment": ""
       }
     ]

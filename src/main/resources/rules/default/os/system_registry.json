@@ -15,7 +15,9 @@
       {
         "pattern": "RegSetValueEx|RegOpenKeyEx|RegCreateKeyEx",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -36,7 +38,9 @@
       {
         "pattern": "Registry(Key)?(.*)?.(SetValue|CreateSubKey|Delete)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -57,7 +61,9 @@
       {
         "pattern": "_?winreg\\.(Set|Delete|Create)(Key|Value)(Ex)?",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": "_winreg and winreg built-in modules"
       }
@@ -78,14 +84,20 @@
       {
         "pattern": "Registry",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "(HKLM|HKCU):",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ],
@@ -97,7 +109,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-5,5)",
@@ -113,13 +127,17 @@
     "tags": [
       "OS.SystemRegistry.ACL"
     ],
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "RegistryAccessRule|RegistrySecurity",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -140,7 +158,9 @@
       {
         "pattern": "RegGetValue|RegGetDWord|RegGetString|CRegKey|RegOpenKey|RegQueryKeyEx",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -160,14 +180,20 @@
       {
         "pattern": "Registry",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "(HKLM|HKCU):",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ],
@@ -179,7 +205,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-5,5)",
@@ -203,7 +231,9 @@
       {
         "pattern": "Registry(Key)?(.*)?.GetValue",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }

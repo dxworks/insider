@@ -14,16 +14,22 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "do not include pfx or pem see rule below for x509 client auth"
       },
       {
         "pattern": "PKCS|PaddingMode|SubjectIdentifier|Certificate",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]
@@ -32,7 +38,11 @@
     "name": "Cryptography: x.509 Certificate Use",
     "id": "AI006300",
     "description": "Cryptography: x.509 Certificate Use",
-    "applies_to": [ "c", "cpp", "csharp" ],
+    "applies_to": [
+      "c",
+      "cpp",
+      "csharp"
+    ],
     "tags": [
       "Cryptography.X509Certificates.Use"
     ],
@@ -44,7 +54,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -66,7 +78,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "use for client auth is not guaranteed"
       }
@@ -87,7 +101,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -100,7 +116,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-10,10)",
@@ -134,7 +152,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
@@ -144,7 +164,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "allow for PKCS7, other"
       },
@@ -175,17 +197,25 @@
       {
         "pattern": "DSACng|SignData|CreateSignature|DSACryptoServiceProvider|DSASignatureDeformatter|DSASignatureFormatter|DSAKeyValue",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "DSAParameters",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       }
     ]
@@ -206,7 +236,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
@@ -216,7 +248,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -237,7 +271,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -250,7 +286,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-30,30)",

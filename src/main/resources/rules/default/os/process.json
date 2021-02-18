@@ -206,7 +206,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   }

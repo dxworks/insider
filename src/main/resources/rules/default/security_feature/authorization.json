@@ -17,7 +17,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
@@ -26,7 +28,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -49,7 +53,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -72,7 +78,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ],
@@ -84,7 +92,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": "eliminate notices"
         },
         "search_in": "finding-region(-10,10)",
@@ -111,7 +121,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ],
@@ -123,7 +135,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": "eliminate notices"
         },
         "search_in": "finding-region(-10,10)",
@@ -150,7 +164,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ],
@@ -162,7 +178,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": "since already covered by another rule if SAS related"
         },
         "search_in": "finding-region(-10,10)",

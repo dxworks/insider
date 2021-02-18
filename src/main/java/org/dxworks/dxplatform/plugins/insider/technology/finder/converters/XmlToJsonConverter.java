@@ -1,7 +1,6 @@
 package org.dxworks.dxplatform.plugins.insider.technology.finder.converters;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.json.JsonConfigurationDTO;
@@ -32,12 +31,9 @@ public class XmlToJsonConverter {
         JsonConfigurationDTO jsonConfigurationDTO = new JsonConfigurationDTO();
         jsonConfigurationDTO.setTechnologies(technologyJsonDTOS);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            FileWriter writer = new FileWriter(xmlFilePath.substring(0, xmlFilePath.lastIndexOf(".xml")) + ".json");
-            gson.toJson(jsonConfigurationDTO, writer);
-            writer.flush();
-            writer.close();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(xmlFilePath.substring(0, xmlFilePath.lastIndexOf(".xml")) + ".json"), jsonConfigurationDTO);
         } catch (IOException e) {
             log.error("Could not write JSON file when converting from XML!", e);
         }

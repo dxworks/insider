@@ -3,7 +3,9 @@
     "name": "Data: ORM (SQL Alchemy)",
     "id": "AI010700",
     "description": "Data: ORM (SQL Alchemy)",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.DBMS.ORM.SQLAlchemy"
     ],
@@ -12,8 +14,13 @@
       {
         "pattern": "sqlalchemy",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -23,7 +30,9 @@
     "name": "Data: ORM (Django)",
     "id": "AI010800",
     "description": "Data: ORM (Django)",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.DBMS.ORM.Django"
     ],
@@ -32,8 +41,13 @@
       {
         "pattern": "django",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ]
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -41,7 +55,9 @@
     "name": "Data: DBMS (SQLite)",
     "id": "AI010900",
     "description": "Data: DBMS (SQLite)",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.DBMS.SQLite"
     ],
@@ -50,13 +66,17 @@
       {
         "pattern": "sqlite|python3-apsw",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "apsw",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "medium"
       }
     ]
@@ -65,7 +85,9 @@
     "name": "Data: DBMS (SQLite)",
     "id": "AI010910",
     "description": "Data: DBMS (SQLite)",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.DBMS.SQLite"
     ],
@@ -74,7 +96,9 @@
       {
         "pattern": "SqliteCommand|SqliteConnection|System\\.Data\\.SQLite|Microsoft\\.Data\\.SQLite",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -98,7 +122,9 @@
       {
         "pattern": "sqlite",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -107,7 +133,9 @@
     "name": "Data: DBMS (PostgreSQL)",
     "id": "AI011000",
     "description": "Data: DBMS (PostgreSQL)",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "Data.DBMS.PostgreSQL"
     ],
@@ -116,8 +144,12 @@
       {
         "pattern": "(pgsql|PG)\\.connect|PG::Connection",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -126,7 +158,9 @@
     "name": "Data: DBMS (PostgreSQL)",
     "id": "AI011100",
     "description": "Data: DBMS (PostgreSQL)",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.DBMS.PostgreSQL"
     ],
@@ -135,8 +169,12 @@
       {
         "pattern": "psycopg2",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -145,7 +183,9 @@
     "name": "Data: DBMS (PostgreSQL)",
     "id": "AI011200",
     "description": "Data: DBMS (PostgreSQL)",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.DBMS.PostgreSQL"
     ],
@@ -154,8 +194,12 @@
       {
         "pattern": "npgsql",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -172,8 +216,12 @@
       {
         "pattern": "mongodb|mongoose|mongoclient|pymongo|redis|hbase|neo4j|cassandra|couchbase|memcached|couchdb|litedb|LiteDatabase|tinydb",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -182,7 +230,9 @@
     "name": "Data: DBMS (SQL)",
     "id": "AI011400",
     "description": "Data: DBMS SQL",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Data.DBMS.SQL"
     ],
@@ -191,8 +241,12 @@
       {
         "pattern": "import java.sql",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -201,7 +255,9 @@
     "name": "Data: DBMS (SQL)",
     "id": "AI011500",
     "description": "Data: DBMS (SQL)",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.DBMS.SQL"
     ],
@@ -210,8 +266,12 @@
       {
         "pattern": "using system.data.sqlclient",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -229,8 +289,12 @@
       {
         "pattern": "['\\\"](select|insert|delete|update)\\s.*",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ],
@@ -242,7 +306,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-5,5)",
@@ -264,8 +330,13 @@
       {
         "pattern": "mysql",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -274,7 +345,10 @@
     "name": "Data: DBMS (Oracle)",
     "id": "AI011700",
     "description": "Data: DBMS (Oracle)",
-    "applies_to": [ "java", "pom" ],
+    "applies_to": [
+      "java",
+      "pom"
+    ],
     "tags": [
       "Data.DBMS.SQL.Oracle"
     ],
@@ -283,15 +357,23 @@
       {
         "pattern": "oracle\\.jdbc|oracledriver|com.oracle",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "oracle",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ]
@@ -300,7 +382,9 @@
     "name": "Data: DBMS (Oracle)",
     "id": "AI011800",
     "description": "Data: DBMS (Oracle)",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Data.DBMS.SQL.Oracle"
     ],
@@ -309,15 +393,23 @@
       {
         "pattern": "import cx_Oracle",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "oracle",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ]
@@ -326,7 +418,14 @@
     "name": "Data: DBMS (General)",
     "id": "AI011900",
     "description": "Data: DBMS (General)",
-    "applies_to": [ "csharp", "c++", "java", "python", "objective-c", "go" ],
+    "applies_to": [
+      "csharp",
+      "c++",
+      "java",
+      "python",
+      "objective-c",
+      "go"
+    ],
     "tags": [
       "Data.DBMS.General"
     ],
@@ -335,7 +434,10 @@
       {
         "pattern": "database",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
         "confidence": "high"
       }
     ]
@@ -344,7 +446,9 @@
     "name": "Data: ODBC",
     "id": "AI012000",
     "description": "Data: ODBC",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "Data.DBMS.Connection.ODBC"
     ],
@@ -353,7 +457,9 @@
       {
         "pattern": "OdbcConnection|OdbcCommand|OdbcDataReader",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -362,7 +468,14 @@
     "name": "Data: ODBC",
     "id": "AI012010",
     "description": "Data: ODBC",
-    "applies_to": [ "csharp", "c++", "java", "python", "objective-c", "go" ],
+    "applies_to": [
+      "csharp",
+      "c++",
+      "java",
+      "python",
+      "objective-c",
+      "go"
+    ],
     "tags": [
       "Data.DBMS.Connection.ODBC"
     ],
@@ -371,7 +484,9 @@
       {
         "pattern": "Odbc",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]

@@ -17,9 +17,13 @@
       {
         "pattern": "bouncycastle|spongycastle",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -37,9 +41,13 @@
       {
         "pattern": "mbedtls",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -57,9 +65,13 @@
       {
         "pattern": "openssl|SSL_CTX_new",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -77,9 +89,13 @@
       {
         "pattern": "boringssl",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -97,9 +113,13 @@
       {
         "pattern": "libressl",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -117,9 +137,13 @@
       {
         "pattern": "\\b(wincrypt|cryptxml|wintrust|dpapi|bcrypt|cryptdlg|ncrypt|cryptxml|ncryptprotect)\\.h",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -143,7 +167,9 @@
         "scopes": [
           "code"
         ],
-        "modified": [ "i" ],
+        "modified": [
+          "i"
+        ],
         "_comment": ""
       },
       {
@@ -152,7 +178,9 @@
         "scopes": [
           "code"
         ],
-        "modified": [ "i" ],
+        "modified": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }

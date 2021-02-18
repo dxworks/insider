@@ -11,8 +11,12 @@
       {
         "pattern": "\\.amazonaws\\.com|aws\\.amazon\\.com",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -29,14 +33,20 @@
       {
         "pattern": "icloud",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "NSUbiquitousKeyValueStore",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -54,8 +64,12 @@
       {
         "pattern": "azure",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -72,14 +86,18 @@
       {
         "pattern": "office365|office\\.com",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       },
       {
         "pattern": "graph\\.microsoft\\.com|MicrosoftGraph",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -89,7 +107,9 @@
     "name": "Cloud Service: Application (Telemetry)",
     "id": "AI000810",
     "description": "Cloud Service: Application (Telemetry)",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "CloudServices.Application.Microsoft.Telemetry"
     ],
@@ -98,7 +118,9 @@
       {
         "pattern": "TelemetryClient|Microsoft\\.ApplicationInsights|MetricTelemetry",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -108,7 +130,9 @@
     "name": "Cloud Service: Application (Telemetry)",
     "id": "AI000820",
     "description": "Cloud Service: Application (Telemetry)",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "CloudServices.Application.Microsoft.Telemetry"
     ],
@@ -117,7 +141,9 @@
       {
         "pattern": "appInsights\\.trackMetric",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -135,7 +161,9 @@
       {
         "pattern": "applicationinsights",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -153,8 +181,12 @@
       {
         "pattern": "cloud.google.com",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -173,8 +205,12 @@
       {
         "pattern": "digitalocean.com",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -192,8 +228,12 @@
       {
         "pattern": "sendgrid.net",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -211,8 +251,13 @@
       {
         "pattern": "github",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -229,8 +274,13 @@
       {
         "pattern": "gitlab",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -247,8 +297,13 @@
       {
         "pattern": "bitbucket",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -265,8 +320,13 @@
       {
         "pattern": "sourceforge",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -283,8 +343,13 @@
       {
         "pattern": "savannah\\.(non)?gnu\\.org",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -301,8 +366,13 @@
       {
         "pattern": "nuget",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -319,8 +389,13 @@
       {
         "pattern": "npm",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ]
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -336,8 +411,13 @@
       {
         "pattern": "pypi",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -354,8 +434,13 @@
       {
         "pattern": "launchpad.net",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -372,8 +457,13 @@
       {
         "pattern": "visualstudio.com",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -393,8 +483,12 @@
       {
         "pattern": "(language|dist|matrix):",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -414,7 +508,9 @@
       {
         "pattern": "circleci",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -435,7 +531,9 @@
       {
         "pattern": "steps:",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -453,8 +551,13 @@
       {
         "pattern": "Windows Store|Windows App Store|WinAppStore",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }

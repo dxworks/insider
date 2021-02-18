@@ -13,8 +13,13 @@
       {
         "pattern": "ester",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]

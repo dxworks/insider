@@ -59,7 +59,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

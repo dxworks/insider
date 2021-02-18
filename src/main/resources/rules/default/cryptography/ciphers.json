@@ -108,25 +108,37 @@
       {
         "pattern": "RSACng|RSACryptoServiceProvider|RSAEncryptionPadding|RSAOAEPKeyExchangeDeformatter|X509AsymmetricSecurityKey",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "RSAOAEPKeyExchangeFormatter|RSAPKCS1KeyExchangeDeformatter|RSAPKCS1",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       },
       {
         "pattern": "RSASignaturePadding|RsaProtectedConfigurationProvider|RSACertificateExtensions",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "" ],
+        "modifiers": [
+          ""
+        ],
         "_comment": ""
       }
     ]

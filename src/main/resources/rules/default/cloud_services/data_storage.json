@@ -24,7 +24,9 @@
       {
         "pattern": "cosmosdb",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -177,7 +179,9 @@
           "code"
         ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]

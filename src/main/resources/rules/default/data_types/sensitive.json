@@ -11,29 +11,49 @@
       {
         "pattern": "(first|last|sur)name",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "birthdate|ethnicity|gender|citizenship|nationality|martial|marriage|married|spouse|mother|father",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "socialsecurity|nationalid|passport|drvlic|studentID|govtID|driverlic|driverslicense",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "mobile_*(phone|number)|cell_*(phone|number)|telephone",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -50,15 +70,25 @@
       {
         "pattern": "mobile|cell|phone|ipaddress|ipaddr|geolocation|geotracking|identification|ssnumber|ssn|children|kids*",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       },
       {
         "pattern": "age",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ],
@@ -70,7 +100,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-40,40)",
@@ -91,8 +123,13 @@
       {
         "pattern": "email",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ],
@@ -104,7 +141,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": "special case for package.json for SF"
         },
         "search_in": "finding-region(-10,10)",
@@ -113,7 +152,6 @@
       }
     ]
   },
-
   {
     "name": "Data: Sensitive (Identification)",
     "id": "AI016500",
@@ -126,8 +164,13 @@
       {
         "pattern": "avatar|photo",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ],
@@ -139,7 +182,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-30,30)",
@@ -160,8 +205,12 @@
       {
         "pattern": "medical|insurance|doctor|patient|physician|medicare|medicaid|physician|blood_*type",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "low"
       }
     ]
@@ -178,8 +227,12 @@
       {
         "pattern": "registration|membership|acctnum|accountnum|accountnumber",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ],
@@ -191,7 +244,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-40,40)",

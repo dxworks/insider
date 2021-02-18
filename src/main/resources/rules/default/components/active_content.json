@@ -18,7 +18,9 @@
           "comment"
         ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       },
       {
         "pattern": "adobe flash",
@@ -28,7 +30,9 @@
           "comment"
         ],
         "confidence": "medium",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       },
       {
         "pattern": "flash",
@@ -38,7 +42,9 @@
           "comment"
         ],
         "confidence": "low",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   },
@@ -64,7 +70,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
@@ -74,7 +82,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium"
       }
     ]
@@ -98,7 +108,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -163,7 +175,9 @@
       {
         "pattern": "silverlight|\\.xap",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],

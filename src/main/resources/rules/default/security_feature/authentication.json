@@ -11,40 +11,65 @@
       {
         "pattern": "login\\.microsoftonline(-p)*\\.com|SAS.*Token|login\\.live.com|Shared *Access *Signature",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "System\\.IdentityModel|AzureADB2C|SingleAccountPublicClientApplication|MultipleAccountPublicClientApplication",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "microsoft\\.aad|adal|msal|AADClient|Microsoft\\.IdentityModel|passport\\.net|ServicePrincipalCredentials",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "AuthenticationResult|MsalServiceException",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "aad",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -62,7 +87,10 @@
       {
         "pattern": "AcquireTokenForClient|ConfidentialClientApplicationBuilder",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -75,7 +103,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": "negate cases for certificate rule identifying client TLS auth"
         },
         "search_in": "finding-region(-10,10)",
@@ -96,16 +126,24 @@
       {
         "pattern": "using Google\\.Apis\\.Auth|GoogleCredential|AppIdentityCredential|oauth2/google|apis\\.google\\.com/js/api\\.js",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "OIDAuthorizationRequest|accounts\\.google\\.com/o/oauth2|googleapis\\.com/oauth2|GTMAppAuth",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -123,32 +161,48 @@
       {
         "pattern": "oauth",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "auth.?token|access.?token|client.?credentials|client.?id|client.?secret|api.?key",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "Authorization: Bearer",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "bearer",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -166,8 +220,13 @@
       {
         "pattern": "OpenID",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -185,31 +244,48 @@
       {
         "pattern": "active.?directory|ADFS",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "ADsOpenObject|ADObject|ADComputer|ADGroup|ADUser|ADContainer|ADDomain",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "Microsoft\\.IdentityModel\\.ActiveDirectory",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "System\\.DirectoryServices|IDirectoryObject|IDirectorySearch",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -227,8 +303,13 @@
       {
         "pattern": "LDAP|ldaps",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -246,24 +327,36 @@
       {
         "pattern": "WWW-Authenticate: NTLM|windowsAuthentication|CredentialCache\\.DefaultCredentials|HTTPNtlmAuthHandler",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "LogonUserA|LogonUserEx|LogonUserW",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "NTLM",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -288,8 +381,12 @@
       {
         "pattern": "WindowsIdentity|WindowsPrincipal|Kerberos",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "possible use for NTLM but default is Kerberos"
       }
@@ -311,7 +408,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -332,7 +431,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -353,8 +454,12 @@
       {
         "pattern": "AuthenticationHeaderValue\\(\"SAML\"",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -372,16 +477,24 @@
       {
         "pattern": "SAML|saml2",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "federation|sso",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }
@@ -399,8 +512,12 @@
       {
         "pattern": "\"Authorization: Basic|WWW-Authenticate|AuthenticationHeaderValue\\(\"Basic\"",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -421,7 +538,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -439,16 +558,24 @@
       {
         "pattern": "(username|userid|password|passphrase|multi-factor|credential|acct)s?",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "connection.?string|conn.?string|DefaultNetworkCredentials",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": ""
       }

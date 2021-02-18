@@ -16,7 +16,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
@@ -27,7 +29,9 @@
           "code",
           "comment"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }

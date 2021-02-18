@@ -6,7 +6,6 @@ import org.dxworks.dxplatform.plugins.insider.InsiderAnalysis;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
 
 import java.util.List;

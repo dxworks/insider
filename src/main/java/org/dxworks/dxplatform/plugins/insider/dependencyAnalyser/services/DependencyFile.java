@@ -48,8 +48,8 @@ public class DependencyFile {
     private void extractLineBreaks(String content) {
         lineBreaks = new ArrayList<>();
         lineBreaks.add(-1);
-        for (int i = 0; i < content.length(); i++){
-            if(content.charAt(i) == '\n'){
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) == '\n') {
                 lineBreaks.add(i);
             }
         }
@@ -59,14 +59,14 @@ public class DependencyFile {
         inlineComments = new ArrayList<>();
         Comment inlineComment = null;
 
-        for(Comment comment : comments) {
-            if(comment.getLanguage().contains(language)) {
+        for (Comment comment : comments) {
+            if (comment.getLanguage().contains(language)) {
                 inlineComment = comment;
             }
         }
 
-        if(inlineComment != null) {
-            if(inlineComment.getInline().equals("//")) {
+        if (inlineComment != null) {
+            if (inlineComment.getInline().equals("//")) {
                 Matcher matcher = Pattern.compile("//").matcher(content);
                 while (matcher.find()) {
                     int start = matcher.start();
@@ -84,8 +84,8 @@ public class DependencyFile {
         List<Integer> preffixes = new ArrayList<>();
         List<Integer> suffixes = new ArrayList<>();
 
-        for(Comment comment : comments) {
-            if(comment.getLanguage().contains(language)) {
+        for (Comment comment : comments) {
+            if (comment.getLanguage().contains(language)) {
                 multilineComment = comment;
             }
         }
@@ -100,8 +100,8 @@ public class DependencyFile {
             commentIndexes.add(new ImmutablePair<>(commentStartLine, commentStartIndex));
         }
 
-        if(multilineComment != null) {
-            if(multilineComment.getPreffix().equals("/*")) {
+        if (multilineComment != null) {
+            if (multilineComment.getPreffix().equals("/*")) {
                 Matcher matcher = Pattern.compile("/\\*").matcher(content);
                 while (matcher.find()) {
                     int start = matcher.start();
@@ -109,16 +109,16 @@ public class DependencyFile {
                     Integer startLine = getLineNumberOfAbsoluteCharacterIndex(start);
                     preffixes.add(startLine);
 
-                    for(int i = 0 ; i < commentIndexes.size() - 1; i++) {
-                        if(commentIndexes.get(i).getLeft().equals(startLine) && commentIndexes.get(i + 1).getLeft().equals(startLine)) {
-                            if(commentIndexes.get(i).getRight() < start && commentIndexes.get(i + 1).getRight() > start) {
+                    for (int i = 0; i < commentIndexes.size() - 1; i++) {
+                        if (commentIndexes.get(i).getLeft().equals(startLine) && commentIndexes.get(i + 1).getLeft().equals(startLine)) {
+                            if (commentIndexes.get(i).getRight() < start && commentIndexes.get(i + 1).getRight() > start) {
                                 preffixesToRemove.add(startLine);
                             }
                         }
                     }
                 }
             }
-            if(multilineComment.getSuffix().equals("*/")) {
+            if (multilineComment.getSuffix().equals("*/")) {
                 Matcher matcher = Pattern.compile("\\*/").matcher(content);
                 while (matcher.find()) {
                     int start = matcher.start();
@@ -129,11 +129,11 @@ public class DependencyFile {
             }
         }
 
-        for(Integer i : preffixesToRemove) {
+        for (Integer i : preffixesToRemove) {
             preffixes.remove(i);
         }
 
-        for(int i = 0; i < preffixes.size(); i++) {
+        for (int i = 0; i < preffixes.size(); i++) {
             multilineComments.add(new ImmutablePair<>(preffixes.get(i), suffixes.get(i)));
         }
     }
@@ -157,18 +157,18 @@ public class DependencyFile {
 
             PatternMatch patternMatch = getPatternMatch(start, end, file.getFileContent());
 
-            for(ImmutablePair<Integer, Integer> pair : multilineComments) {
+            for (ImmutablePair<Integer, Integer> pair : multilineComments) {
                 if (patternMatch.getStartLine() >= pair.getKey() && patternMatch.getEndLine() <= pair.getValue()) {
                     isInMultilineComment = true;
                     break;
                 }
             }
 
-            if(inlineComments.contains(patternMatch.getStartLine())) {
+            if (inlineComments.contains(patternMatch.getStartLine())) {
                 isInInlineComment = true;
             }
 
-            if(!isInInlineComment && !isInMultilineComment) {
+            if (!isInInlineComment && !isInMultilineComment) {
                 matches.add(patternMatch);
             }
         }
@@ -204,13 +204,13 @@ public class DependencyFile {
 
             PatternMatch patternMatch = getPatternMatch(start, end, file.getFileContent());
 
-            for(ImmutablePair<Integer, Integer> pair : multilineComments) {
-                if(patternMatch.getStartLine() >= pair.getKey() && patternMatch.getEndLine() <= pair.getValue()) {
+            for (ImmutablePair<Integer, Integer> pair : multilineComments) {
+                if (patternMatch.getStartLine() >= pair.getKey() && patternMatch.getEndLine() <= pair.getValue()) {
                     matches.add(patternMatch);
                 }
             }
 
-            if(inlineComments.contains(patternMatch.getStartLine())) {
+            if (inlineComments.contains(patternMatch.getStartLine())) {
                 matches.add(patternMatch);
             }
         }
@@ -218,13 +218,13 @@ public class DependencyFile {
     }
 
     private void extractCommentLines(MyFile file, List<Comment> comments, List<Language> languages, String fileExtension) {
-        for(Language language : languages) {
-            if(language.getExtensions().contains(fileExtension)) {
+        for (Language language : languages) {
+            if (language.getExtensions().contains(fileExtension)) {
                 String languageName = language.getName();
                 extractInlineComments(file.getFileContent(), languageName, comments);
                 extractMultilineComments(file.getFileContent(), languageName, comments);
             }
-            if(inlineComments == null && multilineComments == null) {
+            if (inlineComments == null && multilineComments == null) {
                 inlineComments = Collections.emptyList();
                 multilineComments = Collections.emptyList();
             }

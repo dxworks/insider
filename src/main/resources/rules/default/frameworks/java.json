@@ -3,7 +3,9 @@
     "name": "Development Framework: Spring",
     "id": "AI018200",
     "description": "Development Framework: Spring",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Spring"
     ],
@@ -12,7 +14,9 @@
       {
         "pattern": "springframework",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -22,7 +26,9 @@
     "name": "Development Framework: Hibernate",
     "id": "AI018300",
     "description": "Development Framework: Hibernate",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Hibernate"
     ],
@@ -31,7 +37,9 @@
       {
         "pattern": "hibernate",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -41,7 +49,9 @@
     "name": "Development Framework: Blade",
     "id": "AI018400",
     "description": "Development Framework: Blade",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Blade"
     ],
@@ -50,7 +60,9 @@
       {
         "pattern": "blade",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -60,7 +72,9 @@
     "name": "Development Framework: DropWizard",
     "id": "AI018500",
     "description": "Development Framework: DropWizard",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.DropWizard"
     ],
@@ -69,8 +83,12 @@
       {
         "pattern": "dropwizard",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -79,7 +97,9 @@
     "name": "Development Framework: GWT",
     "id": "AI018600",
     "description": "Development Framework: GWT",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.GWT"
     ],
@@ -88,7 +108,9 @@
       {
         "pattern": "gwt",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -98,7 +120,9 @@
     "name": "Development Framework: JSF",
     "id": "AI018700",
     "description": "Development Framework: JSF",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.JSF"
     ],
@@ -107,7 +131,9 @@
       {
         "pattern": "jsf",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -117,7 +143,9 @@
     "name": "Development Framework: JHipster",
     "id": "AI018800",
     "description": "Development Framework: JHipster",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.JHipster"
     ],
@@ -126,8 +154,12 @@
       {
         "pattern": "jhipster",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -136,7 +168,9 @@
     "name": "Development Framework: MyBatis",
     "id": "AI018900",
     "description": "Development Framework: MyBatis",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.MyBatis"
     ],
@@ -145,8 +179,12 @@
       {
         "pattern": "mybatis",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -155,7 +193,9 @@
     "name": "Development Framework: Play Framework",
     "id": "AI019000",
     "description": "Development Framework: Play Framework",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.PlayFramework"
     ],
@@ -164,7 +204,9 @@
       {
         "pattern": "import play.",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -174,7 +216,9 @@
     "name": "Development Framework: PrimeFaces",
     "id": "AI019100",
     "description": "Development Framework: PrimeFaces",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.PrimeFaces"
     ],
@@ -183,8 +227,12 @@
       {
         "pattern": "primefaces",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -193,7 +241,9 @@
     "name": "Development Framework: Spark",
     "id": "AI019200",
     "description": "Development Framework: Spark",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Spark"
     ],
@@ -202,7 +252,9 @@
       {
         "pattern": "import spark.",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -212,7 +264,9 @@
     "name": "Development Framework: Apache Struts",
     "id": "AI019300",
     "description": "Development Framework: Apache Struts",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.ApacheStruts"
     ],
@@ -221,7 +275,9 @@
       {
         "pattern": "struts",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -231,7 +287,9 @@
     "name": "Development Framework: Apache Tapestry",
     "id": "AI019400",
     "description": "Development Framework: Apache Tapestry",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.ApacheTapestry"
     ],
@@ -240,7 +298,9 @@
       {
         "pattern": "tapestry",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -250,7 +310,9 @@
     "name": "Development Framework: Vaadin",
     "id": "AI019500",
     "description": "Development Framework: Vaadin",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Vaadin"
     ],
@@ -259,7 +321,9 @@
       {
         "pattern": "vaadin",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": [],
         "confidence": "high"
       }
@@ -269,7 +333,9 @@
     "name": "Development Framework: Vert.x",
     "id": "AI019600",
     "description": "Development Framework: Vert.x",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Vertx"
     ],
@@ -278,8 +344,12 @@
       {
         "pattern": "vert.x",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -288,7 +358,9 @@
     "name": "Development Framework: Wicket",
     "id": "AI019700",
     "description": "Development Framework: Wicket",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "Framework.Development.Wicket"
     ],
@@ -297,8 +369,12 @@
       {
         "pattern": "wicket",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -307,15 +383,23 @@
     "name": "Development Framework: Google API's",
     "id": "AI019800",
     "description": "Development Framework: Google API's",
-    "applies_to": [ "java" ],
-    "tags": [ "Framework.Development.Google.API" ],
+    "applies_to": [
+      "java"
+    ],
+    "tags": [
+      "Framework.Development.Google.API"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "googleapis",
         "type": "sub-string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

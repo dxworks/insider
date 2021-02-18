@@ -11,8 +11,13 @@
       {
         "pattern": "analytics|tracker|tracking|tracking cookie|pixel url|tracking script",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "low"
       }
     ]
@@ -29,7 +34,9 @@
       {
         "pattern": "connect.facebook.net",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -46,7 +53,9 @@
       {
         "pattern": "googletagmanager.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -63,7 +72,9 @@
       {
         "pattern": "bat.bing.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -80,7 +91,9 @@
       {
         "pattern": "static.ads-twitter.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -97,7 +110,9 @@
       {
         "pattern": "amplify.outbrain.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]
@@ -114,7 +129,9 @@
       {
         "pattern": "s.pinimg.com",
         "type": "string",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "modifiers": []
       }
     ]

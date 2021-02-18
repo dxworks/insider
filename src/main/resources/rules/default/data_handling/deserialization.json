@@ -271,7 +271,9 @@
       {
         "pattern": "Bluetooth",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],
@@ -291,7 +293,9 @@
       {
         "pattern": "Cellular",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],
@@ -311,7 +315,9 @@
       {
         "pattern": "USB",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],
@@ -331,7 +337,9 @@
       {
         "pattern": "Ethernet",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],
@@ -351,7 +359,9 @@
       {
         "pattern": "Modem",
         "type": "string",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "scopes": [
           "code"
         ],

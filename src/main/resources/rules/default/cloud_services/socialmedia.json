@@ -11,8 +11,13 @@
       {
         "pattern": "facebook",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -29,8 +34,13 @@
       {
         "pattern": "twitter",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -47,8 +57,13 @@
       {
         "pattern": "youtube",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -65,8 +80,13 @@
       {
         "pattern": "instagram",
         "type": "string",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -83,15 +103,25 @@
       {
         "pattern": "reddit|snapchat|whatsapp|tumblr|qzone|weibo|pinterest|ask\\.fm|flickr|linkedin|odnoklassniki|meetup",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "discord|diaspora|sociall\\.io|mastodon",
         "type": "regex",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

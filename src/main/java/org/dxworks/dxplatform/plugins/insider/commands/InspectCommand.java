@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class AnalyseCommand implements NoFilesCommand{
+public class InspectCommand implements NoFilesCommand {
     protected String projectPath;
 
     private boolean pathExists(String path) {
@@ -50,21 +50,21 @@ public class AnalyseCommand implements NoFilesCommand{
         List<String> allTags = new ArrayList<>();
 
         System.out.println("Tags in entire file:");
-        for(Map.Entry<String, List<String>> entry : tagsForFile.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : tagsForFile.entrySet()) {
             allTags.addAll(entry.getValue());
             System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
         }
         System.out.println("--------------------------------------------------\n");
 
         System.out.println("Tags in comments from file:");
-        for(Map.Entry<String, List<String>> entry : tagsForCommentsInFile.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : tagsForCommentsInFile.entrySet()) {
             allTags.addAll(entry.getValue());
             System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
         }
         System.out.println("--------------------------------------------------\n");
 
         System.out.println("Tags in code from file:");
-        for(Map.Entry<String, List<String>> entry : tagsWithoutCommentsInFile.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : tagsWithoutCommentsInFile.entrySet()) {
             allTags.addAll(entry.getValue());
             System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
         }
@@ -73,7 +73,7 @@ public class AnalyseCommand implements NoFilesCommand{
         Map<String, Long> counts =
                 allTags.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
 
-        for(Map.Entry<String, Long> entry : counts.entrySet()) {
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
             System.out.println("Tag: " + entry.getKey() + " appears: " + entry.getValue() + " times");
         }
     }

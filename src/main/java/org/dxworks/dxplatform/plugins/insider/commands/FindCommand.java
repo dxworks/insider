@@ -1,7 +1,6 @@
 package org.dxworks.dxplatform.plugins.insider.commands;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
@@ -83,12 +82,9 @@ public class FindCommand implements InsiderCommand {
                 outputFileName = InsiderConfiguration.getInstance().getProperty(InsiderConstants.PROJECT_ID) + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
             }
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            ObjectMapper objectMapper = new ObjectMapper();
             try {
-                FileWriter writer = new FileWriter(Paths.get(RESULTS_FOLDER, outputFileName).toFile());
-                gson.toJson(insiderResults, writer);
-                writer.flush();
-                writer.close();
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(Paths.get(RESULTS_FOLDER, outputFileName).toFile()), insiderResults);
             } catch (IOException e) {
                 log.error("Could not write JSON file when converting from XML!", e);
             }

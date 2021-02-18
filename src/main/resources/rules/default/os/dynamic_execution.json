@@ -30,7 +30,6 @@
         "confidence": "high",
         "_comment": "https://developer.apple.com/documentation/webkit/wkwebview/1415017-evaluatejavascript?language=objc"
       }
-
     ]
   },
   {
@@ -50,32 +49,48 @@
       {
         "pattern": "\beval\\(|new Function\b",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "exec(Sync)?\\(",
         "type": "substring",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "\\bspawn\\(",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "\\bsystem\\(",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]
@@ -96,8 +111,12 @@
       {
         "pattern": "process.start",
         "type": "substring",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -118,15 +137,23 @@
       {
         "pattern": "(iex|invoke-expression).*[.]*webclient",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "(iex|invoke-expression).*[.]*downloadstring",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -166,7 +193,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -216,8 +245,12 @@
       {
         "pattern": "\\bsystem\\(",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]
@@ -234,8 +267,12 @@
       {
         "pattern": "xp_cmdshell|xp_regread|xp_instance_regread|xp_regwrite|sp_makewebtask|xp_sendmail|sp_configure|sp_executesql|dbcc writepage",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -252,22 +289,34 @@
       {
         "pattern": "powershell|cmd|rundll32|regedit|wscript|javaw|csc|regsvr32|certutil|bitsadmin|schtasks|wmic|eqnedt32|msiexec|cmstp|mshta|curl|installutil|regsvcs|regasm|msbuild|cscript|msxsl|runonce",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "sc (config|query|start|stop)",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "reg (add|copy|delete|import|export|restore|save|unload|compare)",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

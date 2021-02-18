@@ -6,14 +6,22 @@
     "tags": [
       "Metadata.Application.Target.Processor"
     ],
-    "applies_to": [ "VSsolution", "VSProject", "cpp" ],
+    "applies_to": [
+      "VSsolution",
+      "VSProject",
+      "cpp"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "Win32|Any CPU|Win64|x64|x86|Arm|Arm64",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -25,13 +33,17 @@
     "tags": [
       "Metadata.Application.Name"
     ],
-    "applies_to": [ "VSProject" ],
+    "applies_to": [
+      "VSProject"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "<ProductName>.*<\/ProductName>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -43,19 +55,25 @@
     "tags": [
       "Metadata.Application.Output.Type"
     ],
-    "applies_to": [ "VSProject" ],
+    "applies_to": [
+      "VSProject"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "<OutputType>.*<\/OutputType>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       },
       {
         "pattern": "<ConfigurationType>.*<\/ConfigurationType>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -67,14 +85,20 @@
     "tags": [
       "Metadata.Application.Type.Client.Winforms"
     ],
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "winforms",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -87,13 +111,17 @@
     "tags": [
       "Metadata.Application.Type.Client.Service.Windows"
     ],
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "ServiceStatus|ServiceController|InstallService",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -105,13 +133,19 @@
     "tags": [
       "Metadata.Application.Type.Client.Service.Windows"
     ],
-    "applies_to": [ "c", "cpp", "shellscript" ],
+    "applies_to": [
+      "c",
+      "cpp",
+      "shellscript"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "(/etc/rc\\.d/service|/etc/systemd/system)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -124,13 +158,17 @@
     "tags": [
       "Metadata.Application.Type.Client.Service.Windows"
     ],
-    "applies_to": [ "cpp" ],
+    "applies_to": [
+      "cpp"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "RegisterServiceCtrlHandler|serviceCtrlHandler|StartServiceCtrlDispatcher|SERVICE_STATUS|SERVICE_RUNNING|SERVICE_WIN32|SERVICE_CONTROL",
         "type": "regex-word",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high"
       }
     ]
@@ -142,13 +180,19 @@
     "tags": [
       "Metadata.Application.Name"
     ],
-    "applies_to": [ "pom.xml", "build.gradle", "build.make.xml" ],
+    "applies_to": [
+      "pom.xml",
+      "build.gradle",
+      "build.make.xml"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "<artifactId>(.*)<\/artifactId>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -161,13 +205,17 @@
     "tags": [
       "Metadata.Application.Description"
     ],
-    "applies_to": [ "package.json" ],
+    "applies_to": [
+      "package.json"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "\\\"description\\\"\\s*:\\s*\\\"([^\\\"])+\\\"",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -180,13 +228,17 @@
     "tags": [
       "Metadata.Application.Version"
     ],
-    "applies_to": [ "package.json" ],
+    "applies_to": [
+      "package.json"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "\\\"version\\\"\\s*:\\s*\\\"([^\\\"])+\\\"",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -208,7 +260,9 @@
       {
         "pattern": "version [^\\b]+",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -221,13 +275,17 @@
     "tags": [
       "Metadata.Application.Author"
     ],
-    "applies_to": [ "package.json" ],
+    "applies_to": [
+      "package.json"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "\\\"author\\\"\\s*:\\s*\\\"([^\\\"])+\\\"",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -245,9 +303,13 @@
       {
         "pattern": "author[=: ](.*)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]
@@ -256,7 +318,9 @@
     "name": "Metadata: Application Publisher",
     "id": "AI031400",
     "description": "Metadata: Application Publisher",
-    "applies_to": [ "VSProject" ],
+    "applies_to": [
+      "VSProject"
+    ],
     "tags": [
       "Metadata.Application.Publisher"
     ],
@@ -265,9 +329,13 @@
       {
         "pattern": "<PublisherName>.*<\/PublisherName>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": "use as additional author value"
       }
     ]
@@ -284,9 +352,13 @@
       {
         "pattern": "<TargetFramework>.*<\/TargetFramework>",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]
@@ -303,8 +375,12 @@
       {
         "pattern": "Kubernetes",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -321,8 +397,12 @@
       {
         "pattern": "Docker|RancherOS",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -339,8 +419,12 @@
       {
         "pattern": "rktlet",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -357,8 +441,12 @@
       {
         "pattern": "CRI-O",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -375,8 +463,12 @@
       {
         "pattern": "hyper-v",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -393,8 +485,12 @@
       {
         "pattern": "Nano Server|Server Core",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

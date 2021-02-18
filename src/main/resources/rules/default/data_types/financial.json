@@ -11,16 +11,25 @@
       {
         "pattern": "bank\\s*(acct|account)",
         "type": "regex-word",
-        "scopes": [ "code", "comment" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code",
+          "comment"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "(checking|savings|chk|401k|roth)\\s*(account|acct)",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -38,8 +47,12 @@
       {
         "pattern": "finances*|financial",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -56,8 +69,12 @@
       {
         "pattern": "currency|usd|money|dollar|coins|euro|peso|deutsche-mark|dinar|franc|krone|pound|rupee|shekel|yen",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "medium",
         "_comment": "Currencies"
       }
@@ -75,8 +92,12 @@
       {
         "pattern": "visa|americanexpress|amex|(master|discover|credit|debit)\\s*card",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -94,8 +115,12 @@
       {
         "pattern": "pay-*roll|salary|salaries|stock",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -113,8 +138,12 @@
       {
         "pattern": "sales",
         "type": "regex-word",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "sales data or forecast"
       }

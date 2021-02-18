@@ -16,7 +16,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "don't include auth api's patterns to avoid duplicate reporting"
       }
@@ -40,7 +42,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
@@ -50,7 +54,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": ""
       },
@@ -175,7 +181,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high",
         "_comment": "general"
       }
@@ -199,7 +207,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -241,7 +251,9 @@
         "scopes": [
           "code"
         ],
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -331,7 +343,9 @@
     "name": "Network Connection: HTTP",
     "description": "Network Connection: HTTP",
     "id": "AI032700",
-    "applies_to": [ "ruby" ],
+    "applies_to": [
+      "ruby"
+    ],
     "tags": [
       "OS.Network.Connection.Http"
     ],
@@ -353,7 +367,9 @@
     "name": "Network Connection: RPC",
     "description": "Network Connection: RPC",
     "id": "AI032800",
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "tags": [
       "OS.Network.Connection.RPC"
     ],
@@ -375,7 +391,9 @@
     "name": "Network Connection: RPC",
     "description": "Network Connection: RPC",
     "id": "AI032900",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "OS.Network.Connection.RPC"
     ],
@@ -397,7 +415,9 @@
     "name": "Network Connection: RPC",
     "description": "Network Connection: RPC",
     "id": "AI033000",
-    "applies_to": [ "c" ],
+    "applies_to": [
+      "c"
+    ],
     "tags": [
       "OS.Network.Connection.RPC"
     ],
@@ -419,7 +439,9 @@
     "name": "Network Connection: RPC",
     "description": "Network Connection: RPC",
     "id": "AI033100",
-    "applies_to": [ "java" ],
+    "applies_to": [
+      "java"
+    ],
     "tags": [
       "OS.Network.Connection.RPC"
     ],
@@ -441,7 +463,9 @@
     "name": "Network Connection: RPC",
     "description": "Network Connection: RPC",
     "id": "AI033200",
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "tags": [
       "OS.Network.Connection.RPC"
     ],
@@ -463,7 +487,11 @@
     "name": "Network Connection: Cellular",
     "description": "Network Connection: Cellular",
     "id": "AI033300",
-    "applies_to": [ "c", "cpp", "csharp" ],
+    "applies_to": [
+      "c",
+      "cpp",
+      "csharp"
+    ],
     "tags": [
       "OS.Network.Connection.Cellular"
     ],
@@ -485,7 +513,12 @@
     "name": "Network Connection: Modem",
     "description": "Network Connection: Modem",
     "id": "AI033400",
-    "applies_to": [ "c", "cpp", "csharp", "java" ],
+    "applies_to": [
+      "c",
+      "cpp",
+      "csharp",
+      "java"
+    ],
     "tags": [
       "OS.Network.Connection.Modem"
     ],

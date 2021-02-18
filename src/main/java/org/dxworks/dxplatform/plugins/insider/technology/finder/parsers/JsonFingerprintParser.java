@@ -1,8 +1,6 @@
 package org.dxworks.dxplatform.plugins.insider.technology.finder.parsers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.json.JsonConfigurationDTO;
@@ -33,15 +31,12 @@ public class JsonFingerprintParser implements FingerprintsParser {
 
     @Override
     public void writeTechnologiesToFile(List<Technology> technologies, Path filePath) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            FileWriter writer = new FileWriter(filePath.toFile());
             List<TechnologyJsonDTO> technologyJsonDTOS = technologies.stream().map(TechnologyJsonDTO::fromTechnology).collect(Collectors.toList());
             JsonConfigurationDTO jsonConfigurationDTO = new JsonConfigurationDTO();
             jsonConfigurationDTO.setTechnologies(technologyJsonDTOS);
-            gson.toJson(jsonConfigurationDTO, writer);
-            writer.flush();
-            writer.close();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(filePath.toFile()), jsonConfigurationDTO);
         } catch (IOException e) {
             log.error("Could not write JSON file!", e);
             throw e;
@@ -49,13 +44,12 @@ public class JsonFingerprintParser implements FingerprintsParser {
     }
 
     public JsonConfigurationDTO getConfigurationDTO(String filePath) {
-        Gson gson = new Gson();
-
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return gson.fromJson(new FileReader(Paths.get(filePath).toFile()), JsonConfigurationDTO.class);
+            return objectMapper.readValue(new FileReader(Paths.get(filePath).toFile()), JsonConfigurationDTO.class);
         } catch (FileNotFoundException e) {
             log.error("Could not read JSON technologies file!", e);
-        } catch (JsonSyntaxException e) {
+        } catch (IOException e) {
             log.error("File " + filePath + " is could not be parsed as a JSON Technology file!", e);
         }
 

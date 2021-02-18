@@ -28,7 +28,9 @@
           "scopes": [
             "code"
           ],
-          "modifiers": [ "i" ],
+          "modifiers": [
+            "i"
+          ],
           "_comment": ""
         },
         "search_in": "finding-region(-5,5)",
@@ -311,9 +313,13 @@
       {
         "pattern": "\"unsafe-perm\"\\s*:\\s*true",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ],
+        "modifiers": [
+          "i"
+        ],
         "_comment": ""
       }
     ]

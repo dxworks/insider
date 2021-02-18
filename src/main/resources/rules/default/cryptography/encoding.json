@@ -13,9 +13,13 @@
       {
         "pattern": "base64",
         "type": "substring",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
-        "modifiers": [ "i" ]
+        "modifiers": [
+          "i"
+        ]
       }
     ]
   }

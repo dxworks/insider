@@ -3,7 +3,9 @@
     "name": "Development Framework: Django",
     "id": "AI023800",
     "description": "Development Framework: Django",
-    "applies_to": [ "python" ],
+    "applies_to": [
+      "python"
+    ],
     "tags": [
       "Framework.Development.Django"
     ],
@@ -12,8 +14,12 @@
       {
         "pattern": "django",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -22,15 +28,23 @@
     "name": "Development Framework: Pyramid",
     "id": "AI023900",
     "description": "Development Framework: Pyramid",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Pyramid" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Pyramid"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "pyramid",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -39,15 +53,23 @@
     "name": "Development Framework: Web2Py",
     "id": "AI024000",
     "description": "Development Framework: Web2Py",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Web2Py" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Web2Py"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "web2py",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -56,15 +78,23 @@
     "name": "Development Framework: CubicWeb",
     "id": "AI024100",
     "description": "Development Framework: CubicWeb",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.CubicWeb" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.CubicWeb"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "cubicweb",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -73,15 +103,23 @@
     "name": "Development Framework: OWL",
     "id": "AI024200",
     "description": "Development Framework: OWL",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.OWL" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.OWL"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "owlready",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -90,15 +128,23 @@
     "name": "Development Framework: RDF",
     "id": "AI024300",
     "description": "Development Framework: RDF",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.RDF" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.RDF"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "rdflib",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -107,15 +153,23 @@
     "name": "Development Framework: RQL",
     "id": "AI024400",
     "description": "Development Framework: RQL",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.RQL" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.RQL"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "rql",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -124,15 +178,23 @@
     "name": "Development Framework: Flask",
     "id": "AI024500",
     "description": "Development Framework: Flask",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Flask" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Flask"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "flask",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -141,15 +203,23 @@
     "name": "Development Framework: Bottle",
     "id": "AI024600",
     "description": "Development Framework: Bottle",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Bottle" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Bottle"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "bottle",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -158,15 +228,23 @@
     "name": "Development Framework: CherryPy",
     "id": "AI024700",
     "description": "Development Framework: CherryPy",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.CherryPy" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.CherryPy"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "cherrypy",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -175,15 +253,23 @@
     "name": "Development Framework: Sanic",
     "id": "AI024800",
     "description": "Development Framework: Sanic",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Sanic" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Sanic"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "sanic",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -192,15 +278,23 @@
     "name": "Development Framework: Tornado",
     "id": "AI024900",
     "description": "Development Framework: Tornado",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Tornado" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Tornado"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "tornado",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -213,14 +307,20 @@
       "python",
       "requirements.txt"
     ],
-    "tags": [ "Framework.Development.TurboGears" ],
+    "tags": [
+      "Framework.Development.TurboGears"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "TGController|TurboGears2",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -232,14 +332,20 @@
     "applies_to": [
       "python"
     ],
-    "tags": [ "Framework.Development.Giotto" ],
+    "tags": [
+      "Framework.Development.Giotto"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "giotto",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -251,14 +357,20 @@
     "applies_to": [
       "python"
     ],
-    "tags": [ "Framework.Development.Pylons" ],
+    "tags": [
+      "Framework.Development.Pylons"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "pylons",
         "type": "string",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]
@@ -267,15 +379,23 @@
     "name": "Development Framework: Google API's",
     "id": "AI025300",
     "description": "Development Framework: Google API's",
-    "applies_to": [ "python" ],
-    "tags": [ "Framework.Development.Google.API" ],
+    "applies_to": [
+      "python"
+    ],
+    "tags": [
+      "Framework.Development.Google.API"
+    ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "googleapis|googleapiclient",
         "type": "regex",
-        "scopes": [ "code" ],
-        "modifiers": [ "i" ],
+        "scopes": [
+          "code"
+        ],
+        "modifiers": [
+          "i"
+        ],
         "confidence": "high"
       }
     ]

@@ -6,14 +6,19 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "c", "cpp" ],
+    "applies_to": [
+      "c",
+      "cpp"
+    ],
     "severity": "moderate",
     "confidence": "high",
     "patterns": [
       {
         "pattern": "#include ?[\\\"<](.*)[\\\">]",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -26,14 +31,18 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "php" ],
+    "applies_to": [
+      "php"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "(include|require) .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -46,14 +55,18 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "objective-c" ],
+    "applies_to": [
+      "objective-c"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "import .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -66,34 +79,44 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "groovy" ],
+    "applies_to": [
+      "groovy"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "import .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "loadScriptByName.*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "evaluate ?\\(.*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "_comment": ""
       },
       {
         "pattern": "shell\\.parse ?\\(*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -106,21 +129,30 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "python", "java", "swift", "go" ],
+    "applies_to": [
+      "python",
+      "java",
+      "swift",
+      "go"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "import .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "package .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -133,21 +165,27 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "perl" ],
+    "applies_to": [
+      "perl"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "use .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "package. *",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -160,21 +198,27 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "ruby" ],
+    "applies_to": [
+      "ruby"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "load .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "require .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
@@ -187,14 +231,18 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "csharp" ],
+    "applies_to": [
+      "csharp"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "using (.*);",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "_comment": ""
       }
     ]
@@ -206,35 +254,45 @@
     "tags": [
       "Dependency.SourceInclude"
     ],
-    "applies_to": [ "javascript" ],
+    "applies_to": [
+      "javascript"
+    ],
     "severity": "moderate",
     "_comment": "",
     "patterns": [
       {
         "pattern": "import .*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "fetchInject ?\\(.*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "require ?\\(['\\\"]([^'\\\"]+)",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       },
       {
         "pattern": "\\$\\.getScript\\(.*",
         "type": "regex",
-        "scopes": [ "code" ],
+        "scopes": [
+          "code"
+        ],
         "confidence": "high",
         "_comment": ""
       }
