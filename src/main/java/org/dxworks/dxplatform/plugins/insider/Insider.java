@@ -74,7 +74,7 @@ public class Insider {
             insiderCommand.execute(insiderFiles, args);
         }
 
-        System.out.println("Insider 1.0 finished analysis");
+        System.out.println("Insider 2.0.0 finished analysis");
     }
 
     private static InsiderCommand getInsiderCommand(String command) {
