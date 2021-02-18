@@ -6,7 +6,6 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
 
 import java.io.File;
@@ -29,9 +28,7 @@ public class Insider {
     private static HelpCommand helpCommand = new HelpCommand();
     private static VersionCommand versionCommand = new VersionCommand();
 
-    public static void main(String[] args) throws InterruptedException {
-
-        Thread.sleep(5000);
+    public static void main(String[] args) {
 
         if (args == null) {
             System.err.println("Arguments cannot be null");
@@ -116,7 +113,7 @@ public class Insider {
 
         InsiderConfiguration.loadProperties(properties);
 
-        String rootFolder = InsiderConfiguration.getInstance().getProperty(InsiderConstants.ROOT_FOLDER);
+        String rootFolder = InsiderConfiguration.getInstance().getRootFolder();
         reportUnknownExtensions();
 
         return readProjectFiles(rootFolder);
