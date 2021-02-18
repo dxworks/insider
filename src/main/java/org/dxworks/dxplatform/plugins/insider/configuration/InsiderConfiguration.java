@@ -1,5 +1,7 @@
 package org.dxworks.dxplatform.plugins.insider.configuration;
 
+import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
+
 import java.util.Properties;
 
 public class InsiderConfiguration {
@@ -12,6 +14,15 @@ public class InsiderConfiguration {
 
     public static InsiderConfiguration getInstance() {
         return ourInstance;
+    }
+
+    public String getRootFolder() {
+        String property = getProperty(InsiderConstants.ROOT_FOLDER);
+        if (property.endsWith("\\") || property.endsWith("/")) {
+            property = property.substring(0, property.length() - 1);
+        }
+
+        return property;
     }
 
     public static void loadProperties(Properties properties) {
