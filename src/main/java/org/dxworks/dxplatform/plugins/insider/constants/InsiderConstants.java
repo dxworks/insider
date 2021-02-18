@@ -4,6 +4,7 @@ public interface InsiderConstants {
 
     String PROJECT_ID = "projectID";
     String ROOT_FOLDER = "rootFolder";
+    String LANGUAGES = "languages";
 
     String CONFIGURATION_FOLDER = "config";
     String RESULTS_FOLDER = "results";

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -65,7 +66,8 @@ public class FindCommand implements InsiderCommand {
                         .flatMap(insiderFile ->
                         {
                             Stream<InsiderResult> insiderResultStream = technologies.parallelStream()
-                                    .flatMap(technology -> technology.analyze(insiderFile).stream())
+                                    .map(technology -> technology.analyze(insiderFile))
+                                    .filter(Objects::nonNull)
                                     .filter(insiderResult -> insiderResult.getValue() > 0);
                             pb.step();
                             return insiderResultStream;

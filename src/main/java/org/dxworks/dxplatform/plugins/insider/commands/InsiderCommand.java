@@ -1,13 +1,19 @@
 package org.dxworks.dxplatform.plugins.insider.commands;
 
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 public interface InsiderCommand {
+
+    Logger log = LoggerFactory.getLogger(InsiderCommand.class);
+
     String DETECT = "detect";
     String FIND = "find";
     String ADD = "add";
@@ -20,7 +26,13 @@ public interface InsiderCommand {
     boolean parse(String[] args);
 
     default boolean fileExists(String filePath) {
-        return Paths.get(filePath).toFile().exists();
+        Path path = Paths.get(filePath);
+        boolean result = Files.exists(path) && Files.isRegularFile(path);
+
+        if (!result)
+            log.error("Could not find file " + path.toAbsolutePath().toString());
+
+        return result;
     }
 
     void execute(List<InsiderFile> insiderFiles, String[] args);
