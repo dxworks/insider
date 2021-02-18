@@ -9,7 +9,6 @@ import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration
 import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,18 +37,20 @@ public class Technology implements InsiderAnalysis {
     }
 
     @Override
-    public List<InsiderResult> analyze(InsiderFile insiderFile) {
+    public InsiderResult analyze(InsiderFile insiderFile) {
         if (!accepts(insiderFile.getExtension()))
-            return Collections.emptyList();
+            return null;
 
-        return patterns.parallelStream()
-                .map(pattern -> InsiderResult.builder()
-                        .file(getFullyQualifiedName(insiderFile))
-                        .category(category)
-                        .name(name)
-                        .value(getPatternOccurrencesInFile(insiderFile, pattern))
-                        .build())
-                .collect(Collectors.toList());
+        int totalOccurrences = patterns.parallelStream()
+                .mapToInt(pattern -> getPatternOccurrencesInFile(insiderFile, pattern))
+                .sum();
+
+        return InsiderResult.builder()
+                .file(getFullyQualifiedName(insiderFile))
+                .category(category)
+                .name(name)
+                .value(totalOccurrences)
+                .build();
     }
 
     private String getFullyQualifiedName(InsiderFile insiderFile) {

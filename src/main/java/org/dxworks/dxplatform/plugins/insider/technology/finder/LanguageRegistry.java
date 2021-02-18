@@ -40,6 +40,10 @@ public class LanguageRegistry {
         if (extensions == null)
             return false;
 
-        return extension.contains(extension);
+        return extensions.contains(extension);
+    }
+
+    public boolean containsLanguage(String lang) {
+        return languagesToExtensionsMap.containsKey(lang);
     }
 }

@@ -2,6 +2,9 @@ package org.dxworks.dxplatform.plugins.insider.configuration;
 
 import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class InsiderConfiguration {
@@ -32,5 +35,13 @@ public class InsiderConfiguration {
 
     public String getProperty(String property) {
         return config.getProperty(property);
+    }
+
+    public List<String> getListProperty(String property) {
+        String propValue = config.getProperty(property);
+        if (propValue == null)
+            return Collections.emptyList();
+
+        return Arrays.asList(propValue.split(","));
     }
 }
