@@ -6,7 +6,6 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 
 import java.io.File;
 import java.io.FileReader;
@@ -113,7 +112,7 @@ public class Insider {
 
         InsiderConfiguration.loadProperties(properties);
 
-        String rootFolder = InsiderConfiguration.getInstance().getProperty(InsiderConstants.ROOT_FOLDER);
+        String rootFolder = InsiderConfiguration.getInstance().getRootFolder();
 
         return readProjectFiles(rootFolder);
     }

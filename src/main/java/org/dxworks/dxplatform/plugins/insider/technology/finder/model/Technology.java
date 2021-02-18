@@ -53,7 +53,7 @@ public class Technology implements InsiderAnalysis {
     }
 
     private String getFullyQualifiedName(InsiderFile insiderFile) {
-        return insiderFile.getPath().substring(InsiderConfiguration.getInstance().getProperty(InsiderConstants.ROOT_FOLDER).length() + 1).replace('\\', '/');
+        return insiderFile.getPath().substring(InsiderConfiguration.getInstance().getRootFolder().length() + 1).replace('\\', '/');
     }
 
     @Override
