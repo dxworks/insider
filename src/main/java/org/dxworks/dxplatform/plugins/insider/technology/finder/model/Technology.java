@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.dxworks.dxplatform.plugins.insider.InsiderAnalysis;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
-import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
 
 import java.util.List;
@@ -45,15 +44,11 @@ public class Technology implements InsiderAnalysis {
                 .sum();
 
         return InsiderResult.builder()
-                .file(getFullyQualifiedName(insiderFile))
+                .file(insiderFile.getFullyQualifiedName())
                 .category(category)
                 .name(name)
                 .value(totalOccurrences)
                 .build();
-    }
-
-    private String getFullyQualifiedName(InsiderFile insiderFile) {
-        return insiderFile.getPath().substring(InsiderConfiguration.getInstance().getRootFolder().length() + 1).replace('\\', '/');
     }
 
     @Override

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Condition {
-    private MyPattern pattern;
+    private InsiderPattern pattern;
     private String search_in;
     private boolean negate_finding;
     private String _comment;

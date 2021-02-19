@@ -23,6 +23,29 @@
     ]
   },
   {
+    "name": "Framework: Logging (Slf4j)",
+    "id": "AI02173233232323223",
+    "description": "Framework: Logging (Slf4j)",
+    "applies_to": [
+      "java"
+    ],
+    "tags": [
+      "Framework.Development.Logging.Slf4j"
+    ],
+    "severity": "moderate",
+    "patterns": [
+      {
+        "pattern": "slf4j",
+        "type": "string",
+        "scopes": [
+          "code"
+        ],
+        "confidence": "high",
+        "_comment": ""
+      }
+    ]
+  },
+  {
     "name": "Framework: Logging (NLog)",
     "id": "AI021800",
     "description": "Framework: Logging (NLog)",

@@ -1,6 +1,6 @@
 [
   {
-    "language": [
+    "languages": [
       "c",
       "cpp",
       "csharp",
@@ -22,7 +22,7 @@
     "suffix": "*/"
   },
   {
-    "language": [
+    "languages": [
       "perl",
       "perl6",
       "r",
@@ -32,25 +32,33 @@
       "powershell",
       "python"
     ],
-    "inline": "#"
+    "inline": "#",
+    "preffix": "#",
+    "suffix": "\n"
   },
   {
-    "language": [
+    "languages": [
       "lua",
       "sql"
     ],
-    "inline": "--"
+    "inline": "--",
+    "preffix": "--",
+    "suffix": "\n"
   },
   {
-    "language": [
+    "languages": [
       "clojure"
     ],
-    "inline": ";;"
+    "inline": ";;",
+    "preffix": ";;",
+    "suffix": ""
   },
   {
-    "language": [
+    "languages": [
       "vb"
     ],
-    "inline": "'"
+    "inline": "'",
+    "preffix": "'",
+    "suffix": ""
   }
 ]

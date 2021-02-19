@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
-    private List<String> language;
+    private List<String> languages;
     private String inline;
     private String preffix;
     private String suffix;

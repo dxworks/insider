@@ -93,6 +93,6 @@ public class FindCommand implements InsiderCommand {
 
     @Override
     public String usage() {
-        return "insider find <path_to_json>...";
+        return "insider find <paths_to_json>...";
     }
 }

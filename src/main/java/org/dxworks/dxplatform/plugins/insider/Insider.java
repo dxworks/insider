@@ -89,7 +89,7 @@ public class Insider {
                 return new DiagnoseCommand();
             case CONVERT:
                 return new ConvertCommand();
-            case ANALYSE:
+            case INSPECT:
                 return new InspectCommand();
             default:
                 return null;

@@ -19,7 +19,7 @@ public interface InsiderCommand {
     String ADD = "add";
     String DIAGNOSE = "diagnose";
     String CONVERT = "convert";
-    String ANALYSE = "analyse";
+    String INSPECT = "inspect";
     List<String> VERSION = Arrays.asList("version", "-version", "--version", "-v");
     List<String> HELP = Arrays.asList("help", "-help", "--help", "-h");
 
@@ -31,6 +31,16 @@ public interface InsiderCommand {
 
         if (!result)
             log.error("Could not find file " + path.toAbsolutePath().toString());
+
+        return result;
+    }
+
+    default boolean folderExists(String folderPath) {
+        Path path = Paths.get(folderPath);
+        boolean result = Files.exists(path) && Files.isDirectory(path);
+
+        if (!result)
+            log.error("Could not find folder " + path.toAbsolutePath().toString());
 
         return result;
     }

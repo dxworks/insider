@@ -28,7 +28,7 @@ public class LanguageRegistry {
         } catch (IOException e) {
             throw new InsiderException(
                     "Could not load extension to languages mapping file. Please make sure a file called "
-                            + "languageToExtensions.properties exists in the Insider installation directory.");
+                            + "languageToExtensions.properties exists in the Insider installation directory.", e);
         }
         properties.forEach(
                 (key, value) -> languagesToExtensionsMap.put((String) key, Arrays.asList(((String) value).split(","))));
@@ -41,6 +41,14 @@ public class LanguageRegistry {
             return false;
 
         return extensions.contains(extension);
+    }
+
+    public String getLanguageForExtension(String extension) {
+        return languagesToExtensionsMap.entrySet().stream()
+                .filter(entry -> entry.getValue().contains(extension))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean containsLanguage(String lang) {

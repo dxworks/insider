@@ -1,85 +1,89 @@
 package org.dxworks.dxplatform.plugins.insider.commands;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.MyFile;
+import org.dxworks.dxplatform.plugins.insider.InsiderResult;
+import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Rule;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.DependencyFile;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.FileService;
+import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.CommentService;
 import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.RuleService;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.TagService;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class InspectCommand implements NoFilesCommand {
-    protected String projectPath;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.PROJECT_ID;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
-    private boolean pathExists(String path) {
-        return Paths.get(path).toFile().isDirectory();
-    }
+@Slf4j
+public class InspectCommand implements InsiderCommand {
+
+    private List<String> ruleFiles;
 
     @Override
     public boolean parse(String[] args) {
-        if (args.length != 2)
+        if (args.length == 1)
             return false;
 
-        projectPath = args[1];
+        String[] files = Arrays.copyOfRange(args, 1, args.length);
+        ruleFiles = Arrays.stream(files).filter(filePath -> fileExists(filePath) || folderExists(filePath)).collect(Collectors.toList());
 
-        return pathExists(projectPath);
+        return !ruleFiles.isEmpty() && files.length == ruleFiles.size();
     }
 
     @Override
     public void execute(List<InsiderFile> insiderFiles, String[] args) {
         RuleService ruleService = new RuleService();
-        FileService fileService = new FileService();
-        TagService tagService = new TagService();
-        DependencyFile dependencyFile = new DependencyFile();
+        List<Rule> rules = ruleService.getRuleFromFiles(ruleFiles);
+        rules.forEach(Rule::transformPatterns);
 
-        List<Rule> rulesFromFiles = ruleService.getRulesFromFile(getClass().getResource("/rules").getPath().substring(1));
-        List<MyFile> files = fileService.getFilesFromFolder(projectPath);
+        List<InsiderResult> insiderResults;
 
-        tagService.getTagsForFile(rulesFromFiles, dependencyFile, files);
+        try (ProgressBar pb = new ProgressBarBuilder()
+                .setInitialMax(insiderFiles.size())
+                .setUnit("Files", 1)
+                .setTaskName("Inspecting...")
+                .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BLOCK)
+                .setUpdateIntervalMillis(100)
+                .setPrintStream(System.err)
+                .build()) {
+            insiderResults = insiderFiles.parallelStream()
+                    .flatMap(insiderFile -> {
+                        List<IntRange> commentRanges = getCommentRanges(insiderFile);
 
-        Map<String, List<String>> tagsForFile = tagService.getTagsForFile();
-        Map<String, List<String>> tagsForCommentsInFile = tagService.getTagsForCommentsInFile();
-        Map<String, List<String>> tagsWithoutCommentsInFile = tagService.getTagsWithoutCommentsInFile();
+                        Stream<InsiderResult> insiderResultStream = rules.parallelStream()
+                                .flatMap(rule -> rule.analyze(insiderFile, commentRanges).stream());
+                        pb.step();
+                        return insiderResultStream;
+                    })
+                    .collect(Collectors.toList());
 
-        List<String> allTags = new ArrayList<>();
-
-        System.out.println("Tags in entire file:");
-        for (Map.Entry<String, List<String>> entry : tagsForFile.entrySet()) {
-            allTags.addAll(entry.getValue());
-            System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-tags.json").toFile(), insiderResults);
+        } catch (IOException e) {
+            log.error("Inspect command finished unsuccessfully!", e);
         }
-        System.out.println("--------------------------------------------------\n");
+    }
 
-        System.out.println("Tags in comments from file:");
-        for (Map.Entry<String, List<String>> entry : tagsForCommentsInFile.entrySet()) {
-            allTags.addAll(entry.getValue());
-            System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
-        }
-        System.out.println("--------------------------------------------------\n");
-
-        System.out.println("Tags in code from file:");
-        for (Map.Entry<String, List<String>> entry : tagsWithoutCommentsInFile.entrySet()) {
-            allTags.addAll(entry.getValue());
-            System.out.println("File: " + entry.getKey() + " has following tags:\n\t" + entry.getValue());
-        }
-        System.out.println("--------------------------------------------------\n");
-
-        Map<String, Long> counts =
-                allTags.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-
-        for (Map.Entry<String, Long> entry : counts.entrySet()) {
-            System.out.println("Tag: " + entry.getKey() + " appears: " + entry.getValue() + " times");
-        }
+    private List<IntRange> getCommentRanges(InsiderFile insiderFile) {
+        List<IntRange> commentRanges = new ArrayList<>();
+        CommentService commentService = CommentService.getInstance();
+        commentRanges.addAll(commentService.extractInlineCommentLines(insiderFile));
+        commentRanges.addAll(commentService.extractMultilineCommentLines(insiderFile));
+        return commentRanges;
     }
 
     @Override
     public String usage() {
-        return "insider analyse <path_to_project>";
+        return "insider inspect <paths_to_rule>...";
     }
 }
