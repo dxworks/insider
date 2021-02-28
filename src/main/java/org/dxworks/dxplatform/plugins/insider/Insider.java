@@ -7,6 +7,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.ignorerLibrary.Ignorer;
+import org.dxworks.ignorerLibrary.IgnorerBuilder;
 
 import java.io.File;
 import java.io.FileReader;
@@ -118,7 +120,8 @@ public class Insider {
         String rootFolder = InsiderConfiguration.getInstance().getRootFolder();
         reportUnknownExtensions();
 
-        return readProjectFiles(rootFolder);
+        Ignorer ignorer = new IgnorerBuilder(Paths.get(CONFIGURATION_FOLDER, ".ignore")).compile();
+        return readProjectFiles(rootFolder, ignorer);
     }
 
     private static void reportUnknownExtensions() {
@@ -128,10 +131,14 @@ public class Insider {
                 .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
-    private static List<InsiderFile> readProjectFiles(String rootFolder) {
+    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer) {
         List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
-            List<Path> pathList = Files.walk(Paths.get(rootFolder)).filter(Files::isRegularFile).filter(Insider::hasAcceptedExtension).collect(Collectors.toList());
+            List<Path> pathList = Files.walk(Paths.get(rootFolder))
+                    .filter(Files::isRegularFile)
+                    .filter(Insider::hasAcceptedExtension)
+                    .filter(ignorer::accepts)
+                    .collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
                 for (Path path : pathList) {
                     pb.step();
