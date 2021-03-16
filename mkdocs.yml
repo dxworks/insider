@@ -1,4 +1,18 @@
-site_name: My Docs
+site_name: Dxworks Insider
 
 theme:
   name: material
+
+nav:
+  - Home: 'index.md'
+  - 'Installation': 'queryLanguage.md'
+  - 'Configuration':
+      - 'config/config.md'
+      - 'Languages': 'config/languages.md'
+      - 'Ignore Files': 'config/ignore.md'
+      - 'Fingerprints': 'config/fingerprints.md'
+      - 'Insider Config': 'config/insider.md'
+  - 'Commands':
+      - 'Detect': 'commands/detect.md'
+      - 'Find': 'commands/find.md'
+      - 'Inspect': 'commands/inspect.md'

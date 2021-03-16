@@ -28,19 +28,23 @@ Edit the configuration file (*config/insider-conf.properties*), to **specify the
 
 ### Find Command
 * In order to find the occurrences of the libraries in the analyzed project. Use the following command (run Insider using the **insider.bat** or **insider.sh** script):
-```shell script
+```
 insider.sh find config/libraries.json
 ```
 
 * Detect Simple Code Smells. Use the following command (run Insider using the **insider.bat** or **insider.sh** script):
-```shell script
+```
 insider.sh find config/code_smells.json
 ```
 
-* You can also run the *find* command with both files at once:
- 
-```shell script
+* You can also run the *find* command with both files at once: 
+```
 insider.sh find config/libraries.json config/code_smells.json
 ```
 
 The commands will generate two *.json* files (**_PROJECT_ID-libraries.json_** and **_PROJECT_ID-code_smells.json_**) in the **results** folder.
+
+## Acknowledgements
+
+The `inspect` command is inspired by the [Application Inspector](https://github.com/microsoft/ApplicationInspector) project created by Microsoft.
+Insider even uses the same input files as Application Inspector.
