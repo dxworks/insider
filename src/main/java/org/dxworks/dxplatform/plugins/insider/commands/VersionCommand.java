@@ -15,7 +15,7 @@ public class VersionCommand implements NoFilesCommand {
 
     @Override
     public void execute(List<InsiderFile> insiderFiles, String[] args) {
-        String version = "Insider 1.0.0";
+        String version = "Insider 2.0.0";
 
         System.out.println(version);
     }

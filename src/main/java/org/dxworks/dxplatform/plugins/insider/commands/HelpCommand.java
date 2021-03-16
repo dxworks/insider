@@ -28,7 +28,8 @@ public class HelpCommand implements NoFilesCommand {
                 new ConvertCommand(),
                 new DiagnoseCommand(),
                 new DetectCommand(),
-                new FindCommand())
+                new FindCommand(),
+                new InspectCommand())
                 .map(InsiderCommand::usage)
                 .map(s -> "\t" + s)
                 .collect(Collectors.joining("\n"));

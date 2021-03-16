@@ -19,6 +19,11 @@ public class InsiderConfiguration {
         return ourInstance;
     }
 
+    public static void loadProperties(Properties properties) {
+        if (ourInstance.config == null)
+            ourInstance.config = properties;
+    }
+
     public String getRootFolder() {
         String property = getProperty(InsiderConstants.ROOT_FOLDER);
         if (property.endsWith("\\") || property.endsWith("/")) {
@@ -26,11 +31,6 @@ public class InsiderConfiguration {
         }
 
         return property;
-    }
-
-    public static void loadProperties(Properties properties) {
-        if (ourInstance.config == null)
-            ourInstance.config = properties;
     }
 
     public String getProperty(String property) {

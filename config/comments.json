@@ -1,0 +1,64 @@
+[
+  {
+    "languages": [
+      "c",
+      "cpp",
+      "csharp",
+      "coffeescript",
+      "fsharp",
+      "go",
+      "groovy",
+      "jade",
+      "oc",
+      "rust",
+      "swift",
+      "javascript",
+      "java",
+      "typescript",
+      "php"
+    ],
+    "inline": "//",
+    "preffix": "/*",
+    "suffix": "*/"
+  },
+  {
+    "languages": [
+      "perl",
+      "perl6",
+      "r",
+      "shellscript",
+      "ruby",
+      "yaml",
+      "powershell",
+      "python"
+    ],
+    "inline": "#",
+    "preffix": "#",
+    "suffix": "\n"
+  },
+  {
+    "languages": [
+      "lua",
+      "sql"
+    ],
+    "inline": "--",
+    "preffix": "--",
+    "suffix": "\n"
+  },
+  {
+    "languages": [
+      "clojure"
+    ],
+    "inline": ";;",
+    "preffix": ";;",
+    "suffix": ""
+  },
+  {
+    "languages": [
+      "vb"
+    ],
+    "inline": "'",
+    "preffix": "'",
+    "suffix": ""
+  }
+]

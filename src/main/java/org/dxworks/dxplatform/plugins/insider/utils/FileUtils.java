@@ -8,7 +8,7 @@ public class FileUtils {
     public static String removeComments(String fileContent) {
         String ret = fileContent;
 
-        Pattern p = Pattern.compile("((\\/\\*([\\S\\s]+?)\\*\\/))");
+        Pattern p = Pattern.compile("(\\/\\*([\\S\\s]+?)\\*\\/)");
         Matcher m = p.matcher(ret);
 
         char[] charArray = ret.toCharArray();

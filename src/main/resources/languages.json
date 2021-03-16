@@ -1,0 +1,335 @@
+[
+  {
+    "name": "c",
+    "extensions": [
+      ".c",
+      ".h"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "cpp",
+    "extensions": [
+      ".cpp",
+      ".hpp",
+      ".cxx"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "csharp",
+    "extensions": [
+      ".cs"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "fsharp",
+    "extensions": [
+      ".fs"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "vb",
+    "extensions": [
+      ".vb"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "python",
+    "extensions": [
+      ".py",
+      ".py3",
+      ".pyw"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "html",
+    "extensions": [
+      ".html",
+      ".htm",
+      ".cshtml",
+      ".tmpl"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "javascript",
+    "extensions": [
+      ".js"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "javascriptreact",
+    "extensions": [
+      ".jsx"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "typescript",
+    "extensions": [
+      ".ts"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "typescriptreact",
+    "extensions": [
+      ".tsx"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "coffeescript",
+    "extensions": [
+      ".coffee"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "dart",
+    "extensions": [
+      ".dart"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "java",
+    "extensions": [
+      ".java"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "objective-c",
+    "extensions": [
+      ".m",
+      ".mm"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "swift",
+    "extensions": [
+      ".swift"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "perl",
+    "extensions": [
+      ".pl",
+      ".pm",
+      ".t",
+      ".pod"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "perl6",
+    "extensions": [
+      ".pl6",
+      ".p6",
+      ".pm6"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "ruby",
+    "extensions": [
+      ".rb"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "lua",
+    "extensions": [
+      ".lua"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "groovy",
+    "extensions": [
+      ".groovy"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "go",
+    "extensions": [
+      ".go"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "rust",
+    "extensions": [
+      ".rs"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "jade",
+    "extensions": [
+      ".jade"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "clojure",
+    "extensions": [
+      ".clj",
+      ".cljs",
+      ".cljc",
+      ".edn"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "r",
+    "extensions": [
+      ".r"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "php",
+    "extensions": [
+      ".php"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "powershell",
+    "extensions": [
+      ".ps1",
+      ".psm1",
+      ".psd1"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "shellscript",
+    "extensions": [
+      ".sh"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "wincmdscript",
+    "extensions": [
+      ".bat"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "sql",
+    "extensions": [
+      ".sql"
+    ],
+    "type": "code"
+  },
+  {
+    "name": "yaml",
+    "extensions": [
+      ".yaml",
+      ".yml"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "package.json",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "nugetpkg",
+    "extensions": [
+      "packages.config"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "VSSolution",
+    "extensions": [
+      ".sln"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "VSProject",
+    "extensions": [
+      ".vcxproj",
+      ".ccproj",
+      ".csproj",
+      ".njsproj",
+      ".vbproj"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "pom.xml",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "build.xml",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "build.gradle",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "build.make.xml",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "jenkins",
+    "extensions": [
+      ".hpi"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "project.clj",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "sbt",
+    "extensions": [
+      ".sbt"
+    ],
+    "type": "build"
+  },
+  {
+    "name": "build.py",
+    "extensions": [],
+    "type": "build"
+  },
+  {
+    "name": "typescript",
+    "extensions": [
+      "tsconfig.json",
+      "typings.json"
+    ],
+    "type": "build"
+  },
+  {
+    "name": ".config",
+    "extensions": [
+      ".config"
+    ],
+    "type": "build"
+  }
+]
