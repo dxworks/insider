@@ -8,7 +8,6 @@ import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry
 import org.dxworks.dxplatform.plugins.insider.utils.FileUtils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +30,7 @@ public class LibraryDetector implements InsiderAnalysis {
             importsContainer = new JavaImportsContainer();
     }
 
-    public List<InsiderResult> analyze(InsiderFile file) {
+    public InsiderResult analyze(InsiderFile file) {
         int importNumber = 0;
         String content = file.getContent();
 
@@ -48,7 +47,7 @@ public class LibraryDetector implements InsiderAnalysis {
             importsContainer.addFile(file.getName(), importNumber);
         }
 
-        return Collections.emptyList();
+        return null;
     }
 
     private int analyzeForC_Like(String content) {

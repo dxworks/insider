@@ -22,7 +22,7 @@ public class TechnologyFinder implements InsiderAnalysis {
     }
 
     @Override
-    public List<InsiderResult> analyze(InsiderFile insiderFile) {
+    public InsiderResult analyze(InsiderFile insiderFile) {
         return null;
     }
 
