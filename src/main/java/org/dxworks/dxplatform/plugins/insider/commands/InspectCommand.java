@@ -35,7 +35,7 @@ public class InspectCommand implements InsiderCommand {
             return false;
 
         String[] files = Arrays.copyOfRange(args, 1, args.length);
-        ruleFiles = Arrays.stream(files).filter(filePath -> fileExists(filePath) || folderExists(filePath)).collect(Collectors.toList());
+        ruleFiles = Arrays.stream(files).filter(filePath -> folderExists(filePath) || fileExists(filePath)).collect(Collectors.toList());
 
         return !ruleFiles.isEmpty() && files.length == ruleFiles.size();
     }
@@ -50,9 +50,9 @@ public class InspectCommand implements InsiderCommand {
 
         try (ProgressBar pb = new ProgressBarBuilder()
                 .setInitialMax(insiderFiles.size())
-                .setUnit("Files", 1)
+                .setUnit(" Files", 1)
                 .setTaskName("Inspecting...")
-                .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BLOCK)
+                .setStyle(ProgressBarStyle.ASCII)
                 .setUpdateIntervalMillis(100)
                 .setPrintStream(System.err)
                 .build()) {

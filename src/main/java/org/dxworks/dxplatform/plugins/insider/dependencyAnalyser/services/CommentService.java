@@ -122,7 +122,25 @@ public class CommentService {
         while (index != -1) {
             index = content.indexOf(substring, index);
             if (index != -1) {
-                globalIndexes.add(index);
+                if (substring.equals("\"")) {
+                    if (content.charAt(index - 1) == '\'' && content.charAt(index + 1) == '\'');
+                }
+                else if (substring.equals("/*")) {
+                    if (index - 1 == -1) {
+                        globalIndexes.add(index);
+                    }
+                    else if (content.charAt(index - 1) == '"' || content.charAt(index + 1) == '"');
+                }
+                else if (substring.equals("*/")) {
+                    if (index - 1 == -1) {
+                        globalIndexes.add(index);
+                    }
+                    else if (content.charAt(index - 1) == '"' || content.charAt(index + 1) == '"');
+                }
+                else {
+                    globalIndexes.add(index);
+                }
+
                 index++;
             }
         }
