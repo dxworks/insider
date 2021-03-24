@@ -10,5 +10,6 @@ public interface InsiderConstants {
     String RESULTS_FOLDER = "results";
 
     String CONFIGURATION_FILE = "insider-conf.properties";
+    String VERSION_FILE = ".insider-version";
     String STARS = "*******************************************************************************";
 }

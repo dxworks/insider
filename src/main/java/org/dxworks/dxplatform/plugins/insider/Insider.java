@@ -11,18 +11,17 @@ import org.dxworks.ignorerLibrary.Ignorer;
 import org.dxworks.ignorerLibrary.IgnorerBuilder;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.dxworks.dxplatform.plugins.insider.commands.InsiderCommand.*;
-import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.CONFIGURATION_FOLDER;
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j
 public class Insider {
@@ -76,7 +75,7 @@ public class Insider {
             insiderCommand.execute(insiderFiles, args);
         }
 
-        System.out.println("Insider 2.0.0 finished analysis");
+        System.out.println("Insider" + InsiderConfiguration.getInstance().getInsiderVersion() + "finished analysis");
     }
 
     private static InsiderCommand getInsiderCommand(String command) {

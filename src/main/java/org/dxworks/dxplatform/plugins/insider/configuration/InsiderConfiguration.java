@@ -1,5 +1,6 @@
 package org.dxworks.dxplatform.plugins.insider.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dxworks.argumenthor.Argumenthor;
 import org.dxworks.argumenthor.config.ArgumenthorConfiguration;
 import org.dxworks.argumenthor.config.fields.impl.StringField;
@@ -7,14 +8,21 @@ import org.dxworks.argumenthor.config.fields.impl.StringListField;
 import org.dxworks.argumenthor.config.sources.impl.EnvSource;
 import org.dxworks.argumenthor.config.sources.impl.PropertiesSource;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
 
+@Slf4j
 public class InsiderConfiguration {
 
     private static InsiderConfiguration _instance = new InsiderConfiguration();
     private static Argumenthor argumenthor;
+
+    private String insiderVersion = null;
+    private String projectID = null;
+    private String rootFolder = null;
+    private List<String> languages = null;
 
     private InsiderConfiguration() {
     }
@@ -25,7 +33,8 @@ public class InsiderConfiguration {
 
     public void load() {
 
-        System.out.println("Reading configuration: " + CONFIGURATION_FILE);
+        System.out.println("Reading configuration");
+        readInsiderVersion();
 
         ArgumenthorConfiguration argumenthorConfiguration = new ArgumenthorConfiguration(
                 new StringField(PROJECT_ID, null),
@@ -39,25 +48,46 @@ public class InsiderConfiguration {
         argumenthorConfiguration.addSource(propertiesSource);
         argumenthor = new Argumenthor(argumenthorConfiguration);
 
+        System.out.println("Insider " + getInsiderVersion());
         System.out.println("Project ID: " + getProjectID());
         System.out.println("Root Folder: " + getRootFolder());
         System.out.println("Languages: " + getLanguages());
     }
 
+    private void readInsiderVersion() {
+        try {
+            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("/insider-version").readAllBytes());
+        } catch (IOException e) {
+            log.warn("Could not read Insider Version", e);
+        }
+    }
+
     public String getRootFolder() {
-        String rootFolder = (String) argumenthor.getRawValue(ROOT_FOLDER);
-        if (rootFolder.endsWith("\\") || rootFolder.endsWith("/")) {
-            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        if (rootFolder == null) {
+            rootFolder = (String) argumenthor.getRawValue(ROOT_FOLDER);
+            if (rootFolder.endsWith("\\") || rootFolder.endsWith("/")) {
+                rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+            }
         }
 
         return rootFolder;
     }
 
-    public String getProjectID () {
-        return (String) argumenthor.getRawValue(PROJECT_ID);
+    public String getProjectID() {
+        if (projectID == null) {
+            projectID = (String) argumenthor.getRawValue(PROJECT_ID);
+        }
+        return projectID;
     }
 
     public List<String> getLanguages() {
-        return (List<String>) argumenthor.getRawValue(LANGUAGES);
+        if (languages == null) {
+            languages = (List<String>) argumenthor.getRawValue(LANGUAGES);
+        }
+        return languages;
+    }
+
+    public String getInsiderVersion() {
+        return insiderVersion;
     }
 }
