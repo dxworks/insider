@@ -68,7 +68,7 @@ public class InspectCommand implements InsiderCommand {
                     .collect(Collectors.toList());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-tags.json").toFile(), insiderResults);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
         } catch (IOException e) {
             log.error("Inspect command finished unsuccessfully!", e);
         }

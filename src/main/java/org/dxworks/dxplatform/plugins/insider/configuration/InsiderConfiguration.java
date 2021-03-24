@@ -1,47 +1,63 @@
 package org.dxworks.dxplatform.plugins.insider.configuration;
 
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
+import org.dxworks.argumenthor.Argumenthor;
+import org.dxworks.argumenthor.config.ArgumenthorConfiguration;
+import org.dxworks.argumenthor.config.fields.impl.StringField;
+import org.dxworks.argumenthor.config.fields.impl.StringListField;
+import org.dxworks.argumenthor.config.sources.impl.EnvSource;
+import org.dxworks.argumenthor.config.sources.impl.PropertiesSource;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
+
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
 
 public class InsiderConfiguration {
 
-    private static InsiderConfiguration ourInstance = new InsiderConfiguration();
-    private Properties config;
+    private static InsiderConfiguration _instance = new InsiderConfiguration();
+    private static Argumenthor argumenthor;
 
     private InsiderConfiguration() {
     }
 
     public static InsiderConfiguration getInstance() {
-        return ourInstance;
+        return _instance;
     }
 
-    public static void loadProperties(Properties properties) {
-        if (ourInstance.config == null)
-            ourInstance.config = properties;
+    public void load() {
+
+        System.out.println("Reading configuration: " + CONFIGURATION_FILE);
+
+        ArgumenthorConfiguration argumenthorConfiguration = new ArgumenthorConfiguration(
+                new StringField(PROJECT_ID, null),
+                new StringField(ROOT_FOLDER, null),
+                new StringListField(LANGUAGES, List.of(), ",")
+        );
+
+        PropertiesSource propertiesSource = new PropertiesSource();
+        propertiesSource.setPath("config/insider-conf.properties");
+        argumenthorConfiguration.addSource(new EnvSource());
+        argumenthorConfiguration.addSource(propertiesSource);
+        argumenthor = new Argumenthor(argumenthorConfiguration);
+
+        System.out.println("Project ID: " + getProjectID());
+        System.out.println("Root Folder: " + getRootFolder());
+        System.out.println("Languages: " + getLanguages());
     }
 
     public String getRootFolder() {
-        String property = getProperty(InsiderConstants.ROOT_FOLDER);
-        if (property.endsWith("\\") || property.endsWith("/")) {
-            property = property.substring(0, property.length() - 1);
+        String rootFolder = (String) argumenthor.getRawValue(ROOT_FOLDER);
+        if (rootFolder.endsWith("\\") || rootFolder.endsWith("/")) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
         }
 
-        return property;
+        return rootFolder;
     }
 
-    public String getProperty(String property) {
-        return config.getProperty(property);
+    public String getProjectID () {
+        return (String) argumenthor.getRawValue(PROJECT_ID);
     }
 
-    public List<String> getListProperty(String property) {
-        String propValue = config.getProperty(property);
-        if (propValue == null)
-            return Collections.emptyList();
-
-        return Arrays.asList(propValue.split(","));
+    public List<String> getLanguages() {
+        return (List<String>) argumenthor.getRawValue(LANGUAGES);
     }
 }

@@ -46,7 +46,7 @@ public abstract class ImportsContainer {
         content = "Packages,Appearances,\n" + content;
 
         try {
-            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getImportsResultFilePath()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-" + getImportsResultFilePath()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write Imports file!", e);
         }
@@ -67,7 +67,7 @@ public abstract class ImportsContainer {
 
         content = "Files,Imports,\n" + content;
         try {
-            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getFilesWithImportsResultFile()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-" + getFilesWithImportsResultFile()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write Imports file!", e);
         }
@@ -91,7 +91,7 @@ public abstract class ImportsContainer {
         content = "Packages,Appearances,Different Files\n" + content;
 
         try {
-            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-" + getPackagingUnitResultFilePath()), content.getBytes());
+            Files.write(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-" + getPackagingUnitResultFilePath()), content.getBytes());
         } catch (IOException e) {
             log.error("Could not write packaging unit result file file!", e);
         }

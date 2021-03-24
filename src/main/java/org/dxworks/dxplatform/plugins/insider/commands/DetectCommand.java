@@ -21,7 +21,7 @@ public class DetectCommand implements InsiderCommand {
     public void execute(List<InsiderFile> insiderFiles, String[] args) {
         LibraryDetector libraryDetector = new LibraryDetector(LibraryDetectorLanguage.JAVA);
         insiderFiles.stream()
-                .filter(insiderFile -> libraryDetector.accepts(insiderFile.getExtension()))
+                .filter(libraryDetector::accepts)
                 .forEach(libraryDetector::analyze);
 
         libraryDetector.generateResults();

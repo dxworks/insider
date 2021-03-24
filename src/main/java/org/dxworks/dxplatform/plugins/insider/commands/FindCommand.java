@@ -79,7 +79,7 @@ public class FindCommand implements InsiderCommand {
 
             String outputFileName = configurationDTO.getOutputFileName();
             if (outputFileName == null) {
-                outputFileName = InsiderConfiguration.getInstance().getProperty(InsiderConstants.PROJECT_ID) + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
+                outputFileName = InsiderConfiguration.getInstance().getProjectID() + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

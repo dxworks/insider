@@ -6,7 +6,7 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 import org.dxworks.ignorerLibrary.Ignorer;
 import org.dxworks.ignorerLibrary.IgnorerBuilder;
 
@@ -99,23 +99,11 @@ public class Insider {
     }
 
     private static List<InsiderFile> readInsiderConfiguration() {
-        System.out.println("Reading configuration file: " + CONFIGURATION_FILE);
-
-        Path configFilePath = Paths.get(CONFIGURATION_FOLDER, CONFIGURATION_FILE);
-
         File resultsFolder = new File(RESULTS_FOLDER);
         if (!resultsFolder.exists())
             resultsFolder.mkdirs();
 
-
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileReader(configFilePath.toFile()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        InsiderConfiguration.loadProperties(properties);
+        InsiderConfiguration.getInstance().load();
 
         String rootFolder = InsiderConfiguration.getInstance().getRootFolder();
         reportUnknownExtensions();
@@ -125,9 +113,9 @@ public class Insider {
     }
 
     private static void reportUnknownExtensions() {
-        List<String> requiredLanguages = InsiderConfiguration.getInstance().getListProperty(LANGUAGES);
+        List<String> requiredLanguages = InsiderConfiguration.getInstance().getLanguages();
         requiredLanguages.stream()
-                .filter(lang -> !LanguageRegistry.getInstance().containsLanguage(lang))
+                .filter(lang -> !LinguistService.getInstance().containsLanguage(lang))
                 .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
@@ -162,11 +150,8 @@ public class Insider {
     }
 
     private static boolean hasAcceptedExtension(Path path) {
-        String extension = FilenameUtils.getExtension(path.getFileName().toString());
-        LanguageRegistry languageRegistry = LanguageRegistry.getInstance();
-        List<String> requiredLanguages = InsiderConfiguration.getInstance().getListProperty(LANGUAGES);
+        LinguistService linguistService = LinguistService.getInstance();
 
-        return requiredLanguages.stream()
-                .anyMatch(lang -> languageRegistry.isOfLanguage(lang, extension));
+        return linguistService.hasAcceptedExtension(path.toString());
     }
 }
