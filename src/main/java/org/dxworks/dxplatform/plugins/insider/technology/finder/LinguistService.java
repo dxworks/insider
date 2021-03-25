@@ -6,14 +6,16 @@ import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration
 import org.dxworks.linguist.Language;
 import org.dxworks.linguist.Linguist;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class LinguistService {
 
-    private static LinguistService _instance = new LinguistService();
-    private Linguist linguist = new Linguist();
-    private List<String> programmingLanguages = getAllProgrammingLanguages();
+    private static final LinguistService _instance = new LinguistService();
+    private Linguist linguist;
+    private final List<String> programmingLanguages = getAllProgrammingLanguages();
+    private String linguistFile;
 
     private LinguistService() {
     }
@@ -35,21 +37,21 @@ public class LinguistService {
     }
 
     public boolean hasAcceptedExtension(String path, @NonNull List<String> languages) {
-        return linguist.isOf(path, languages.toArray(new String[0]));
+        return getLinguist().isOf(path, languages.toArray(new String[0]));
     }
 
     public List<String> getLanguagesForFile(InsiderFile file) {
-        return linguist.getLanguages(file.getPath()).stream()
+        return getLinguist().getLanguages(file.getPath()).stream()
                 .map(Language::getName)
                 .collect(Collectors.toList());
     }
 
     public boolean containsLanguage(String lang) {
-        return linguist.isRegistered(lang);
+        return getLinguist().isRegistered(lang);
     }
 
     private List<String> getAllProgrammingLanguages() {
-        return linguist.getLanguages().values().stream()
+        return getLinguist().getLanguages().values().stream()
                 .filter(lang -> "programming".equalsIgnoreCase(lang.getType()))
                 .map(Language::getName)
                 .collect(Collectors.toList());
@@ -58,5 +60,16 @@ public class LinguistService {
 
     public List<String> getProgrammingLanguages() {
         return programmingLanguages;
+    }
+
+    public void setLinguistFile(String linguistFile) {
+        this.linguistFile = linguistFile;
+    }
+
+    private Linguist getLinguist() {
+        if (linguist == null) {
+            linguist = linguistFile == null ? new Linguist() : new Linguist(Path.of(linguistFile).toFile());
+        }
+        return linguist;
     }
 }

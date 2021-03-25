@@ -7,6 +7,7 @@ import org.dxworks.argumenthor.config.fields.impl.StringField;
 import org.dxworks.argumenthor.config.fields.impl.StringListField;
 import org.dxworks.argumenthor.config.sources.impl.EnvSource;
 import org.dxworks.argumenthor.config.sources.impl.PropertiesSource;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +25,7 @@ public class InsiderConfiguration {
     private String projectID = null;
     private String rootFolder = null;
     private List<String> languages = null;
+    private String languagesFile = null;
 
     private InsiderConfiguration() {
     }
@@ -40,7 +42,8 @@ public class InsiderConfiguration {
         ArgumenthorConfiguration argumenthorConfiguration = new ArgumenthorConfiguration(
                 new StringField(PROJECT_ID, null),
                 new StringField(ROOT_FOLDER, null),
-                new StringListField(LANGUAGES, List.of(), ",")
+                new StringListField(LANGUAGES, List.of(), ","),
+                new StringField(LINGUIST_FILE, DEFAULT_LINGUIST_FILE)
         );
 
         PropertiesSource propertiesSource = new PropertiesSource();
@@ -48,6 +51,8 @@ public class InsiderConfiguration {
         argumenthorConfiguration.addSource(new EnvSource("INSIDER"));
         argumenthorConfiguration.addSource(propertiesSource);
         argumenthor = new Argumenthor(argumenthorConfiguration);
+
+        LinguistService.getInstance().setLinguistFile(getLanguagesFile());
 
         System.out.println("Insider " + getInsiderVersion());
         System.out.println("Project ID: " + getProjectID());
@@ -87,6 +92,13 @@ public class InsiderConfiguration {
                     .filter(s -> !s.isBlank()).collect(Collectors.toList());
         }
         return languages;
+    }
+
+    public String getLanguagesFile() {
+        if (languagesFile == null) {
+            languagesFile = (String) argumenthor.getRawValue(LINGUIST_FILE);
+        }
+        return languagesFile;
     }
 
     public String getInsiderVersion() {
