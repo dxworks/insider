@@ -19,6 +19,6 @@ commands:
 
 
 environment:
-  projectID: "${repoName}"
-  rootFolder: "${repo}"
-  languages:
+  INSIDER_PROJECTID: "${repoName}"
+  INSIDER_ROOTFOLDER: "${repo}"
+  INSIDER_LANGUAGES:

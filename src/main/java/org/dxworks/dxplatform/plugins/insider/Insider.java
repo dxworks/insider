@@ -71,11 +71,11 @@ public class Insider {
         if (insiderCommand instanceof NoFilesCommand) {
             insiderCommand.execute(null, args);
         } else {
-            List<InsiderFile> insiderFiles = readInsiderConfiguration();
+            List<InsiderFile> insiderFiles = readInsiderConfiguration(insiderCommand);
             insiderCommand.execute(insiderFiles, args);
         }
 
-        System.out.println("Insider" + InsiderConfiguration.getInstance().getInsiderVersion() + "finished analysis");
+        System.out.println("Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " finished analysis");
     }
 
     private static InsiderCommand getInsiderCommand(String command) {
@@ -97,7 +97,7 @@ public class Insider {
         }
     }
 
-    private static List<InsiderFile> readInsiderConfiguration() {
+    private static List<InsiderFile> readInsiderConfiguration(InsiderCommand insiderCommand) {
         File resultsFolder = new File(RESULTS_FOLDER);
         if (!resultsFolder.exists())
             resultsFolder.mkdirs();
@@ -108,7 +108,7 @@ public class Insider {
         reportUnknownExtensions();
 
         Ignorer ignorer = new IgnorerBuilder(Paths.get(CONFIGURATION_FOLDER, ".ignore")).compile();
-        return readProjectFiles(rootFolder, ignorer);
+        return readProjectFiles(rootFolder, ignorer, insiderCommand);
     }
 
     private static void reportUnknownExtensions() {
@@ -118,13 +118,14 @@ public class Insider {
                 .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
-    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer) {
+    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer, InsiderCommand insiderCommand) {
         List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
             List<Path> pathList = Files.walk(Paths.get(rootFolder))
                     .filter(Files::isRegularFile)
-                    .filter(Insider::hasAcceptedExtension)
                     .filter(ignorer::accepts)
+                    .filter(path -> insiderCommand.acceptsFile(path.toString()))
+                    .filter(Insider::hasAcceptedExtension)
                     .collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
                 for (Path path : pathList) {
@@ -150,8 +151,9 @@ public class Insider {
 
     private static boolean hasAcceptedExtension(Path path) {
         LinguistService linguistService = LinguistService.getInstance();
-        if (InsiderConfiguration.getInstance().getLanguages().isEmpty())
-            return true;
+        if (InsiderConfiguration.getInstance().getLanguages().isEmpty()) {
+            return linguistService.hasAcceptedExtension(path.toString(), linguistService.getProgrammingLanguages());
+        }
 
         return linguistService.hasAcceptedExtension(path.toString());
     }

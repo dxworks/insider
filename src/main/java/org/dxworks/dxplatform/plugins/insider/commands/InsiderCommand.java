@@ -45,6 +45,10 @@ public interface InsiderCommand {
         return result;
     }
 
+    default boolean acceptsFile(String path) {
+        return true;
+    }
+
     void execute(List<InsiderFile> insiderFiles, String[] args);
 
     String usage();

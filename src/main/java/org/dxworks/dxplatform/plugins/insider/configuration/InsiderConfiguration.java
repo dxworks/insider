@@ -10,6 +10,7 @@ import org.dxworks.argumenthor.config.sources.impl.PropertiesSource;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
 
@@ -56,7 +57,7 @@ public class InsiderConfiguration {
 
     private void readInsiderVersion() {
         try {
-            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("/insider-version").readAllBytes());
+            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("insider-version").readAllBytes());
         } catch (IOException e) {
             log.warn("Could not read Insider Version", e);
         }
@@ -82,7 +83,8 @@ public class InsiderConfiguration {
 
     public List<String> getLanguages() {
         if (languages == null) {
-            languages = (List<String>) argumenthor.getRawValue(LANGUAGES);
+            languages = ((List<String>) argumenthor.getRawValue(LANGUAGES)).stream()
+                    .filter(s -> !s.isBlank()).collect(Collectors.toList());
         }
         return languages;
     }

@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 public class LinguistService {
 
     private static LinguistService _instance = new LinguistService();
-
     private Linguist linguist = new Linguist();
+    private List<String> programmingLanguages = getAllProgrammingLanguages();
 
     private LinguistService() {
     }
@@ -46,5 +46,17 @@ public class LinguistService {
 
     public boolean containsLanguage(String lang) {
         return linguist.isRegistered(lang);
+    }
+
+    private List<String> getAllProgrammingLanguages() {
+        return linguist.getLanguages().values().stream()
+                .filter(lang -> "programming".equalsIgnoreCase(lang.getType()))
+                .map(Language::getName)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<String> getProgrammingLanguages() {
+        return programmingLanguages;
     }
 }
