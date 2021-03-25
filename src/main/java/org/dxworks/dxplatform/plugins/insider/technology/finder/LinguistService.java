@@ -1,18 +1,13 @@
 package org.dxworks.dxplatform.plugins.insider.technology.finder;
 
 import lombok.NonNull;
-import org.dxworks.dxplatform.plugins.insider.Insider;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 import org.dxworks.linguist.Language;
 import org.dxworks.linguist.Linguist;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.LANGUAGES;
 
 public class LinguistService {
 

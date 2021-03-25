@@ -53,7 +53,7 @@ public class Technology implements InsiderAnalysis {
 
     @Override
     public boolean accepts(InsiderFile insiderFile) {
-        return linguistService.hasAcceptedExtension(insiderFile.getPath(), languages)
+        return linguistService.hasAcceptedExtension(insiderFile, languages)
                 || extensions.contains(insiderFile.getExtension());
     }
 

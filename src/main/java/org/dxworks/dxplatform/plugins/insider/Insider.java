@@ -150,6 +150,8 @@ public class Insider {
 
     private static boolean hasAcceptedExtension(Path path) {
         LinguistService linguistService = LinguistService.getInstance();
+        if (InsiderConfiguration.getInstance().getLanguages().isEmpty())
+            return true;
 
         return linguistService.hasAcceptedExtension(path.toString());
     }

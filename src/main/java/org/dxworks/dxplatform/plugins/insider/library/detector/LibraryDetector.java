@@ -124,11 +124,11 @@ public class LibraryDetector implements InsiderAnalysis {
     @Override
     public boolean accepts(InsiderFile insiderFile) {
         if (language == LibraryDetectorLanguage.JAVA) {
-            return linguistService.hasAcceptedExtension(insiderFile.getPath(), List.of(JAVA_LANGUAGE));
+            return linguistService.hasAcceptedExtension(insiderFile, List.of(JAVA_LANGUAGE));
         }
 
         if (language == LibraryDetectorLanguage.C_LIKE) {
-            return linguistService.hasAcceptedExtension(insiderFile.getPath(), C_LIKE_LANGUAGES);
+            return linguistService.hasAcceptedExtension(insiderFile, C_LIKE_LANGUAGES);
         }
 
         return false;

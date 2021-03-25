@@ -52,7 +52,7 @@ public class Rule {
     }
 
     public boolean appliesTo(InsiderFile insiderFile) {
-        return CollectionUtils.isEmpty(applies_to) || LinguistService.getInstance().hasAcceptedExtension(insiderFile.getPath(), applies_to);
+        return CollectionUtils.isEmpty(applies_to) || LinguistService.getInstance().hasAcceptedExtension(insiderFile, applies_to);
     }
 
     public void transformPatterns() {

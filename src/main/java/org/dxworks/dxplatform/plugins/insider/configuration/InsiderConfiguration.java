@@ -44,7 +44,7 @@ public class InsiderConfiguration {
 
         PropertiesSource propertiesSource = new PropertiesSource();
         propertiesSource.setPath("config/insider-conf.properties");
-        argumenthorConfiguration.addSource(new EnvSource());
+        argumenthorConfiguration.addSource(new EnvSource("INSIDER"));
         argumenthorConfiguration.addSource(propertiesSource);
         argumenthor = new Argumenthor(argumenthorConfiguration);
 
