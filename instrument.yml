@@ -9,13 +9,10 @@ commands:
     unix: ./insider.sh detect
   - name: Insider Find Code Smells
     win: insider.bat find config\fingerprints\code_smells.json
-    unix: ./insider.sh find config/fingerprints/code_smells.json
-  - name: Insider Find Libraries
-    win: insider.bat find config\fingerprints\libraries.json
-    unix: ./insider.sh find config/fingerprints/libraries.json
+    unix: ./insider.sh find config/fingerprints/code_smells.json config/fingerprints/libraries.json
   - name: Insider Inspect
     win: insider.bat inspect config\rules
-    unix: ./insider.sh find config/rules
+    unix: ./insider.sh inspect config/rules
 
 
 environment:

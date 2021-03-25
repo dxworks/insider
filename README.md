@@ -1,6 +1,6 @@
 # Insider
 
-Insider is a belt of tools that, built on the idea of searching regular expressions in code. Insider is able to detect code smells, the usage of external libraries and the topics that a software project approaches by only using Regex. This means that Insider does not use any type of parsing and is therefore language independent.
+Insider is a belt of tools built on the idea of searching regular expressions in code. Insider is able to detect code smells, the usage of external libraries and the topics that a software project approaches by only using Regex. This means that Insider does not use any type of parsing and is therefore language independent.
 
 ## Installation
 
@@ -43,6 +43,9 @@ insider.sh find config/libraries.json config/code_smells.json
 ```
 
 The commands will generate two *.json* files (**_PROJECT_ID-libraries.json_** and **_PROJECT_ID-code_smells.json_**) in the **results** folder.
+
+## Voyager Integration
+Insider is also a Voyager Instrument.
 
 ## Acknowledgements
 
