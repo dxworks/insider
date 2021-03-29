@@ -44,7 +44,7 @@ public class RuleService {
     private List<Rule> getRulesFromFile(Path ruleFilePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(ruleFilePath.toFile(), new TypeReference<List<Rule>>() {
+            return objectMapper.readValue(ruleFilePath.toFile(), new TypeReference<>() {
             });
         } catch (IOException e) {
             log.warn("Could not read rule file!", e);

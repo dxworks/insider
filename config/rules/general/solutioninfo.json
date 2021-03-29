@@ -258,7 +258,7 @@
     "severity": "moderate",
     "patterns": [
       {
-        "pattern": "version [^\\b]+",
+        "pattern": "version [^\\\b]+",
         "type": "regex",
         "scopes": [
           "code"
