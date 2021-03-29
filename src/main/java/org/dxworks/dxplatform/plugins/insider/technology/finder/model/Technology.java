@@ -44,7 +44,7 @@ public class Technology implements InsiderAnalysis {
                 .sum();
 
         return InsiderResult.builder()
-                .file(insiderFile.getFullyQualifiedName())
+                .file(insiderFile.getFullyQualifiedName().toString())
                 .category(category)
                 .name(name)
                 .value(totalOccurrences)

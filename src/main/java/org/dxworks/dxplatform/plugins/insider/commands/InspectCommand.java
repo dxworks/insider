@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.PROJECT_ID;
 import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j

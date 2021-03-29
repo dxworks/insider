@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.PROJECT_ID;
 import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j

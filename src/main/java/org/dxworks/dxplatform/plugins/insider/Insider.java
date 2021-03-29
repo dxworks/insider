@@ -92,6 +92,8 @@ public class Insider {
                 return new ConvertCommand();
             case INSPECT:
                 return new InspectCommand();
+            case EXTRACT:
+                return new ExtractCommand();
             default:
                 return null;
         }

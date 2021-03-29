@@ -13,6 +13,9 @@ commands:
   - name: Insider Inspect
     win: insider.bat inspect config\rules
     unix: ./insider.sh inspect config/rules
+  - name: Insider Extract
+    win: insider.bat extract
+    unix: ./insider.sh extract
 
 
 environment:

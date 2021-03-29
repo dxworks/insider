@@ -41,7 +41,7 @@ public class InsiderConfiguration {
 
         ArgumenthorConfiguration argumenthorConfiguration = new ArgumenthorConfiguration(
                 new StringField(PROJECT_ID, null),
-                new StringField(ROOT_FOLDER, null),
+                new StringField(ROOT_FOLDER, "."),
                 new StringListField(LANGUAGES, List.of(), ","),
                 new StringField(LINGUIST_FILE, DEFAULT_LINGUIST_FILE)
         );

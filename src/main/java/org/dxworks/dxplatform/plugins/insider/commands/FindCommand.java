@@ -8,7 +8,6 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.json.JsonConfigurationDTO;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.parsers.JsonFingerprintParser;
