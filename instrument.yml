@@ -7,8 +7,8 @@ commands:
   - name: Insider Detect
     win: insider.bat detect
     unix: ./insider.sh detect
-  - name: Insider Find Code Smells
-    win: insider.bat find config\fingerprints\code_smells.json
+  - name: Insider Find
+    win: insider.bat find config\fingerprints\code_smells.json config\fingerprints\libraries.json
     unix: ./insider.sh find config/fingerprints/code_smells.json config/fingerprints/libraries.json
   - name: Insider Inspect
     win: insider.bat inspect config\rules

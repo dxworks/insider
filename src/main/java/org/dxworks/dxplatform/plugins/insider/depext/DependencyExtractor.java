@@ -1,6 +1,7 @@
 package org.dxworks.dxplatform.plugins.insider.depext;
 
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
+import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -16,7 +17,6 @@ public class DependencyExtractor {
     private final String scalaExtension = "scala";
     private final String csExtension = "cs";
     private final String groovyExtension = "groovy";
-    public String rootFolderName;
     private final List<ImportResult> resultsList = new ArrayList<>();
     private int counterFiles = 0;
     private int countIgnoredFiles = 0;
@@ -31,7 +31,7 @@ public class DependencyExtractor {
             System.out.println(CSharpImportsProcessor.counter + " C# files processed");
         if (CPPImportsProcessor.counter > 0) System.out.println(CPPImportsProcessor.counter + " C++ files processed");
 
-        String outputFilename = "results/" + rootFolderName + "-depext.csv";
+        String outputFilename = "results/" + InsiderConfiguration.getInstance().getProjectID() + "-depext.csv";
         try {
             Path.of("results").toFile().mkdirs();
             PrintWriter outputFile = new PrintWriter(outputFilename);
