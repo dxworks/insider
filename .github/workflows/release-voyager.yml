@@ -26,6 +26,7 @@ jobs:
           chmod +x insider/insider.sh
           cp bin/insider.bat insider/insider.bat
           cp instrument.yml insider/instrument.yml
+          cp languages.yml insider/languages.yml
           cp -R config insider/config
       - name: Create Archive
         run: zip -r insider.zip insider

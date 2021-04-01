@@ -14,7 +14,7 @@ public class LinguistService {
 
     private static final LinguistService _instance = new LinguistService();
     private Linguist linguist;
-    private final List<String> programmingLanguages = getAllProgrammingLanguages();
+    private List<String> programmingLanguages;
     private String linguistFile;
 
     private LinguistService() {
@@ -69,6 +69,7 @@ public class LinguistService {
     private Linguist getLinguist() {
         if (linguist == null) {
             linguist = linguistFile == null ? new Linguist() : new Linguist(Path.of(linguistFile).toFile());
+            programmingLanguages = getAllProgrammingLanguages();
         }
         return linguist;
     }
