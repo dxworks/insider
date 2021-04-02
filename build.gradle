@@ -34,7 +34,7 @@ dependencies {
 
     //data format parsers
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0.rc1'
-    implementation 'com.opencsv:opencsv:4.1'
+    implementation 'com.opencsv:opencsv:5.4'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
 
 
