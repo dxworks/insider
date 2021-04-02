@@ -30,7 +30,7 @@ dependencies {
     //command line runner
     implementation group: 'info.picocli', name: 'picocli', version: '4.0.0-alpha-2'
 
-    implementation group: 'me.tongfei', name: 'progressbar', version: '0.7.2'
+    implementation group: 'me.tongfei', name: 'progressbar', version: '0.9.1'
 
     //data format parsers
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0.rc1'
