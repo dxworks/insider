@@ -1,0 +1,13 @@
+{
+  "displayName": "Insider",
+  "description": "A tool that uses regular expressions to scan code smells, find dependencies between code entities, and detect topics used in a system",
+  "relevance": 1,
+  "categories": ["tool"],
+  "codeOwners": [
+    {
+      "name": "Mario Rivis"
+    }
+  ],
+  "technologies": ["kotlin", "gradle"],
+  "docs": "https://dxworks.github.io/insider"
+}
