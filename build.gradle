@@ -44,6 +44,7 @@ dependencies {
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes "Main-Class": "org.dxworks.dxplatform.plugins.insider.Insider"
     }
