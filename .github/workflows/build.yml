@@ -16,4 +16,4 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: ./gradlew clean build --debug --stacktrace
+        run: gradle clean build --debug --stacktrace
