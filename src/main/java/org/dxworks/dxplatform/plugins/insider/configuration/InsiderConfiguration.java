@@ -52,7 +52,7 @@ public class InsiderConfiguration {
         argumenthorConfiguration.addSource(propertiesSource);
         argumenthor = new Argumenthor(argumenthorConfiguration);
 
-        LinguistService.getInstance().setLinguistFile(getLanguagesFile());
+        LinguistService.getInstance().initLinguist(getLanguagesFile());
 
         System.out.println("Insider " + getInsiderVersion());
         System.out.println("Project ID: " + getProjectID());

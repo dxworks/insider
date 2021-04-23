@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks.dxplatform'
-version '2.2.0-SNAPSHOT'
+version '2.2.1-SNAPSHOT'
 
 sourceCompatibility = 11
 
@@ -40,7 +40,6 @@ dependencies {
     implementation 'org.dxworks:dx-ignore:1.1.0-SNAPSHOT'
     implementation 'org.dxworks:argumenthor:1.1.0-SNAPSHOT'
     implementation 'org.dxworks:dx-linguist:1.0.0-SNAPSHOT'
-
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 

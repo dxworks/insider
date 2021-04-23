@@ -15,7 +15,6 @@ public class LinguistService {
     private static final LinguistService _instance = new LinguistService();
     private Linguist linguist;
     private List<String> programmingLanguages;
-    private String linguistFile;
 
     private LinguistService() {
     }
@@ -37,21 +36,21 @@ public class LinguistService {
     }
 
     public boolean hasAcceptedExtension(String path, @NonNull List<String> languages) {
-        return getLinguist().isOf(path, languages.toArray(new String[0]));
+        return linguist.isOf(path, languages.toArray(new String[0]));
     }
 
     public List<String> getLanguagesForFile(InsiderFile file) {
-        return getLinguist().getLanguages(file.getPath()).stream()
+        return linguist.getLanguages(file.getPath()).stream()
                 .map(Language::getName)
                 .collect(Collectors.toList());
     }
 
     public boolean containsLanguage(String lang) {
-        return getLinguist().isRegistered(lang);
+        return linguist.isRegistered(lang);
     }
 
     private List<String> getAllProgrammingLanguages() {
-        return getLinguist().getLanguages().values().stream()
+        return linguist.getLanguages().values().stream()
                 .filter(lang -> "programming".equalsIgnoreCase(lang.getType()))
                 .map(Language::getName)
                 .collect(Collectors.toList());
@@ -62,15 +61,9 @@ public class LinguistService {
         return programmingLanguages;
     }
 
-    public void setLinguistFile(String linguistFile) {
-        this.linguistFile = linguistFile;
+    public void initLinguist(String linguistFile) {
+        linguist = linguistFile == null ? new Linguist() : new Linguist(Path.of(linguistFile).toFile());
+        programmingLanguages = getAllProgrammingLanguages();
     }
 
-    private Linguist getLinguist() {
-        if (linguist == null) {
-            linguist = linguistFile == null ? new Linguist() : new Linguist(Path.of(linguistFile).toFile());
-            programmingLanguages = getAllProgrammingLanguages();
-        }
-        return linguist;
-    }
 }
