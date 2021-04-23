@@ -6,6 +6,7 @@ import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.math.IntRange;
+import org.dxworks.dxplatform.plugins.insider.InspectResult;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
@@ -67,8 +68,11 @@ public class InspectCommand implements InsiderCommand {
                     })
                     .collect(Collectors.toList());
 
+            List<InspectResult> result = insiderResults.stream().map(insiderResult -> new InspectResult(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-tags.json").toFile(), insiderResults);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-inspect-tags.json").toFile(), result);
         } catch (IOException e) {
             log.error("Inspect command finished unsuccessfully!", e);
         }
