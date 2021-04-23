@@ -16,7 +16,7 @@ jobs:
       - name: Set Version
         run: echo ${{ github.ref }} > src/main/resources/insider-version
       - name: Build
-        run: gradle clean build
+        run: ./gradlew clean build --debug --stacktrace
       - name: Prepare Assets
         run: |
           mkdir insider
