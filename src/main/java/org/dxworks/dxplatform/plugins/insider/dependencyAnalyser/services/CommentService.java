@@ -7,7 +7,7 @@ import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Comment;
 import org.dxworks.dxplatform.plugins.insider.exceptions.InsiderException;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -67,11 +67,9 @@ public class CommentService {
     }
 
     private Comment getCommentForFile(InsiderFile file) {
-        String extension = LanguageRegistry.getInstance().getLanguageForExtension(file.getExtension());
-        if (extension == null)
-            return null;
+        List<String> languages = LinguistService.getInstance().getLanguagesForFile(file);
 
-        return comments.stream().filter(comment -> comment.getLanguages().contains(extension)).findFirst().orElse(null);
+        return comments.stream().filter(comment -> comment.getLanguages().stream().anyMatch(languages::contains)).findFirst().orElse(null);
     }
 
     public List<IntRange> extractMultilineCommentLines(InsiderFile file) {

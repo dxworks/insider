@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks.dxplatform'
-version '2.0.0-SNAPSHOT'
+version '2.2.1-SNAPSHOT'
 
 sourceCompatibility = 11
 
@@ -12,16 +12,8 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven {
-        url 'http://unraid.hibyte.ro:8898/repository/dxworks-hosted/'
-        allowInsecureProtocol true
-        name 'dxworks-maven'
-        credentials {
-            username = System.getenv("MAVEN_USERNAME") ?: "${mavenUsername}"
-            password = System.getenv("MAVEN_PASSWORD") ?: "${mavenPassword}"
-        }
-        authentication {
-            basic(BasicAuthentication)
-        }
+        name 'ossrh'
+        url 'https://s01.oss.sonatype.org/content/repositories/snapshots'
     }
 }
 
@@ -45,12 +37,14 @@ dependencies {
 
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
-    implementation 'org.dxworks:ignore-library:1.1.0-SNAPSHOT'
-
+    implementation 'org.dxworks:dx-ignore:1.1.0-SNAPSHOT'
+    implementation 'org.dxworks:argumenthor:1.1.0-SNAPSHOT'
+    implementation 'org.dxworks:dx-linguist:1.0.0-SNAPSHOT'
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes "Main-Class": "org.dxworks.dxplatform.plugins.insider.Insider"
     }

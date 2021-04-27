@@ -8,7 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +51,8 @@ public class Rule {
         return Collections.emptyList();
     }
 
-    public boolean appliesTo(InsiderFile file) {
-        return CollectionUtils.isEmpty(applies_to) || applies_to.stream().anyMatch(lang -> LanguageRegistry.getInstance().isOfLanguage(lang, file.getExtension()));
+    public boolean appliesTo(InsiderFile insiderFile) {
+        return CollectionUtils.isEmpty(applies_to) || LinguistService.getInstance().hasAcceptedExtension(insiderFile, applies_to);
     }
 
     public void transformPatterns() {

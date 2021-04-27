@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,8 +31,12 @@ public class InsiderPattern {
     private List<String> modifiers;
     private List<String> scopes;
     private String _comment;
+    private boolean hasErrors = false;
 
     public List<PatternMatch> getMatches(InsiderFile file, List<IntRange> commentRanges) {
+        if (hasErrors)
+            return Collections.emptyList();
+
         if (scopes.contains("all") || scopes.containsAll(Arrays.asList("code", "comment"))) {
             return matchesInEntireFile(file);
         }
@@ -57,13 +65,19 @@ public class InsiderPattern {
     }
 
     private List<PatternMatch> matchesInEntireFile(InsiderFile file) {
-        Matcher matcher = Pattern.compile(pattern).matcher(file.getContent());
         List<PatternMatch> matches = new ArrayList<>();
-        while (matcher.find()) {
-            int start = matcher.start();
-            int end = matcher.end();
-            PatternMatch patternMatch = createPatternMatch(start, end, file);
-            matches.add(patternMatch);
+        try {
+            Matcher matcher = Pattern.compile(pattern).matcher(file.getContent());
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+                PatternMatch patternMatch = createPatternMatch(start, end, file);
+                matches.add(patternMatch);
+            }
+        } catch (PatternSyntaxException e) {
+            hasErrors = true;
+            System.out.println();
+            log.error("Could not compile pattern '{}' due to: {}", pattern, e.getMessage());
         }
         return matches;
     }

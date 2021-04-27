@@ -3,6 +3,7 @@ package org.dxworks.dxplatform.plugins.insider.commands;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.library.detector.LibraryDetector;
 import org.dxworks.dxplatform.plugins.insider.library.detector.LibraryDetectorLanguage;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class DetectCommand implements InsiderCommand {
     public void execute(List<InsiderFile> insiderFiles, String[] args) {
         LibraryDetector libraryDetector = new LibraryDetector(LibraryDetectorLanguage.JAVA);
         insiderFiles.stream()
-                .filter(insiderFile -> libraryDetector.accepts(insiderFile.getExtension()))
+                .filter(libraryDetector::accepts)
                 .forEach(libraryDetector::analyze);
 
         libraryDetector.generateResults();
@@ -30,5 +31,10 @@ public class DetectCommand implements InsiderCommand {
     @Override
     public String usage() {
         return "insider detect";
+    }
+
+    @Override
+    public boolean acceptsFile(String path) {
+        return LinguistService.getInstance().hasAcceptedExtension(path, LibraryDetector.ACCEPTED_LANGUAGES);
     }
 }
