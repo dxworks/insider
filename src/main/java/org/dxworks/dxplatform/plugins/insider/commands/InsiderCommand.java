@@ -21,6 +21,7 @@ public interface InsiderCommand {
     String CONVERT = "convert";
     String INSPECT = "inspect";
     String EXTRACT = "extract";
+    String INDENT = "indent";
     List<String> VERSION = Arrays.asList("version", "-version", "--version", "-v");
     List<String> HELP = Arrays.asList("help", "-help", "--help", "-h");
 
