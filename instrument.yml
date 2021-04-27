@@ -16,6 +16,9 @@ commands:
   - name: Insider Extract
     win: insider.bat extract
     unix: ./insider.sh extract
+  - name: Insider Indent
+    win: insider.bat indent
+    unix: ./insider.sh indent
 
 
 environment:
