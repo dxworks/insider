@@ -31,7 +31,7 @@ public class IndentationCount implements InsiderCommand {
                             .summaryStatistics();
 
                     return Stream.of(new InsiderResult("max_indentation", "complexity", file.getFullyQualifiedName(), summary.getMax()),
-                            new InsiderResult("avg_indentation", "complexity", file.getFullyQualifiedName(), (int) summary.getAverage()),
+                            new InsiderResult("avg_indentation", "complexity", file.getFullyQualifiedName(), (int) Math.round(summary.getAverage())),
                             new InsiderResult("total_indentation", "complexity", file.getFullyQualifiedName(), (int) summary.getSum())
                             );
                 }
