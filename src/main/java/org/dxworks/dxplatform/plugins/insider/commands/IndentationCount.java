@@ -51,6 +51,8 @@ public class IndentationCount implements InsiderCommand {
                     indentation += 2;
                 if (ch == ' ')
                     indentation += 1;
+            } else {
+                break;
             }
         }
         return indentation / 2;
