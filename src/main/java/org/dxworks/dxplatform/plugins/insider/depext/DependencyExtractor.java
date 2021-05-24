@@ -3,6 +3,7 @@ package org.dxworks.dxplatform.plugins.insider.depext;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -10,13 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class DependencyExtractor {
-    private final List<String> cppExtensions = Arrays.asList(".c", ".cpp", ".hpp", ".cc", ".h", ".hh", ".cxx", ".hxx");
-    private final String javaExtension = "java";
-    private final String kotlinExtension = "kt";
-    private final String scalaExtension = "scala";
-    private final String csExtension = "cs";
-    private final String groovyExtension = "groovy";
+    private static final List<String> cppExtensions = Arrays.asList(".c", ".cpp", ".hpp", ".cc", ".h", ".hh", ".cxx", ".hxx");
+    private static final String javaExtension = "java";
+    private static final String visualBasicExtension = ".vb";
+    private static final String kotlinExtension = "kt";
+    private static final String scalaExtension = "scala";
+    private static final String csExtension = "cs";
+    private static final String groovyExtension = "groovy";
     private final List<ImportResult> resultsList = new ArrayList<>();
     private int counterFiles = 0;
     private int countIgnoredFiles = 0;
@@ -30,6 +33,8 @@ public class DependencyExtractor {
         if (CSharpImportsProcessor.counter > 0)
             System.out.println(CSharpImportsProcessor.counter + " C# files processed");
         if (CPPImportsProcessor.counter > 0) System.out.println(CPPImportsProcessor.counter + " C++ files processed");
+        if (VBImportsProcessor.counter > 0) System.out.println(VBImportsProcessor.counter + " VB.NET files processed");
+
 
         String outputFilename = "results/" + InsiderConfiguration.getInstance().getProjectID() + "-depext.csv";
         try {
@@ -65,10 +70,20 @@ public class DependencyExtractor {
         else if (extension.endsWith(kotlinExtension)) return new JavastackImportsProcessor(insiderFile, "kotlin");
         else if (extension.endsWith(scalaExtension)) return new JavastackImportsProcessor(insiderFile, "scala");
         else if (extension.endsWith(groovyExtension)) return new JavastackImportsProcessor(insiderFile, "groovy");
-        else if (extension.endsWith(csExtension)) return new CSharpImportsProcessor(insiderFile);
+        else if (extension.endsWith(csExtension) && isRelevantCSharpFolder(insiderFile.getPath()))
+            return new CSharpImportsProcessor(insiderFile);
         else if (cppExtensions.contains(extension)) return new CPPImportsProcessor(insiderFile);
+        else if (extension.endsWith(visualBasicExtension)) return new VBImportsProcessor(insiderFile);
+
 
         return null;
+    }
+
+    private boolean isRelevantCSharpFolder(String path) {
+        if (path.contains(File.separator + ".vs" + File.separator)) return false;
+        if (path.contains(File.separator + "obj" + File.separator + "Debug" + File.separator)) return false;
+        if (path.contains(File.separator + "obj" + File.separator + "Release" + File.separator)) return false;
+        return true;
     }
 
     public boolean acceptFile(String path) {

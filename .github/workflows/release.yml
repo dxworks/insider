@@ -25,6 +25,7 @@ jobs:
           cp build/libs/insider*.jar insider/insider.jar
           cp bin/insider.sh insider/insider.sh
           cp bin/insider.bat insider/insider.bat
+          chmod +x insider/insider.sh
           cp -R config insider/config
       - name: Create Archive
         run: zip -r insider.zip insider

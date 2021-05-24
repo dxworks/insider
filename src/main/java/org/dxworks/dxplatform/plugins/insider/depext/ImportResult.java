@@ -12,10 +12,6 @@ public class ImportResult {
 
     List<ImportItem> importedItems;
 
-    public static String header() {
-        return "file,language,namespace,#lines,import,import_attribute";
-    }
-
     public String toString() {
         if (importedItems.isEmpty())
             return filename + "," + language + "," + namespace + "," + linesOfCode + ",";
@@ -28,5 +24,9 @@ public class ImportResult {
 
         importLines.forEach(importItem -> rows.add(fileColumns + "," + importItem));
         return String.join("\n", rows);
+    }
+
+    public static String header() {
+        return "file,language,namespace,#lines,import,import_attribute";
     }
 }

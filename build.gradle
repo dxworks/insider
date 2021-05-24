@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks.dxplatform'
-version '2.2.1-SNAPSHOT'
+version '2.3.0-SNAPSHOT'
 
 sourceCompatibility = 11
 
