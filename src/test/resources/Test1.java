@@ -9,11 +9,6 @@ class Test1 { //another comment
      * @param args some javadoc to remove and not to take into consideration
      */
     public static void main(String[] args) {
-        String s = "/* this is some comment";
-
-
-
-
 
     }
 

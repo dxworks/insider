@@ -20,6 +20,7 @@ public interface InsiderCommand {
     String DIAGNOSE = "diagnose";
     String CONVERT = "convert";
     String INSPECT = "inspect";
+    String EXTRACT = "extract";
     List<String> VERSION = Arrays.asList("version", "-version", "--version", "-v");
     List<String> HELP = Arrays.asList("help", "-help", "--help", "-h");
 
@@ -43,6 +44,10 @@ public interface InsiderCommand {
             log.error("Could not find folder " + path.toAbsolutePath().toString());
 
         return result;
+    }
+
+    default boolean acceptsFile(String path) {
+        return true;
     }
 
     void execute(List<InsiderFile> insiderFiles, String[] args);

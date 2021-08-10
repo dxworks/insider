@@ -1,25 +1,28 @@
 package org.dxworks.dxplatform.plugins.insider;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class InsiderFile {
 
-    private String name;
-    private String path;
-    private String extension;
+    private final String name;
+    private final String path;
+    private final String extension;
 
-    private String content;
+    private final String content;
 
     private List<Integer> lineBreaks;
 
     private int lines;
+
+    private String fullyQualifiedName;
 
     public static InsiderFileBuilder builder() {
         return new InsiderFileBuilder();
@@ -42,7 +45,11 @@ public class InsiderFile {
     }
 
     public String getFullyQualifiedName() {
-        return getPath().substring(InsiderConfiguration.getInstance().getRootFolder().length() + 1).replace('\\', '/');
+        if (fullyQualifiedName == null)
+            fullyQualifiedName = Path.of(InsiderConfiguration.getInstance().getRootFolder()).toAbsolutePath()
+                    .relativize(Path.of(getPath()).toAbsolutePath())
+                    .normalize().toString().replace("\\", "/");
+        return fullyQualifiedName;
     }
 
     public int getLineNumberOfAbsoluteCharacterIndex(int index) {
@@ -62,8 +69,6 @@ public class InsiderFile {
         private String path;
         private String extension;
         private String content;
-        private List<Integer> lineBreaks;
-        private int lines;
 
         InsiderFileBuilder() {
         }
@@ -88,24 +93,14 @@ public class InsiderFile {
             return this;
         }
 
-        public InsiderFileBuilder lineBreaks(List<Integer> lineBreaks) {
-            this.lineBreaks = lineBreaks;
-            return this;
-        }
-
-        public InsiderFileBuilder lines(int lines) {
-            this.lines = lines;
-            return this;
-        }
-
         public InsiderFile build() {
-            InsiderFile insiderFile = new InsiderFile(name, path, extension, content, lineBreaks, lines);
+            InsiderFile insiderFile = new InsiderFile(name, path, extension, content);
             insiderFile.init();
             return insiderFile;
         }
 
         public String toString() {
-            return "InsiderFile.InsiderFileBuilder(name=" + this.name + ", path=" + this.path + ", extension=" + this.extension + ", content=" + this.content + ", lineBreaks=" + this.lineBreaks + ", lines=" + this.lines + ")";
+            return "InsiderFile.InsiderFileBuilder(name=" + this.name + ", path=" + this.path + ", extension=" + this.extension + ", content=" + this.content + ")";
         }
     }
 

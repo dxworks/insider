@@ -4,21 +4,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.dxworks.dxplatform.plugins.insider.InsiderAnalysis;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 import org.dxworks.dxplatform.plugins.insider.utils.FileUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
 
 @Slf4j
 public class LibraryDetector implements InsiderAnalysis {
 
     private static final String JAVA_LANGUAGE = "java";
-    private static final List<String> C_LIKE_LANGUAGES = Arrays.asList("c", "c++", "oc");
+    private static final List<String> C_LIKE_LANGUAGES = asList("c", "c++", "objective-c", "objective-c++");
+    public static final List<String> ACCEPTED_LANGUAGES = Stream.concat(
+            Stream.of(JAVA_LANGUAGE),
+            C_LIKE_LANGUAGES.stream())
+            .collect(Collectors.toList());
 
-    private LanguageRegistry languageRegistry = LanguageRegistry.getInstance();
+    private LinguistService linguistService = LinguistService.getInstance();
     private ImportsContainer importsContainer;
     private LibraryDetectorLanguage language;
 
@@ -36,7 +43,7 @@ public class LibraryDetector implements InsiderAnalysis {
 
         content = FileUtils.removeComments(content);
 
-        if (file.getExtension().equals("java")) {
+        if (file.getExtension().equals("java") && !"package-info.java".equalsIgnoreCase(file.getName())) {
             importNumber = analyzeForJava(content, file.getPath());
         } else if (file.getExtension().equals("m") || file.getExtension().equals("mm") || file.getExtension()
                 .equals("h") || file.getExtension().equals("cpp") || file.getExtension().equals("c")) {
@@ -119,13 +126,13 @@ public class LibraryDetector implements InsiderAnalysis {
     }
 
     @Override
-    public boolean accepts(String extension) {
+    public boolean accepts(InsiderFile insiderFile) {
         if (language == LibraryDetectorLanguage.JAVA) {
-            return languageRegistry.isOfLanguage(JAVA_LANGUAGE, extension);
+            return linguistService.hasAcceptedExtension(insiderFile, List.of(JAVA_LANGUAGE));
         }
 
         if (language == LibraryDetectorLanguage.C_LIKE) {
-            return C_LIKE_LANGUAGES.stream().anyMatch(lang -> languageRegistry.isOfLanguage(lang, extension));
+            return linguistService.hasAcceptedExtension(insiderFile, C_LIKE_LANGUAGES);
         }
 
         return false;
