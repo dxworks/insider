@@ -125,6 +125,8 @@ public class Insider {
                 return new ExtractCommand();
             case InsiderCommand.INDENT:
                 return new IndentationCount();
+            case InsiderCommand.MEASURE:
+                return new MeasureCommand();
             default:
                 return null;
         }
@@ -172,6 +174,7 @@ public class Insider {
                             .name(path.getFileName().toString())
                             .extension(FilenameUtils.getExtension(path.getFileName().toString()))
                             .content(new String(Files.readAllBytes(path)))
+                            .size(Files.size(path))
                             .build());
                     } catch (IOException e) {
                         e.printStackTrace();

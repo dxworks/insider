@@ -21,6 +21,7 @@ public class InsiderFile {
     private List<Integer> lineBreaks;
 
     private int lines;
+    private final long size;
 
     private String fullyQualifiedName;
 
@@ -69,6 +70,7 @@ public class InsiderFile {
         private String path;
         private String extension;
         private String content;
+        private long size;
 
         InsiderFileBuilder() {
         }
@@ -93,14 +95,26 @@ public class InsiderFile {
             return this;
         }
 
+        public InsiderFileBuilder size(long size) {
+            this.size = size;
+            return this;
+        }
+
         public InsiderFile build() {
-            InsiderFile insiderFile = new InsiderFile(name, path, extension, content);
+            InsiderFile insiderFile = new InsiderFile(name, path, extension, content, size);
             insiderFile.init();
             return insiderFile;
         }
 
+        @Override
         public String toString() {
-            return "InsiderFile.InsiderFileBuilder(name=" + this.name + ", path=" + this.path + ", extension=" + this.extension + ", content=" + this.content + ")";
+            return "InsiderFileBuilder{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", extension='" + extension + '\'' +
+                ", content='" + content + '\'' +
+                ", size=" + size +
+                '}';
         }
     }
 

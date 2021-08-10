@@ -5,8 +5,8 @@ results:
 
 commands:
   - name: Insider Run ALL
-    win: insider.bat detect AND indent AND extract AND inspect ${inspectConfig} AND find ${findConfig}
-    unix: ./insider.sh detect AND indent AND extract AND inspect ${inspectConfig} AND find ${findConfig}
+    win: insider.bat detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
+    unix: ./insider.sh detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
 #  Uncomment if you only want to run one command at a time. Don't forget to comment the above command.
 #  - name: Insider Detect
 #    win: insider.bat detect
