@@ -1,4 +1,4 @@
-package org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos;
+package org.dxworks.dxplatform.plugins.insider.application.inspector.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
