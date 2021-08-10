@@ -22,4 +22,4 @@ environment:
   INSIDER_PROJECTID: "${repoName}"
   INSIDER_ROOTFOLDER: "${repo}"
   INSIDER_LANGUAGES:
-  INSIDER_LINGUIST_FILE:
+  INSIDER_LINGUIST_FILE: "${instrument}/languages.yml"

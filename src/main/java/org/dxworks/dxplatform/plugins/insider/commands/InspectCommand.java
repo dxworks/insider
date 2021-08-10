@@ -6,12 +6,13 @@ import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.math.IntRange;
+import org.dxworks.dxplatform.plugins.insider.ChronosTag;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Rule;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.CommentService;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.RuleService;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.dtos.Rule;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.services.CommentService;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.services.RuleService;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -34,7 +35,7 @@ public class InspectCommand implements InsiderCommand {
             return false;
 
         String[] files = Arrays.copyOfRange(args, 1, args.length);
-        ruleFiles = Arrays.stream(files).filter(filePath -> fileExists(filePath) || folderExists(filePath)).collect(Collectors.toList());
+        ruleFiles = Arrays.stream(files).filter(filePath -> folderExists(filePath) || fileExists(filePath)).collect(Collectors.toList());
 
         return !ruleFiles.isEmpty() && files.length == ruleFiles.size();
     }
@@ -49,9 +50,9 @@ public class InspectCommand implements InsiderCommand {
 
         try (ProgressBar pb = new ProgressBarBuilder()
                 .setInitialMax(insiderFiles.size())
-                .setUnit("Files", 1)
+                .setUnit(" Files", 1)
                 .setTaskName("Inspecting...")
-                .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BLOCK)
+                .setStyle(ProgressBarStyle.ASCII)
                 .setUpdateIntervalMillis(100)
                 .setPrintStream(System.err)
                 .build()) {
@@ -66,8 +67,11 @@ public class InspectCommand implements InsiderCommand {
                     })
                     .collect(Collectors.toList());
 
+            List<ChronosTag> result = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), result);
         } catch (IOException e) {
             log.error("Inspect command finished unsuccessfully!", e);
         }

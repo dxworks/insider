@@ -1,9 +1,9 @@
-package org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services;
+package org.dxworks.dxplatform.plugins.insider.application.inspector.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Rule;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.dtos.Rule;
 
 import java.io.IOException;
 import java.nio.file.Files;

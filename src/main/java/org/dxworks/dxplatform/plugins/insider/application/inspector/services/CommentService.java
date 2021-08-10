@@ -1,11 +1,11 @@
-package org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services;
+package org.dxworks.dxplatform.plugins.insider.application.inspector.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Comment;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.dtos.Comment;
 import org.dxworks.dxplatform.plugins.insider.exceptions.InsiderException;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
@@ -120,7 +120,25 @@ public class CommentService {
         while (index != -1) {
             index = content.indexOf(substring, index);
             if (index != -1) {
-                globalIndexes.add(index);
+                if (substring.equals("\"")) {
+                    if (content.charAt(index - 1) == '\'' && content.charAt(index + 1) == '\'');
+                }
+                else if (substring.equals("/*")) {
+                    if (index - 1 == -1) {
+                        globalIndexes.add(index);
+                    }
+                    else if (content.charAt(index - 1) == '"' || content.charAt(index + 1) == '"');
+                }
+                else if (substring.equals("*/")) {
+                    if (index - 1 == -1) {
+                        globalIndexes.add(index);
+                    }
+                    else if (content.charAt(index - 1) == '"' || content.charAt(index + 1) == '"');
+                }
+                else {
+                    globalIndexes.add(index);
+                }
+
                 index++;
             }
         }

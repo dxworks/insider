@@ -32,33 +32,25 @@
       "powershell",
       "python"
     ],
-    "inline": "#",
-    "preffix": "#",
-    "suffix": "\n"
+    "inline": "#"
   },
   {
     "languages": [
       "lua",
       "sql"
     ],
-    "inline": "--",
-    "preffix": "--",
-    "suffix": "\n"
+    "inline": "--"
   },
   {
     "languages": [
       "clojure"
     ],
-    "inline": ";;",
-    "preffix": ";;",
-    "suffix": ""
+    "inline": ";;"
   },
   {
     "languages": [
       "vb"
     ],
-    "inline": "'",
-    "preffix": "'",
-    "suffix": ""
+    "inline": "'"
   }
 ]
