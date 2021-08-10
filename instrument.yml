@@ -4,22 +4,29 @@ results:
   - dir: ${instrument}/results
 
 commands:
-  - name: Insider Detect
-    win: insider.bat detect
-    unix: ./insider.sh detect
-  - name: Insider Find
-    win: insider.bat find config\fingerprints\code_smells.json config\fingerprints\libraries.json
-    unix: ./insider.sh find config/fingerprints/code_smells.json config/fingerprints/libraries.json
-  - name: Insider Inspect
-    win: insider.bat inspect config\rules
-    unix: ./insider.sh inspect config/rules
-  - name: Insider Extract
-    win: insider.bat extract
-    unix: ./insider.sh extract
-  - name: Insider Indent
-    win: insider.bat indent
-    unix: ./insider.sh indent
+  - name: Insider Run ALL
+    win: insider.bat detect AND indent AND extract AND inspect ${inspectConfig} AND find ${findConfig}
+    unix: ./insider.sh detect AND indent AND extract AND inspect ${inspectConfig} AND find ${findConfig}
+#  Uncomment if you only want to run one command at a time. Don't forget to comment the above command.
+#  - name: Insider Detect
+#    win: insider.bat detect
+#    unix: ./insider.sh detect
+#  - name: Insider Find
+#    win: insider.bat find config\fingerprints\code_smells.json config\fingerprints\libraries.json
+#    unix: ./insider.sh find config/fingerprints/code_smells.json config/fingerprints/libraries.json
+#  - name: Insider Inspect
+#    win: insider.bat inspect config\rules
+#    unix: ./insider.sh inspect config/rules
+#  - name: Insider Extract
+#    win: insider.bat extract
+#    unix: ./insider.sh extract
+#  - name: Insider Indent
+#    win: insider.bat indent
+#    unix: ./insider.sh indent
 
+parameters:
+  findConfig: "config/fingerprints/code_smells.json config/fingerprints/libraries.json"
+  inspectConfig: "config/rules"
 
 environment:
   INSIDER_PROJECTID: "${repoName}"

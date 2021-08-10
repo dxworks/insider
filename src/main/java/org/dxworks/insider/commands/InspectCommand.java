@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,11 +67,12 @@ public class InspectCommand implements InsiderCommand {
                     })
                     .collect(Collectors.toList());
 
-            List<ChronosTag> result = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            Map<String, Map<String, List<ChronosTag>>> chronosResult = Map.of("file", Map.of("concerns", chronosTags));
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), result);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), chronosResult);
         } catch (IOException e) {
             log.error("Inspect command finished unsuccessfully!", e);
         }
