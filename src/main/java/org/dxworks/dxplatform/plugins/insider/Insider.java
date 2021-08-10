@@ -94,6 +94,8 @@ public class Insider {
                 return new InspectCommand();
             case EXTRACT:
                 return new ExtractCommand();
+            case INDENT:
+                return new IndentationCount();
             default:
                 return null;
         }
