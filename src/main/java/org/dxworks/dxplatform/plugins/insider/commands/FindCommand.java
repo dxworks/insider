@@ -30,19 +30,19 @@ public class FindCommand implements InsiderCommand {
     private List<String> fingerprintFiles;
 
     @Override
-    public boolean parse(String[] args) {
-        if (args.length == 1) {
+    public boolean parse(List<String> args) {
+        if (args.size() == 1) {
             return false;
         }
 
-        String[] files = Arrays.copyOfRange(args, 1, args.length);
-        fingerprintFiles = Arrays.stream(files).filter(this::fileExists).collect(Collectors.toList());
+        List<String> files = args.subList(1, args.size());
+        fingerprintFiles = files.stream().filter(this::fileExists).collect(Collectors.toList());
 
-        return !fingerprintFiles.isEmpty() && files.length == fingerprintFiles.size();
+        return !fingerprintFiles.isEmpty() && files.size() == fingerprintFiles.size();
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         JsonFingerprintParser parser = new JsonFingerprintParser();
 
         fingerprintFiles.forEach(file -> {
@@ -54,7 +54,7 @@ public class FindCommand implements InsiderCommand {
 
             try (ProgressBar pb = new ProgressBarBuilder()
                     .setInitialMax(insiderFiles.size())
-                    .setUnit("Files", 1)
+                    .setUnit(" Files", 1)
                     .setTaskName("Matching")
                     .setStyle(ProgressBarStyle.ASCII)
                     .setUpdateIntervalMillis(100)
@@ -93,5 +93,10 @@ public class FindCommand implements InsiderCommand {
     @Override
     public String usage() {
         return "insider find <paths_to_json>...";
+    }
+
+    @Override
+    public String getName() {
+        return FIND;
     }
 }

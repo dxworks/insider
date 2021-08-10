@@ -22,12 +22,12 @@ import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.
 public class AddCommand extends ConvertCommand {
 
     @Override
-    public boolean parse(String[] args) {
+    public boolean parse(List<String> args) {
         return super.parse(args) && sourceFile.endsWith(".csv") && targetFile.endsWith(".json");
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
 
         try {
             JsonFingerprintParser jsonFingerprintParser = new JsonFingerprintParser();
@@ -116,5 +116,10 @@ public class AddCommand extends ConvertCommand {
     @Override
     public String usage() {
         return "insider add <path_to_csv> <path_to_json>";
+    }
+
+    @Override
+    public String getName() {
+        return ADD;
     }
 }

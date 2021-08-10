@@ -60,9 +60,9 @@ public class InsiderConfiguration {
         System.out.println("Languages: " + getLanguages());
     }
 
-    private void readInsiderVersion() {
+    public void readInsiderVersion() {
         try {
-            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("insider-version").readAllBytes());
+            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("insider-version").readAllBytes()).trim();
         } catch (IOException e) {
             log.warn("Could not read Insider Version", e);
         }

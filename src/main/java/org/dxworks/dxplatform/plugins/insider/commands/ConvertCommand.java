@@ -16,18 +16,18 @@ public class ConvertCommand implements NoFilesCommand {
     protected String targetFile;
 
     @Override
-    public boolean parse(String[] args) {
-        if (args.length != 3)
+    public boolean parse(List<String> args) {
+        if (args.size() != 3)
             return false;
 
-        sourceFile = args[1];
-        targetFile = args[2];
+        sourceFile = args.get(1);
+        targetFile = args.get(2);
 
         return fileExists(sourceFile);
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         try {
             transformJsonFileToCsv(sourceFile, targetFile);
         } catch (IOException e) {
@@ -46,5 +46,10 @@ public class ConvertCommand implements NoFilesCommand {
     @Override
     public String usage() {
         return "insider convert <path_to_json> <path_to_csv>";
+    }
+
+    @Override
+    public String getName() {
+        return CONVERT;
     }
 }

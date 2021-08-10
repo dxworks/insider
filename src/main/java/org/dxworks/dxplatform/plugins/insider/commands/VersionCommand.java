@@ -9,15 +9,15 @@ import java.util.List;
 @Slf4j
 public class VersionCommand implements NoFilesCommand {
     @Override
-    public boolean parse(String[] args) {
-        if (args.length != 1)
+    public boolean parse(List<String> args) {
+        if (args.size() != 1)
             return false;
 
-        return VERSION.contains(args[0]);
+        return VERSION.contains(args.get(0));
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
 
         System.out.println("Insider " + InsiderConfiguration.getInstance().getInsiderVersion());
     }
@@ -25,5 +25,10 @@ public class VersionCommand implements NoFilesCommand {
     @Override
     public String usage() {
         return "insider {-v | -version | --version | version}";
+    }
+
+    @Override
+    public String getName() {
+        return "version";
     }
 }

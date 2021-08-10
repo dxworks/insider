@@ -17,27 +17,27 @@ public class DiagnoseCommand implements NoFilesCommand {
     private String file;
 
     @Override
-    public boolean parse(String[] args) {
-        if (args.length != 2)
+    public boolean parse(List<String> args) {
+        if (args.size() != 2)
             return false;
 
-        file = args[1];
+        file = args.get(1);
 
         return fileExists(file);
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
 
         JsonFingerprintParser jsonFingerprintParser = new JsonFingerprintParser();
         List<Technology> jsonTechnologies = jsonFingerprintParser.parseTechnologiesFile(file);
 
         List<String> duplicatedTechnologies = jsonTechnologies.stream()
-                .collect(Collectors.groupingBy(Technology::getName, Collectors.counting()))
-                .entrySet().stream()
-                .filter(e -> e.getValue() > 1)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+            .collect(Collectors.groupingBy(Technology::getName, Collectors.counting()))
+            .entrySet().stream()
+            .filter(e -> e.getValue() > 1)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
 
         System.out.println("Duplicated technologies: " + duplicatedTechnologies.toString());
 
@@ -45,26 +45,30 @@ public class DiagnoseCommand implements NoFilesCommand {
 
         jsonTechnologies.forEach(technology -> {
             List<String> fingerprints = technology.getFingerprints();
-            fingerprints.forEach(fingerprint -> {
+            fingerprints.forEach(fingerprint ->
                 jsonTechnologies.forEach(otherTechnology -> {
                     if (technology.equals(otherTechnology))
                         return;
                     if (otherTechnology.getFingerprints().contains(fingerprint)) {
                         duplicatedFingerPrints.add(new LibraryImportInOtherTechnology(fingerprint, technology.getName(), otherTechnology.getName()));
                     }
-                });
-            });
+                }));
         });
 
         System.out.println("Duplicated Fingerprints: " + duplicatedFingerPrints.stream()
-                .distinct()
-                .map(LibraryImport::get_import)
-                .map(ImportUtils::unwrapImportPackage)
-                .collect(Collectors.toList()));
+            .distinct()
+            .map(LibraryImport::get_import)
+            .map(ImportUtils::unwrapImportPackage)
+            .collect(Collectors.toList()));
     }
 
     @Override
     public String usage() {
         return "insider diagnose <path_to_json>";
+    }
+
+    @Override
+    public String getName() {
+        return DIAGNOSE;
     }
 }

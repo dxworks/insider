@@ -9,15 +9,15 @@ import java.util.stream.Stream;
 
 public class HelpCommand implements NoFilesCommand {
     @Override
-    public boolean parse(String[] args) {
-        if (args.length != 1)
+    public boolean parse(List<String> args) {
+        if (args.size() != 1)
             return false;
 
-        return HELP.contains(args[0]);
+        return HELP.contains(args.get(0));
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         String usage = "Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " -  usage guide:\n";
         usage += "Configure the source root and the project id in the config/insider-conf.properties file\n\n";
 
@@ -43,5 +43,10 @@ public class HelpCommand implements NoFilesCommand {
     @Override
     public String usage() {
         return "insider {-h | -help | --help | help}";
+    }
+
+    @Override
+    public String getName() {
+        return "help";
     }
 }

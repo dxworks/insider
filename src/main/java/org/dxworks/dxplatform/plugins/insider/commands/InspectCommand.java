@@ -30,18 +30,18 @@ public class InspectCommand implements InsiderCommand {
     private List<String> ruleFiles;
 
     @Override
-    public boolean parse(String[] args) {
-        if (args.length == 1)
+    public boolean parse(List<String> args) {
+        if (args.size() == 1)
             return false;
 
-        String[] files = Arrays.copyOfRange(args, 1, args.length);
-        ruleFiles = Arrays.stream(files).filter(filePath -> folderExists(filePath) || fileExists(filePath)).collect(Collectors.toList());
+        List<String> files = args.subList(1, args.size());
+        ruleFiles = files.stream().filter(filePath -> folderExists(filePath) || fileExists(filePath)).collect(Collectors.toList());
 
-        return !ruleFiles.isEmpty() && files.length == ruleFiles.size();
+        return !ruleFiles.isEmpty() && files.size() == ruleFiles.size();
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         RuleService ruleService = new RuleService();
         List<Rule> rules = ruleService.getRuleFromFiles(ruleFiles);
         rules.forEach(Rule::transformPatterns);
@@ -88,5 +88,10 @@ public class InspectCommand implements InsiderCommand {
     @Override
     public String usage() {
         return "insider inspect <paths_to_rule>...";
+    }
+
+    @Override
+    public String getName() {
+        return INSPECT;
     }
 }

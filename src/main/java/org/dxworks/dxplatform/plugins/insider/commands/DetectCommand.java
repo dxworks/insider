@@ -10,16 +10,13 @@ import java.util.List;
 public class DetectCommand implements InsiderCommand {
 
     @Override
-    public boolean parse(String[] args) {
-        if (args.length == 1)
-            return true;
-
-        return false;
+    public boolean parse(List<String> args) {
+        return args.size() == 1;
     }
 
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         LibraryDetector libraryDetector = new LibraryDetector(LibraryDetectorLanguage.JAVA);
         insiderFiles.stream()
                 .filter(libraryDetector::accepts)
@@ -31,6 +28,11 @@ public class DetectCommand implements InsiderCommand {
     @Override
     public String usage() {
         return "insider detect";
+    }
+
+    @Override
+    public String getName() {
+        return DETECT;
     }
 
     @Override

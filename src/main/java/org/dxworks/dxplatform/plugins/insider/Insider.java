@@ -3,6 +3,7 @@ package org.dxworks.dxplatform.plugins.insider;
 import lombok.extern.slf4j.Slf4j;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarStyle;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.dxworks.dxplatform.plugins.insider.commands.*;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
@@ -15,8 +16,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.dxworks.dxplatform.plugins.insider.commands.InsiderCommand.*;
@@ -35,51 +37,79 @@ public class Insider {
             System.err.println("Arguments cannot be null");
             return;
         }
+
+        List<String> argsList = List.of(args);
+        InsiderConfiguration.getInstance().readInsiderVersion();
+
         if (args.length == 0) {
             System.err.println("No command found");
-            helpCommand.execute(null, args);
+            helpCommand.execute(null, argsList);
             return;
         }
 
-        if (versionCommand.parse(args)) {
-            versionCommand.execute(null, args);
+        if (versionCommand.parse(argsList)) {
+            versionCommand.execute(null, argsList);
             return;
         }
 
-        if (helpCommand.parse(args)) {
-            helpCommand.execute(null, args);
+        if (helpCommand.parse(argsList)) {
+            helpCommand.execute(null, argsList);
             return;
         }
 
-        String command = args[0];
+        List<List<String>> commands = extractCommands(args).stream()
+            .filter(it -> !it.isEmpty())
+            .collect(Collectors.toList());
 
-        InsiderCommand insiderCommand = getInsiderCommand(command);
+        Map<List<String>, InsiderCommand> allCommandsConfig = commands.stream()
+            .filter(it -> getInsiderCommand(it) != null)
+            .collect(Collectors.toMap(Function.identity(), Insider::getInsiderCommand, (a, b)-> b, LinkedHashMap::new));
 
-        if (insiderCommand == null) {
-            System.err.println("Invalid command!");
-            helpCommand.execute(null, args);
-            return;
-        }
+        readInsiderConfiguration();
+        List<InsiderFile> insiderFiles = getInsiderFiles(allCommandsConfig);
 
-        boolean isValidInput = insiderCommand.parse(args);
-        if (!isValidInput) {
-            log.error("Input is not valid!");
-            helpCommand.execute(null, args);
-            return;
-        }
+        AtomicInteger index = new AtomicInteger(1);
+        int commandsSize = allCommandsConfig.size();
+        allCommandsConfig.forEach((commandArgs, insiderCommand) -> {
+            System.out.printf("*******************\nCommand %s (%d/%d) \n*******************\n", insiderCommand.getName(), index.getAndIncrement(), commandsSize);
 
-        if (insiderCommand instanceof NoFilesCommand) {
-            insiderCommand.execute(null, args);
-        } else {
-            List<InsiderFile> insiderFiles = readInsiderConfiguration(insiderCommand);
-            insiderCommand.execute(insiderFiles, args);
-        }
+            boolean isValidInput = insiderCommand.parse(commandArgs);
+            if (!isValidInput) {
+                log.error("Input is not valid!");
+                helpCommand.execute(null, commandArgs);
+                return;
+            }
+
+            if (insiderCommand instanceof NoFilesCommand) {
+                insiderCommand.execute(null, commandArgs);
+            } else {
+                insiderCommand.execute(insiderFiles, commandArgs);
+            }
+        });
 
         System.out.println("Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " finished analysis");
     }
 
-    private static InsiderCommand getInsiderCommand(String command) {
-        switch (command) {
+    private static List<List<String>> extractCommands(String[] args) {
+        List<List<String>> commands = new ArrayList<>();
+        List<String> currentCommand = new ArrayList<>();
+        for (String arg : args) {
+            if ("AND".equals(arg)) {
+                commands.add(currentCommand);
+                currentCommand = new ArrayList<>();
+                continue;
+            }
+            currentCommand.add(arg);
+        }
+        commands.add(currentCommand);
+
+        return commands;
+    }
+
+    private static InsiderCommand getInsiderCommand(List<String> commandArgs) {
+        if (CollectionUtils.isEmpty(commandArgs))
+            return null;
+        switch (commandArgs.get(0)) {
             case FIND:
                 return new FindCommand();
             case DETECT:
@@ -101,46 +131,49 @@ public class Insider {
         }
     }
 
-    private static List<InsiderFile> readInsiderConfiguration(InsiderCommand insiderCommand) {
+    private static void readInsiderConfiguration() {
         File resultsFolder = new File(RESULTS_FOLDER);
         if (!resultsFolder.exists())
             resultsFolder.mkdirs();
 
         InsiderConfiguration.getInstance().load();
-
-        String rootFolder = InsiderConfiguration.getInstance().getRootFolder();
         reportUnknownExtensions();
+    }
 
+    private static List<InsiderFile> getInsiderFiles(Map<List<String>, InsiderCommand> insiderCommand) {
         Ignorer ignorer = new IgnorerBuilder(Paths.get(CONFIGURATION_FOLDER, ".ignore")).compile();
-        return readProjectFiles(rootFolder, ignorer, insiderCommand);
+
+        if (!insiderCommand.values().stream().allMatch(it -> it instanceof NoFilesCommand))
+            return readProjectFiles(InsiderConfiguration.getInstance().getRootFolder(), ignorer, insiderCommand.values());
+        else return new ArrayList<>();
     }
 
     private static void reportUnknownExtensions() {
         List<String> requiredLanguages = InsiderConfiguration.getInstance().getLanguages();
         requiredLanguages.stream()
-                .filter(lang -> !LinguistService.getInstance().containsLanguage(lang))
-                .forEach(lang -> System.out.println("Unknown language " + lang));
+            .filter(lang -> !LinguistService.getInstance().containsLanguage(lang))
+            .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
-    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer, InsiderCommand insiderCommand) {
+    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer, Collection<InsiderCommand> insiderCommands) {
         List<InsiderFile> insiderFiles = new ArrayList<>();
         try {
             List<Path> pathList = Files.walk(Paths.get(rootFolder))
-                    .filter(Files::isRegularFile)
-                    .filter(ignorer::accepts)
-                    .filter(path -> insiderCommand.acceptsFile(path.toString()))
-                    .filter(Insider::hasAcceptedExtension)
-                    .collect(Collectors.toList());
+                .filter(Files::isRegularFile)
+                .filter(ignorer::accepts)
+                .filter(path -> insiderCommands.stream().anyMatch(it -> it.acceptsFile(path.toString())))
+                .filter(Insider::hasAcceptedExtension)
+                .collect(Collectors.toList());
             try (ProgressBar pb = new ProgressBar("Reading files", pathList.size(), ProgressBarStyle.ASCII)) {
                 for (Path path : pathList) {
                     pb.step();
                     try {
                         insiderFiles.add(InsiderFile.builder()
-                                .path(path.toAbsolutePath().toString())
-                                .name(path.getFileName().toString())
-                                .extension(FilenameUtils.getExtension(path.getFileName().toString()))
-                                .content(new String(Files.readAllBytes(path)))
-                                .build());
+                            .path(path.toAbsolutePath().toString())
+                            .name(path.getFileName().toString())
+                            .extension(FilenameUtils.getExtension(path.getFileName().toString()))
+                            .content(new String(Files.readAllBytes(path)))
+                            .build());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

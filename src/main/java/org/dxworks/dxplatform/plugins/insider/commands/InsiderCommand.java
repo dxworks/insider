@@ -25,14 +25,14 @@ public interface InsiderCommand {
     List<String> VERSION = Arrays.asList("version", "-version", "--version", "-v");
     List<String> HELP = Arrays.asList("help", "-help", "--help", "-h");
 
-    boolean parse(String[] args);
+    boolean parse(List<String> args);
 
     default boolean fileExists(String filePath) {
         Path path = Paths.get(filePath);
         boolean result = Files.exists(path) && Files.isRegularFile(path);
 
         if (!result)
-            log.error("Could not find file " + path.toAbsolutePath().toString());
+            log.error("Could not find file " + path.toAbsolutePath());
 
         return result;
     }
@@ -42,7 +42,7 @@ public interface InsiderCommand {
         boolean result = Files.exists(path) && Files.isDirectory(path);
 
         if (!result)
-            log.error("Could not find folder " + path.toAbsolutePath().toString());
+            log.error("Could not find folder " + path.toAbsolutePath());
 
         return result;
     }
@@ -51,7 +51,9 @@ public interface InsiderCommand {
         return true;
     }
 
-    void execute(List<InsiderFile> insiderFiles, String[] args);
+    void execute(List<InsiderFile> insiderFiles, List<String> args);
 
     String usage();
+
+    String getName();
 }

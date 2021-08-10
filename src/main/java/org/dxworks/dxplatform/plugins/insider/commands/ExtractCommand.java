@@ -9,18 +9,23 @@ public class ExtractCommand implements InsiderCommand {
     private final DependencyExtractor dependencyExtractor = new DependencyExtractor();
 
     @Override
-    public boolean parse(String[] args) {
+    public boolean parse(List<String> args) {
         return true;
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         dependencyExtractor.processAndWriteResults(insiderFiles);
     }
 
     @Override
     public String usage() {
         return null;
+    }
+
+    @Override
+    public String getName() {
+        return EXTRACT;
     }
 
     @Override

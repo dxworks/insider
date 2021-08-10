@@ -17,13 +17,13 @@ import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.
 
 public class IndentationCount implements InsiderCommand {
     @Override
-    public boolean parse(String[] args) {
-        return args.length == 1;
+    public boolean parse(List<String> args) {
+        return args.size() == 1;
     }
 
     @SneakyThrows
     @Override
-    public void execute(List<InsiderFile> insiderFiles, String[] args) {
+    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
         List<InsiderResult> insiderResults = insiderFiles.stream().flatMap(file -> {
                     IntSummaryStatistics summary = Arrays.stream(file.getContent().split("\n"))
                             .filter(l -> !l.isBlank())
@@ -61,5 +61,10 @@ public class IndentationCount implements InsiderCommand {
     @Override
     public String usage() {
         return "insider indent";
+    }
+
+    @Override
+    public String getName() {
+        return INDENT;
     }
 }
