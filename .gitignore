@@ -97,3 +97,4 @@ gradle/
 build/
 results/
 site/
+.java-version
