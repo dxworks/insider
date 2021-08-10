@@ -3,7 +3,7 @@ plugins {
     id 'io.freefair.lombok' version '5.3.0'
 }
 
-group 'org.dxworks.dxplatform'
+group 'org.dxworks'
 version '2.5.0-SNAPSHOT'
 
 sourceCompatibility = 11
@@ -46,7 +46,7 @@ dependencies {
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes "Main-Class": "org.dxworks.dxplatform.plugins.insider.Insider"
+        attributes "Main-Class": "org.dxworks.insider.Insider"
     }
 
     from {
