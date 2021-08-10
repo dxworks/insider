@@ -1,11 +1,11 @@
-package org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services;
+package org.dxworks.dxplatform.plugins.insider.application.inspector.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.math.IntRange;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Comment;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.dtos.Comment;
 import org.dxworks.dxplatform.plugins.insider.exceptions.InsiderException;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
