@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.dxworks.insider.constants.InsiderConstants.DEFAULT_LINGUIST_FILE;
+
 public class LinguistService {
 
     private static final LinguistService _instance = new LinguistService();
@@ -41,8 +43,8 @@ public class LinguistService {
 
     public List<String> getLanguagesForFile(InsiderFile file) {
         return linguist.getLanguages(file.getPath()).stream()
-                .map(Language::getName)
-                .collect(Collectors.toList());
+            .map(Language::getName)
+            .collect(Collectors.toList());
     }
 
     public boolean containsLanguage(String lang) {
@@ -51,9 +53,9 @@ public class LinguistService {
 
     private List<String> getAllProgrammingLanguages() {
         return linguist.getLanguages().values().stream()
-                .filter(lang -> "programming".equalsIgnoreCase(lang.getType()))
-                .map(Language::getName)
-                .collect(Collectors.toList());
+            .filter(lang -> "programming".equalsIgnoreCase(lang.getType()))
+            .map(Language::getName)
+            .collect(Collectors.toList());
     }
 
 
@@ -62,7 +64,15 @@ public class LinguistService {
     }
 
     public void initLinguist(String linguistFile) {
-        linguist = linguistFile == null ? new Linguist() : new Linguist(Path.of(linguistFile).toFile());
+        if (linguistFile == null) {
+            try {
+                linguist = new Linguist();
+            } catch (Exception e) {
+                linguist = new Linguist(Path.of(DEFAULT_LINGUIST_FILE).toFile());
+            }
+        } else {
+            linguist = new Linguist(Path.of(linguistFile).toFile());
+        }
         programmingLanguages = getAllProgrammingLanguages();
     }
 

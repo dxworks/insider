@@ -29,23 +29,34 @@ public interface InsiderCommand {
     boolean parse(List<String> args);
 
     default boolean fileExists(String filePath) {
-        Path path = Paths.get(filePath);
-        boolean result = Files.exists(path) && Files.isRegularFile(path);
+        Path path = Path.of(filePath).toAbsolutePath();
 
-        if (!result)
-            log.error("Could not find file " + path.toAbsolutePath());
+        if (!Files.exists(path)) {
+            log.error("File " + path.toAbsolutePath() + " does not exist");
+            return false;
+        }
 
-        return result;
+        if (!Files.isRegularFile(path)) {
+            log.error("File " + path.toAbsolutePath() + " is not a file!");
+            return false;
+        }
+
+        return true;
     }
 
     default boolean folderExists(String folderPath) {
-        Path path = Paths.get(folderPath);
-        boolean result = Files.exists(path) && Files.isDirectory(path);
+        Path path = Paths.get(folderPath).toAbsolutePath();
+        if (!Files.exists(path)) {
+            log.error("Folder " + path.toAbsolutePath() + " does not exist");
+            return false;
+        }
 
-        if (!result)
-            log.error("Could not find folder " + path.toAbsolutePath());
+        if (!Files.isDirectory(path)) {
+            log.error("Folder " + path.toAbsolutePath() + " is not a firectory!");
+            return false;
+        }
 
-        return result;
+        return true;
     }
 
     default boolean acceptsFile(String path) {

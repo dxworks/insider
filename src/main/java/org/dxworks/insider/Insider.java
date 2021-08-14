@@ -79,10 +79,14 @@ public class Insider {
                 return;
             }
 
-            if (insiderCommand instanceof NoFilesCommand) {
-                insiderCommand.execute(null, commandArgs);
-            } else {
-                insiderCommand.execute(insiderFiles, commandArgs);
+            try {
+                if (insiderCommand instanceof NoFilesCommand) {
+                    insiderCommand.execute(null, commandArgs);
+                } else {
+                    insiderCommand.execute(insiderFiles, commandArgs);
+                }
+            } catch (Exception e) {
+                System.out.println("Command " + insiderCommand.getName() + "finished with errors");
             }
         });
 

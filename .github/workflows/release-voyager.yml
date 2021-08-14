@@ -12,8 +12,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Tag Name
+        id: tag_name
+        run: |
+          echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
+
       - name: Set Version
-        run: echo ${{ github.ref }} > src/main/resources/insider-version
+        run: echo ${TAG_NAME} > src/main/resources/insider-version
       - name: Build
         run: gradle clean build
       - name: Prepare Assets
@@ -37,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Insider ${{ github.ref }} (Voyager)
+          release_name: Insider ${{ github.ref }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
