@@ -11,7 +11,7 @@ import java.util.List;
 
 @Slf4j
 public class JavaImportsContainer extends ImportsContainer {
-    private static final String IGNORED_IMPORTS_FILE_NAME = "config" + File.separator + "ignoredImports.txt";
+    private static final String IGNORED_IMPORTS_FILE_NAME = "config/ignoredImports.txt";
 
     private static final String IMPORTS_OUTPUT_FILE_NAME = "Imports.csv";
     private static final String FILES_WITH_IMPORTS_NAME = "FilesWithImports.csv";

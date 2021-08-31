@@ -2,7 +2,6 @@ package org.dxworks.insider.library.detector;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +11,7 @@ import java.util.List;
 @Slf4j
 public class C_ImportsContainer extends ImportsContainer {
 
-    private static final String HEADERS_TO_LIBRARIES_MAPPING_FILE_NAME = "config" + File.separator + "headersToLibraries.csv";
+    private static final String HEADERS_TO_LIBRARIES_MAPPING_FILE_NAME = "config/headersToLibraries.csv";
 
     private static final String HEADERS_IMPORTED_OUTPUT_FILE_NAME = "Headers.csv";
     private static final String FILES_WHIT_HEADERS_OUTPUT_FILE_NAME = "FilesWithHeaders.csv";
