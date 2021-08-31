@@ -52,24 +52,24 @@ public class FindCommand implements InsiderCommand {
             List<InsiderResult> insiderResults;
 
             try (ProgressBar pb = new ProgressBarBuilder()
-                    .setInitialMax(insiderFiles.size())
-                    .setUnit(" Files", 1)
-                    .setTaskName("Matching")
-                    .setStyle(ProgressBarStyle.ASCII)
-                    .setUpdateIntervalMillis(100)
-                    .setPrintStream(System.err)
-                    .build()) {
+                .setInitialMax(insiderFiles.size())
+                .setUnit(" Files", 1)
+                .setTaskName("Matching")
+                .setStyle(ProgressBarStyle.ASCII)
+                .setUpdateIntervalMillis(100)
+                .setPrintStream(System.err)
+                .build()) {
                 insiderResults = insiderFiles.parallelStream()
-                        .flatMap(insiderFile ->
-                        {
-                            Stream<InsiderResult> insiderResultStream = technologies.parallelStream()
-                                    .map(technology -> technology.analyze(insiderFile))
-                                    .filter(Objects::nonNull)
-                                    .filter(insiderResult -> insiderResult.getValue() > 0);
-                            pb.step();
-                            return insiderResultStream;
-                        })
-                        .collect(Collectors.toList());
+                    .flatMap(insiderFile ->
+                    {
+                        Stream<InsiderResult> insiderResultStream = technologies.parallelStream()
+                            .map(technology -> technology.analyze(insiderFile))
+                            .filter(Objects::nonNull)
+                            .filter(insiderResult -> insiderResult.getValue() > 0);
+                        pb.step();
+                        return insiderResultStream;
+                    })
+                    .collect(Collectors.toList());
             }
             int sum = insiderResults.stream().mapToInt(InsiderResult::getValue).sum();
 
@@ -77,14 +77,15 @@ public class FindCommand implements InsiderCommand {
 
             String outputFileName = configurationDTO.getOutputFileName();
             if (outputFileName == null) {
-                outputFileName = InsiderConfiguration.getInstance().getProjectID() + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
+                outputFileName = InsiderConfiguration.getInstance().getProjectID() + "-" + Paths.get(file).toFile().getName();
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
+            File outputFile = Paths.get(RESULTS_FOLDER, outputFileName).toFile();
             try {
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(Paths.get(RESULTS_FOLDER, outputFileName).toFile()), insiderResults);
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter(outputFile), insiderResults);
             } catch (IOException e) {
-                log.error("Could not write JSON file when converting from XML!", e);
+                log.error("Could not write JSON file" + outputFile + "!", e);
             }
         });
     }
