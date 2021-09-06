@@ -67,7 +67,7 @@ public class InspectCommand implements InsiderCommand {
                     })
                     .collect(Collectors.toList());
 
-            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), "appinspector." + insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
             Map<String, Map<String, List<ChronosTag>>> chronosResult = Map.of("file", Map.of("concerns", chronosTags));
 
             ObjectMapper objectMapper = new ObjectMapper();

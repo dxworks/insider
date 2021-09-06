@@ -5,8 +5,8 @@ results:
 
 commands:
   - name: Insider Run ALL
-    win: insider.bat detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
-    unix: ./insider.sh detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
+    win: java -Xmx${max-heap} -jar insider.jar detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
+    unix: java -Xmx${max-heap} -jar insider.jar detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
 #  Uncomment if you only want to run one command at a time. Don't forget to comment the above command.
 #  - name: Insider Detect
 #    win: insider.bat detect
@@ -27,6 +27,7 @@ commands:
 parameters:
   findConfig: "config/fingerprints/code_smells.json config/fingerprints/libraries.json"
   inspectConfig: "config/rules"
+  max-heap: 4g
 
 environment:
   INSIDER_PROJECTID: "${repoName}"
