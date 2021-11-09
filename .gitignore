@@ -98,3 +98,5 @@ build/
 results/
 site/
 .java-version
+dist
+node_modules

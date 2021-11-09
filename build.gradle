@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.dxworks'
-version '2.5.0-SNAPSHOT'
+version '2.6.0-SNAPSHOT'
 
 sourceCompatibility = 11
 
