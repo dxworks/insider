@@ -25,6 +25,8 @@ jobs:
           semver=${semver%"-voyager"}
 
           echo ::set-output name=semver::$semver
+        env:
+          TAG: ${{ github.ref }}
 
       - name: Set Version
         run: echo ${{ steps.semver_parser.outputs.semver }} > src/main/resources/insider-version
