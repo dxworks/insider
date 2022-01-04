@@ -1,0 +1,25 @@
+name: Insider
+run: once
+results:
+  - dir: ${instrument}/results
+
+commands:
+  - name: Insider Detect
+    win: insider.bat detect
+    unix: ./insider.sh detect
+  - name: Insider Find
+    win: insider.bat find config\fingerprints\code_smells.json config\fingerprints\libraries.json
+    unix: ./insider.sh find config/fingerprints/code_smells.json config/fingerprints/libraries.json
+  - name: Insider Inspect
+    win: insider.bat inspect config\rules
+    unix: ./insider.sh inspect config/rules
+  - name: Insider Extract
+    win: insider.bat extract
+    unix: ./insider.sh extract
+
+
+environment:
+  INSIDER_PROJECTID: "${repoName}"
+  INSIDER_ROOTFOLDER: "${repo}"
+  INSIDER_LANGUAGES:
+  INSIDER_LINGUIST_FILE: "${instrument}/languages.yml"

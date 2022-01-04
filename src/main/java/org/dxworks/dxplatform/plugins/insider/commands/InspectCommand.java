@@ -6,13 +6,13 @@ import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.math.IntRange;
-import org.dxworks.dxplatform.plugins.insider.InspectResult;
+import org.dxworks.dxplatform.plugins.insider.ChronosTag;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos.Rule;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.CommentService;
-import org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.services.RuleService;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.dtos.Rule;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.services.CommentService;
+import org.dxworks.dxplatform.plugins.insider.application.inspector.services.RuleService;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.PROJECT_ID;
 import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j
@@ -68,11 +67,11 @@ public class InspectCommand implements InsiderCommand {
                     })
                     .collect(Collectors.toList());
 
-            List<InspectResult> result = insiderResults.stream().map(insiderResult -> new InspectResult(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            List<ChronosTag> result = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-tags.json").toFile(), insiderResults);
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProperty(PROJECT_ID) + "-inspect-tags.json").toFile(), result);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), result);
         } catch (IOException e) {
             log.error("Inspect command finished unsuccessfully!", e);
         }

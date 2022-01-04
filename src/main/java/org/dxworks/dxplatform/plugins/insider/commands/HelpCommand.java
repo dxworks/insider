@@ -1,6 +1,7 @@
 package org.dxworks.dxplatform.plugins.insider.commands;
 
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
+import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class HelpCommand implements NoFilesCommand {
 
     @Override
     public void execute(List<InsiderFile> insiderFiles, String[] args) {
-        String usage = "Insider 1.0  -  usage guide:\n";
+        String usage = "Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " -  usage guide:\n";
         usage += "Configure the source root and the project id in the config/insider-conf.properties file\n\n";
 
         usage += "This is a list of the commands:\n";

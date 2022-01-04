@@ -1,47 +1,107 @@
 package org.dxworks.dxplatform.plugins.insider.configuration;
 
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.dxworks.argumenthor.Argumenthor;
+import org.dxworks.argumenthor.config.ArgumenthorConfiguration;
+import org.dxworks.argumenthor.config.fields.impl.StringField;
+import org.dxworks.argumenthor.config.fields.impl.StringListField;
+import org.dxworks.argumenthor.config.sources.impl.EnvSource;
+import org.dxworks.argumenthor.config.sources.impl.PropertiesSource;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
+import java.util.stream.Collectors;
 
+import static org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants.*;
+
+@Slf4j
 public class InsiderConfiguration {
 
-    private static InsiderConfiguration ourInstance = new InsiderConfiguration();
-    private Properties config;
+    private static InsiderConfiguration _instance = new InsiderConfiguration();
+    private static Argumenthor argumenthor;
+
+    private String insiderVersion = null;
+    private String projectID = null;
+    private String rootFolder = null;
+    private List<String> languages = null;
+    private String languagesFile = null;
 
     private InsiderConfiguration() {
     }
 
     public static InsiderConfiguration getInstance() {
-        return ourInstance;
+        return _instance;
     }
 
-    public static void loadProperties(Properties properties) {
-        if (ourInstance.config == null)
-            ourInstance.config = properties;
+    public void load() {
+
+        System.out.println("Reading configuration");
+        readInsiderVersion();
+
+        ArgumenthorConfiguration argumenthorConfiguration = new ArgumenthorConfiguration(
+                new StringField(PROJECT_ID, null),
+                new StringField(ROOT_FOLDER, "."),
+                new StringListField(LANGUAGES, List.of(), ","),
+                new StringField(LINGUIST_FILE, DEFAULT_LINGUIST_FILE)
+        );
+
+        PropertiesSource propertiesSource = new PropertiesSource();
+        propertiesSource.setPath("config/insider-conf.properties");
+        argumenthorConfiguration.addSource(new EnvSource("INSIDER"));
+        argumenthorConfiguration.addSource(propertiesSource);
+        argumenthor = new Argumenthor(argumenthorConfiguration);
+
+        LinguistService.getInstance().initLinguist(getLanguagesFile());
+
+        System.out.println("Insider " + getInsiderVersion());
+        System.out.println("Project ID: " + getProjectID());
+        System.out.println("Root Folder: " + getRootFolder());
+        System.out.println("Languages: " + getLanguages());
+    }
+
+    private void readInsiderVersion() {
+        try {
+            insiderVersion = new String(getClass().getClassLoader().getResourceAsStream("insider-version").readAllBytes());
+        } catch (IOException e) {
+            log.warn("Could not read Insider Version", e);
+        }
     }
 
     public String getRootFolder() {
-        String property = getProperty(InsiderConstants.ROOT_FOLDER);
-        if (property.endsWith("\\") || property.endsWith("/")) {
-            property = property.substring(0, property.length() - 1);
+        if (rootFolder == null) {
+            rootFolder = (String) argumenthor.getRawValue(ROOT_FOLDER);
+            if (rootFolder.endsWith("\\") || rootFolder.endsWith("/")) {
+                rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+            }
         }
 
-        return property;
+        return rootFolder;
     }
 
-    public String getProperty(String property) {
-        return config.getProperty(property);
+    public String getProjectID() {
+        if (projectID == null) {
+            projectID = (String) argumenthor.getRawValue(PROJECT_ID);
+        }
+        return projectID;
     }
 
-    public List<String> getListProperty(String property) {
-        String propValue = config.getProperty(property);
-        if (propValue == null)
-            return Collections.emptyList();
+    public List<String> getLanguages() {
+        if (languages == null) {
+            languages = ((List<String>) argumenthor.getRawValue(LANGUAGES)).stream()
+                    .filter(s -> !s.isBlank()).collect(Collectors.toList());
+        }
+        return languages;
+    }
 
-        return Arrays.asList(propValue.split(","));
+    public String getLanguagesFile() {
+        if (languagesFile == null) {
+            languagesFile = (String) argumenthor.getRawValue(LINGUIST_FILE);
+        }
+        return languagesFile;
+    }
+
+    public String getInsiderVersion() {
+        return insiderVersion;
     }
 }

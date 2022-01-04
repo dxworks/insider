@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.dxworks.dxplatform.plugins.insider.InsiderAnalysis;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
-import org.dxworks.dxplatform.plugins.insider.technology.finder.LanguageRegistry;
+import org.dxworks.dxplatform.plugins.insider.technology.finder.LinguistService;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class Technology implements InsiderAnalysis {
 
-    private final LanguageRegistry languageRegistry = LanguageRegistry.getInstance();
+    private final LinguistService linguistService = LinguistService.getInstance();
     private String category;
     private String name;
     private List<String> languages;
@@ -36,7 +36,7 @@ public class Technology implements InsiderAnalysis {
 
     @Override
     public InsiderResult analyze(InsiderFile insiderFile) {
-        if (!accepts(insiderFile.getExtension()))
+        if (!accepts(insiderFile))
             return null;
 
         int totalOccurrences = patterns.parallelStream()
@@ -44,7 +44,7 @@ public class Technology implements InsiderAnalysis {
                 .sum();
 
         return InsiderResult.builder()
-                .file(insiderFile.getFullyQualifiedName())
+                .file(insiderFile.getFullyQualifiedName().toString())
                 .category(category)
                 .name(name)
                 .value(totalOccurrences)
@@ -52,9 +52,9 @@ public class Technology implements InsiderAnalysis {
     }
 
     @Override
-    public boolean accepts(String extension) {
-        return languages.stream().anyMatch(language -> languageRegistry.isOfLanguage(language, extension))
-                || extensions.contains(extension);
+    public boolean accepts(InsiderFile insiderFile) {
+        return linguistService.hasAcceptedExtension(insiderFile, languages)
+                || extensions.contains(insiderFile.getExtension());
     }
 
     private int getPatternOccurrencesInFile(InsiderFile insiderFile, Pattern pattern) {

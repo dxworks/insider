@@ -8,7 +8,6 @@ import me.tongfei.progressbar.ProgressBarStyle;
 import org.dxworks.dxplatform.plugins.insider.InsiderFile;
 import org.dxworks.dxplatform.plugins.insider.InsiderResult;
 import org.dxworks.dxplatform.plugins.insider.configuration.InsiderConfiguration;
-import org.dxworks.dxplatform.plugins.insider.constants.InsiderConstants;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.Technology;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.model.json.JsonConfigurationDTO;
 import org.dxworks.dxplatform.plugins.insider.technology.finder.parsers.JsonFingerprintParser;
@@ -79,7 +78,7 @@ public class FindCommand implements InsiderCommand {
 
             String outputFileName = configurationDTO.getOutputFileName();
             if (outputFileName == null) {
-                outputFileName = InsiderConfiguration.getInstance().getProperty(InsiderConstants.PROJECT_ID) + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
+                outputFileName = InsiderConfiguration.getInstance().getProjectID() + "-" + file.substring(file.lastIndexOf(File.separator) + 1);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
