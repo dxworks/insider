@@ -3,34 +3,21 @@
     "name": "Cryptography: SSL/TLS Protocol",
     "id": "AI009600",
     "description": "Cryptography: SSL/TLS Protocol",
-    "applies_to": [
-      "csharp"
-    ],
-    "tags": [
-      "Cryptography.Protocol.TLS"
-    ],
+    "applies_to":[ "csharp" ],
+    "tags":[ "Cryptography.Protocol.TLS" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "(SSL|TLS)(v)?([123]{1,2})",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       },
       {
         "pattern": "SslStream|SecurityProtocolType\\.(Ssl|Tls)|SslPolicyErrors|onReceivedSslError|SslContext",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       }
     ]
   },
@@ -42,17 +29,13 @@
       "c",
       "cpp"
     ],
-    "tags": [
-      "Cryptography.Protocol.TLS"
-    ],
+    "tags":[ "Cryptography.Protocol.TLS" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "SECURITY_FLAG_",
-        "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "type": "substring",
+        "scopes": [ "code" ],
         "confidence": "high",
         "_comment": "get all non-ignore (see weakssl.json) indicators of ssl"
       }
@@ -61,18 +44,11 @@
       {
         "pattern": {
           "pattern": "SECURITY_FLAG_IGNORE",
-          "type": "regex",
-          "scopes": [
-            "code"
-          ],
-          "modifiers": [
-            "i"
-          ],
-          "_comment": ""
+          "type": "substring",
+          "scopes": [ "code" ]
         },
         "search_in": "finding-region(-1,1)",
-        "negate_finding": true,
-        "_comment": ""
+        "negate_finding": true
       }
     ]
   },
@@ -85,103 +61,64 @@
       "objective-c",
       "swift"
     ],
-    "tags": [
-      "Cryptography.Protocol.TLS"
-    ],
+    "tags":[ "Cryptography.Protocol.TLS" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "(kCF|NS)StreamSocketSecurityLevel(None|SSLv2|SSLv3|TLSv1|NegotiatedSSL)",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "regexword",
+        "scopes": [ "code" ],
         "confidence": "high"
       },
       {
         "pattern": "kSSLProtocol(2|3Only|All|Unknown)",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "scopes": [ "code" ],
         "confidence": "high"
       },
       {
         "pattern": "k(D)?(SSL|TLS)Protocol(1|1Only|2|3Only|All)",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "scopes": [ "code" ],
         "confidence": "high"
       },
       {
         "pattern": "ssl",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "string",
+        "scopes": [ "code" ],
         "confidence": "high",
+        "modifiers": [ "i" ],
         "_comment": "e.g. ssl_crl, ssl_ecdh_curve, others"
       },
       {
         "pattern": "SSLCADNRequest|SSLCARevocation|SSLCompression|SSLEngine|SSLFIPS|SSLInsecureRenegotiation",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       },
       {
         "pattern": "SSLOCSP(DefaultResponder|Enable|OverrideResponder|ProxyURL|ResponderTimeout|ResponseMaxAge|ResponseTimeSkew|UseRequestNonce)",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       },
       {
         "pattern": "SSLOpenSSLConfCmd|SSLOptions|SSLPassPhraseDialog|SSLProtocol|SSLProxy",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       },
       {
         "pattern": "SSLRandomSeed|SSLRenegBufferSize|SSLRequire|SSLSessionCache|SSLSRPUnknownUserSeed|SSLSRPVerifierFile|SSLStapling",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       },
       {
         "pattern": "SSLStrictSNIVHostCheck|SSLUserName|SSLUseStapling|SSLVerify",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "modifiers": [
-          ""
-        ],
-        "_comment": ""
+        "scopes": [ "code" ],
+        "confidence": "high"
       }
     ]
   },
@@ -189,17 +126,13 @@
     "name": "Cryptography: SSH Protocol",
     "id": "AI009900",
     "description": "Cryptography: SSH Protocol",
-    "tags": [
-      "Cryptography.Protocol.SSH"
-    ],
+    "tags":[ "Cryptography.Protocol.SSH" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "ssh",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "string",
+        "scopes": [ "code" ],
         "confidence": "high"
       }
     ]
@@ -208,23 +141,15 @@
     "name": "Cryptography: SSH Protocol",
     "id": "AI009910",
     "description": "Cryptography: SSH Protocol",
-    "tags": [
-      "Cryptography.Protocol.KeyExchange"
-    ],
+    "tags":[ "Cryptography.Protocol.KeyExchange" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "DiffieHellman|ECDsa",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "scopes": [ "code" ],
         "confidence": "high",
-        "modifiers": [
-          "i",
-          "comment"
-        ],
-        "_comment": ""
+        "modifiers": [ "i", "comment" ]
       }
     ]
   }

@@ -3,9 +3,7 @@
     "name": "OS Operation: Windows Registry (Write)",
     "id": "AI038000",
     "description": "OS Operation: Windows Registry (Write)",
-    "tags": [
-      "OS.SystemRegistry.Write"
-    ],
+    "tags":[ "OS.SystemRegistry.Write" ],
     "applies_to": [
       "c",
       "cpp"
@@ -14,12 +12,9 @@
     "patterns": [
       {
         "pattern": "RegSetValueEx|RegOpenKeyEx|RegCreateKeyEx",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "type": "regexword",
+        "scopes": [ "code" ],
+        "confidence": "high"
       }
     ]
   },
@@ -27,22 +22,42 @@
     "name": "OS Operation: Windows Registry (Write)",
     "id": "AI038100",
     "description": "OS Operation: Windows Registry (Write)",
-    "tags": [
-      "OS.SystemRegistry.Write"
-    ],
-    "applies_to": [
-      "csharp"
-    ],
+    "tags":[ "OS.SystemRegistry.Write" ],
+    "applies_to":[ "csharp" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "Registry(Key)?(.*)?.(SetValue|CreateSubKey|Delete)",
-        "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "type": "regexword",
+        "scopes": [ "code" ],
+        "confidence": "high"
+      }
+    ]
+  },
+  {
+    "name": "OS Operation: Windows Registry (Write)",
+    "id": "AI038110",
+    "description": "OS Operation: Windows Registry (Write)",
+    "tags":[ "OS.SystemRegistry.Write" ],
+    "applies_to":[ "csharp" ],
+    "severity": "moderate",
+    "patterns": [
+      {
+        "pattern": "CreateSubKey|SetValue",
+        "type": "regexword",
+        "scopes": [ "code" ],
+        "confidence": "high"
+      }
+    ],
+    "conditions": [
+      {
+        "pattern": {
+          "pattern": "HKEY_|Registry",
+          "type": "regexword",
+          "scopes": [ "code" ]
+        },
+        "search_in": "finding-region(-40,40)",
+        "negate_finding": false
       }
     ]
   },
@@ -50,20 +65,14 @@
     "name": "OS Operation: Windows Registry (Write)",
     "id": "AI038200",
     "description": "OS Operation: Windows Registry (Write)",
-    "tags": [
-      "OS.SystemRegistry.Write"
-    ],
-    "applies_to": [
-      "python"
-    ],
+    "tags":[ "OS.SystemRegistry.Write" ],
+    "applies_to":[ "python" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "_?winreg\\.(Set|Delete|Create)(Key|Value)(Ex)?",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "regexword",
+        "scopes": [ "code" ],
         "confidence": "high",
         "_comment": "_winreg and winreg built-in modules"
       }
@@ -73,31 +82,21 @@
     "name": "OS Operation: Windows Registry (Write)",
     "id": "AI038210",
     "description": "OS Operation: Windows Registry (Write)",
-    "tags": [
-      "OS.SystemRegistry.Write"
-    ],
-    "applies_to": [
-      "powershell"
-    ],
+    "tags":[ "OS.SystemRegistry.Write" ],
+    "applies_to":[ "powershell" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "Registry",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "modifiers": [
-          "i"
-        ],
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ],
         "confidence": "high"
       },
       {
         "pattern": "(HKLM|HKCU):",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "scopes": [ "code" ],
         "confidence": "high"
       }
     ],
@@ -105,18 +104,11 @@
       {
         "pattern": {
           "pattern": "Set-ItemProperty",
-          "type": "regex",
-          "scopes": [
-            "code"
-          ],
-          "modifiers": [
-            "i"
-          ],
-          "_comment": ""
+          "type": "string",
+          "scopes": [ "code" ]
         },
         "search_in": "finding-region(-5,5)",
-        "negate_finding": false,
-        "_comment": ""
+        "negate_finding": false
       }
     ]
   },
@@ -124,20 +116,14 @@
     "name": "OS Operation: Windows Registry (ACL)",
     "id": "AI038300",
     "description": "OS Operation: Windows Registry (ACL)",
-    "tags": [
-      "OS.SystemRegistry.ACL"
-    ],
-    "applies_to": [
-      "csharp"
-    ],
+    "tags":[ "OS.SystemRegistry.ACL" ],
+    "applies_to": [ "csharp" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "RegistryAccessRule|RegistrySecurity",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "regexword",
+        "scopes": [ "code" ],
         "confidence": "high"
       }
     ]
@@ -146,9 +132,7 @@
     "name": "OS Operation: Windows Registry (Read)",
     "id": "AI038400",
     "description": "OS Operation: Windows Registry (Read)",
-    "tags": [
-      "OS.SystemRegistry.Read"
-    ],
+    "tags":[ "OS.SystemRegistry.Read" ],
     "applies_to": [
       "c",
       "cpp"
@@ -157,10 +141,8 @@
     "patterns": [
       {
         "pattern": "RegGetValue|RegGetDWord|RegGetString|CRegKey|RegOpenKey|RegQueryKeyEx",
-        "type": "regex-word",
-        "scopes": [
-          "code"
-        ],
+        "type": "regexword",
+        "scopes": [ "code" ],
         "confidence": "high"
       }
     ]
@@ -169,31 +151,20 @@
     "name": "OS Operation: Windows Registry (Read)",
     "id": "AI038500",
     "description": "OS Operation: Windows Registry (Read)",
-    "tags": [
-      "OS.SystemRegistry.Read"
-    ],
-    "applies_to": [
-      "powershell"
-    ],
+    "tags":[ "OS.SystemRegistry.Read" ],
+    "applies_to":[ "powershell" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "Registry",
-        "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "modifiers": [
-          "i"
-        ],
+        "type": "string",
+        "scopes": [ "code" ],
         "confidence": "high"
       },
       {
         "pattern": "(HKLM|HKCU):",
         "type": "regex",
-        "scopes": [
-          "code"
-        ],
+        "scopes": [ "code" ],
         "confidence": "high"
       }
     ],
@@ -202,17 +173,10 @@
         "pattern": {
           "pattern": "Get-ItemProperty",
           "type": "string",
-          "scopes": [
-            "code"
-          ],
-          "modifiers": [
-            "i"
-          ],
-          "_comment": ""
+          "scopes": [ "code" ]
         },
         "search_in": "finding-region(-5,5)",
-        "negate_finding": false,
-        "_comment": ""
+        "negate_finding": false
       }
     ]
   },
@@ -220,22 +184,53 @@
     "name": "OS Operation: Windows Registry (Read)",
     "id": "AI038600",
     "description": "OS Operation: Windows Registry (Read)",
-    "tags": [
-      "OS.SystemRegistry.Read"
-    ],
-    "applies_to": [
-      "csharp"
-    ],
+    "tags":[ "OS.SystemRegistry.Read" ],
+    "applies_to":[ "csharp" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "Registry(Key)?(.*)?.GetValue",
-        "type": "regex",
-        "scopes": [
-          "code"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "type": "regexword",
+        "scopes": [ "code" ],
+        "confidence": "high"
+      }
+    ],
+    "conditions": [
+      {
+        "pattern": {
+          "pattern": "HKEY_",
+          "type": "string",
+          "scopes": [ "code" ]
+        },
+        "search_in": "finding-region(-40,40)",
+        "negate_finding": false
+      }
+    ]
+  },
+  {
+    "name": "OS Operation: Windows Registry (Read)",
+    "id": "AI038601",
+    "description": "OS Operation: Windows Registry (Read)",
+    "tags":[ "OS.SystemRegistry.Read" ],
+    "applies_to":[ "rust" ],
+    "severity": "moderate",
+    "patterns": [
+      {
+        "pattern": ".open_subkey(",
+        "type": "string",
+        "scopes": [ "code" ],
+        "confidence": "high"
+      }
+    ],
+    "conditions": [
+      {
+        "pattern": {
+          "pattern": "HKEY_",
+          "type": "string",
+          "scopes": [ "code" ]
+        },
+        "search_in": "finding-region(-40,40)",
+        "negate_finding": false
       }
     ]
   }

@@ -3,24 +3,14 @@
     "name": "Testing Framework: Pester",
     "id": "AI051800",
     "description": "Testing Framework: Pester",
-    "applies_to": [
-      "powershell"
-    ],
-    "tags": [
-      "Framework.Testing.Pester"
-    ],
+    "applies_to":[ "powershell" ],
+    "tags":[ "Framework.Testing.Pester" ],
     "patterns": [
       {
         "pattern": "ester",
         "type": "string",
-        "scopes": [
-          "code",
-          "comment"
-        ],
-        "modifiers": [
-          "i"
-        ],
-        "_comment": ""
+        "scopes": [ "code", "comment" ],
+        "modifiers": [ "i" ]
       }
     ]
   }
