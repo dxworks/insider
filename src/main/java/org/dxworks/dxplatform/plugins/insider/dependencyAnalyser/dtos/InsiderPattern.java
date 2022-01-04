@@ -1,5 +1,6 @@
 package org.dxworks.dxplatform.plugins.insider.dependencyAnalyser.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.regex.Pattern.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +30,8 @@ public class InsiderPattern {
     private List<String> modifiers;
     private List<String> scopes;
     private String _comment;
+    @JsonIgnore
+    private int regexFlags = -1;
 
     public List<PatternMatch> getMatches(InsiderFile file, List<IntRange> commentRanges) {
         if (scopes.contains("all") || scopes.containsAll(Arrays.asList("code", "comment"))) {
@@ -57,7 +62,8 @@ public class InsiderPattern {
     }
 
     private List<PatternMatch> matchesInEntireFile(InsiderFile file) {
-        Matcher matcher = Pattern.compile(pattern).matcher(file.getContent());
+        Matcher matcher = Pattern.compile(pattern, createModifier()).matcher(file.getContent());
+
         List<PatternMatch> matches = new ArrayList<>();
         while (matcher.find()) {
             int start = matcher.start();
@@ -66,6 +72,24 @@ public class InsiderPattern {
             matches.add(patternMatch);
         }
         return matches;
+    }
+
+    private int createModifier() {
+        if(regexFlags != -1)
+            return regexFlags;
+
+        regexFlags = 0 ;
+
+        if(modifiers.contains("i"))
+            regexFlags = regexFlags | CASE_INSENSITIVE;
+
+        if(modifiers.contains("d"))
+            regexFlags = regexFlags | DOTALL;
+
+        if(modifiers.contains("m"))
+            regexFlags = regexFlags | MULTILINE;
+
+        return regexFlags;
     }
 
     private List<PatternMatch> getCommentMatches(InsiderFile file, List<IntRange> commentRanges) {
