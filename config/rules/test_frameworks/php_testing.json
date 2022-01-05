@@ -1,0 +1,156 @@
+[
+  {
+    "name": "Testing Framework: Mockery",
+    "description": "Mockery is a simple yet flexible PHP mock object framework",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.Mockery" ],
+    "patterns": [
+      {
+        "pattern": "Mockery",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: PHP Code Coverage",
+    "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.PHPCodeCoverage" ],
+    "patterns": [
+      {
+        "pattern": "CodeCoverage",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Symfony Console",
+    "description": "Eases the creation of beautiful and testable command line interfaces",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.SymfonyConsole" ],
+    "patterns": [
+      {
+        "pattern": "Symfony\\Component\\Console\\Application",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Symfony Console",
+    "description": "Eases the creation of beautiful and testable command line interfaces",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.SymfonyConsole" ],
+    "patterns": [
+      {
+        "pattern": "Symfony\\Component\\Console\\Application",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Symfony Maker",
+    "description": "Symfony Maker helps you create empty commands, controllers, form classes, tests and more so you can forget about writing boilerplate code",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.SymfonyMaker" ],
+    "patterns": [
+      {
+        "pattern": "Symfony\\Bundle\\MakerBundle",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Behat Behat",
+    "description": "Scenario-oriented BDD framework for PHP",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.BehatBehat" ],
+    "patterns": [
+      {
+        "pattern": "Behat\\Behat",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Behat Mink",
+    "description": "Browser controller/emulator abstraction for PHP",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.BehatMink" ],
+    "patterns": [
+      {
+        "pattern": "Behat\\Mink",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: PhpSpec",
+    "description": "Specification-oriented BDD framework for PHP 7.1+",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.PhpSpec" ],
+    "patterns": [
+      {
+        "pattern": "PhpSpec",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Codeception",
+    "description": "BDD-style testing framework",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.Codeception" ],
+    "patterns": [
+      {
+        "pattern": "\\Codeception",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Laravel Dusk",
+    "description": "Laravel Dusk provides simple end-to-end testing and browser automation",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.LaravelDusk" ],
+    "patterns": [
+      {
+        "pattern": "Laravel\\Dusk",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  },
+  {
+    "name": "Testing Framework: Hamcrest",
+    "description": "This is the PHP port of Hamcrest Matchers",
+    "applies_to":[ "php" ],
+    "tags":[ "Framework.Testing.Hamcrest" ],
+    "patterns": [
+      {
+        "pattern": "Hamcrest",
+        "type": "substring",
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ]
+      }
+    ]
+  }
+]

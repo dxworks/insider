@@ -12,14 +12,9 @@
       {
         "pattern": ".cloud.databricks.com",
         "type": "string",
-        "scopes": [
-          "code"
-        ],
-        "modifiers": [
-          "i"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "scopes": [ "code" ],
+        "modifiers": [ "i" ],
+        "confidence": "high"
       }
     ]
   }

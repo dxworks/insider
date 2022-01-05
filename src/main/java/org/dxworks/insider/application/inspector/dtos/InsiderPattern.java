@@ -1,5 +1,6 @@
 package org.dxworks.insider.application.inspector.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
+import static java.util.regex.Pattern.*;
 
 @Slf4j
 @Data
@@ -32,6 +34,8 @@ public class InsiderPattern {
     private List<String> scopes;
     private String _comment;
     private boolean hasErrors = false;
+    @JsonIgnore
+    private int regexFlags = -1;
 
     public List<PatternMatch> getMatches(InsiderFile file, List<IntRange> commentRanges) {
         if (hasErrors)
@@ -67,7 +71,7 @@ public class InsiderPattern {
     private List<PatternMatch> matchesInEntireFile(InsiderFile file) {
         List<PatternMatch> matches = new ArrayList<>();
         try {
-            Matcher matcher = Pattern.compile(pattern).matcher(file.getContent());
+            Matcher matcher = Pattern.compile(pattern, createModifier()).matcher(file.getContent());
             while (matcher.find()) {
                 int start = matcher.start();
                 int end = matcher.end();
@@ -80,6 +84,24 @@ public class InsiderPattern {
             log.error("Could not compile pattern '{}' due to: {}", pattern, e.getMessage());
         }
         return matches;
+    }
+
+    private int createModifier() {
+        if(regexFlags != -1)
+            return regexFlags;
+
+        regexFlags = 0 ;
+
+        if(modifiers.contains("i"))
+            regexFlags = regexFlags | CASE_INSENSITIVE;
+
+        if(modifiers.contains("d"))
+            regexFlags = regexFlags | DOTALL;
+
+        if(modifiers.contains("m"))
+            regexFlags = regexFlags | MULTILINE;
+
+        return regexFlags;
     }
 
     private List<PatternMatch> getCommentMatches(InsiderFile file, List<IntRange> commentRanges) {

@@ -3,23 +3,15 @@
     "name": "CloudServices: DataStorage (PasteBin or Similar)",
     "id": "AI014000",
     "description": "CloudServices: DataStorage (PasteBin or Similar)",
-    "tags": [
-      "CloudServices.DataStorage.PasteBin"
-    ],
+    "tags":[ "CloudServices.DataStorage.PasteBin" ],
     "severity": "moderate",
     "patterns": [
       {
         "pattern": "pastebin|zerobin|ghostbin|hastebin",
         "type": "regex",
-        "scopes": [
-          "code",
-          "comment"
-        ],
-        "modifiers": [
-          "i"
-        ],
-        "confidence": "high",
-        "_comment": ""
+        "scopes": [ "code", "comment" ],
+        "modifiers": [ "i" ],
+        "confidence": "high"
       }
     ]
   }
