@@ -1,0 +1,51 @@
+{
+  "name": "@dxworks/insider",
+  "version": "2.5.2",
+  "description": "Insider is a belt of tools built on the idea of searching regular expressions in code",
+  "keywords": [
+    "insider",
+    "java",
+    "regex"
+  ],
+  "homepage": "https://github.com/dxworks/insider#readme",
+  "bugs": {
+    "url": "https://github.com/dxworks/insider/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dxworks/insider.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Mario Rivis",
+  "main": "dist/index.js",
+  "bin": {
+    "insider": "dist/insider.js"
+  },
+  "scripts": {
+    "build": "npm run clean && mkdir dist && cp lib/*.js dist && cp build/libs/insider*.jar dist/insider.jar && npm run copy-assets",
+    "copy-assets": "cp -R config dist/config",
+    "clean": "rimraf dist/",
+    "local": "npm run build && npm i"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "java-caller": "^2.4.0"
+  },
+  "devDependencies": {
+    "json": "^11.0.0",
+    "rimraf": "^3.0.2",
+    "sort-package-json": "^1.52.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dxw": {
+    "commands": [
+      {
+        "file": "dist/index.js",
+        "command": "insiderCommand"
+      }
+    ]
+  }
+}

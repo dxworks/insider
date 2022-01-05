@@ -1,1 +1,1 @@
-java -jar insider.jar %*
+java -Xmx4g -jar insider.jar %*

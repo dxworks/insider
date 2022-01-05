@@ -1,1 +1,1 @@
-java -jar insider.jar "$@"
+java -jar -Xmx4g insider.jar $@
