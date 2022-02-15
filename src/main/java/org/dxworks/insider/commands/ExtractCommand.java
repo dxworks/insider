@@ -20,7 +20,7 @@ public class ExtractCommand implements InsiderCommand {
 
     @Override
     public String usage() {
-        return null;
+        return "insider extract";
     }
 
     @Override

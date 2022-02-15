@@ -44,7 +44,9 @@ public class DependencyExtractor {
             System.err.println("Writing " + resultsList.size() + " entries to output file: " + outputFilename);
 
             outputFile.println(ImportResult.header());
-            resultsList.forEach(outputFile::println);
+            resultsList.stream()
+                    .filter(it -> it.namespace.length() < InsiderConfiguration.getInstance().getDepextMaxNamespaceLength())
+                    .forEach(outputFile::println);
             outputFile.close();
         } catch (FileNotFoundException e) {
             System.err.println("\nCannot write to file: " + outputFilename);

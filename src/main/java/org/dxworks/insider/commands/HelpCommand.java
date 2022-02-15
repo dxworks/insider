@@ -23,14 +23,18 @@ public class HelpCommand implements NoFilesCommand {
 
         usage += "This is a list of the commands:\n";
 
-        usage += Stream.of(new HelpCommand(),
-                new VersionCommand(),
-                new AddCommand(),
-                new ConvertCommand(),
-                new DiagnoseCommand(),
-                new DetectCommand(),
-                new FindCommand(),
-                new InspectCommand())
+        usage += Stream.of(
+                        new HelpCommand(),
+                        new VersionCommand(),
+                        new AddCommand(),
+                        new ConvertCommand(),
+                        new DiagnoseCommand(),
+                        new DetectCommand(),
+                        new FindCommand(),
+                        new InspectCommand(),
+                        new ExtractCommand(),
+                        new MeasureCommand(),
+                        new IndentationCount())
                 .map(InsiderCommand::usage)
                 .map(s -> "\t" + s)
                 .collect(Collectors.joining("\n"));

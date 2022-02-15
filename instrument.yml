@@ -1,4 +1,4 @@
-name: Insider
+name: insider
 run: once
 results:
   - dir: ${instrument}/results
@@ -25,8 +25,8 @@ commands:
 #    unix: ./insider.sh indent
 
 parameters:
-  findConfig: "config/fingerprints/code_smells.json config/fingerprints/libraries.json"
-  inspectConfig: "config/rules"
+  findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json'
+  inspectConfig: 'config/rules'
   max-heap: 4g
 
 environment:
@@ -34,3 +34,4 @@ environment:
   INSIDER_ROOTFOLDER: "${repo}"
   INSIDER_LANGUAGES:
   INSIDER_LINGUIST_FILE: "${instrument}/languages.yml"
+#  INSIDER_DEPEXT_MAX_NAMESPACE_LENGTH: 200

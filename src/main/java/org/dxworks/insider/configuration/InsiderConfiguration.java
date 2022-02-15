@@ -3,6 +3,7 @@ package org.dxworks.insider.configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.dxworks.argumenthor.Argumenthor;
 import org.dxworks.argumenthor.config.ArgumenthorConfiguration;
+import org.dxworks.argumenthor.config.fields.impl.NumberField;
 import org.dxworks.argumenthor.config.fields.impl.StringField;
 import org.dxworks.argumenthor.config.fields.impl.StringListField;
 import org.dxworks.argumenthor.config.sources.impl.EnvSource;
@@ -26,6 +27,7 @@ public class InsiderConfiguration {
     private String rootFolder = null;
     private List<String> languages = null;
     private String languagesFile = null;
+    private int depextMaxNamespaceLength = -1;
 
     private InsiderConfiguration() {
     }
@@ -43,7 +45,8 @@ public class InsiderConfiguration {
                 new StringField(PROJECT_ID, null),
                 new StringField(ROOT_FOLDER, "."),
                 new StringListField(LANGUAGES, List.of(), ","),
-                new StringField(LINGUIST_FILE, DEFAULT_LINGUIST_FILE)
+                new StringField(LINGUIST_FILE, DEFAULT_LINGUIST_FILE),
+                new NumberField(DEPEXT_MAX_NAMESPACE_LENGTH, DEFAULT_DEPEXT_MAX_NAMESPACE_LENGTH)
         );
 
         PropertiesSource propertiesSource = new PropertiesSource();
@@ -99,6 +102,19 @@ public class InsiderConfiguration {
             languagesFile = (String) argumenthor.getRawValue(LINGUIST_FILE);
         }
         return languagesFile;
+    }
+
+    public int getDepextMaxNamespaceLength() {
+        if (depextMaxNamespaceLength == -1) {
+            try {
+            depextMaxNamespaceLength = (int) argumenthor.getRawValue(DEPEXT_MAX_NAMESPACE_LENGTH);
+            }
+            catch (Exception e) {
+                depextMaxNamespaceLength = DEFAULT_DEPEXT_MAX_NAMESPACE_LENGTH;
+            }
+        }
+
+        return depextMaxNamespaceLength;
     }
 
     public String getInsiderVersion() {

@@ -59,7 +59,29 @@ the **results** folder.
 
 ## Voyager Integration
 
-Insider is also a Voyager Instrument.
+Insider is also a Voyager Instrument. To configure Insider from Voyager you can add the following fields in the `mission.yml` file:
+
+```yaml
+# A map of instrument names to commands and parameters.
+# When 'runsAll' is false the mission will run only the instruments
+# with the commands declared here, in this order.
+instruments:
+  insider:
+    # A map of parameter name to value
+    # Only add the parameters you want to override (the default values are written here)
+    parameters:
+      max-heap: 4g # will configure the maximum heap space the jvm process will get. For large process may be needed to be set to 16g or higher
+      findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json' # a space separated list of insider fingerprints
+      inspectConfig: 'config/rules' # a space separated list of folders or Application Inspector specific rules, like the ones here: https://github.com/microsoft/ApplicationInspector/tree/main/AppInspector/rules/default
+
+# A map of environment variables, name to value, for voyager missions
+# overwrites the variables from global config, instrument and command
+# Only set the environment variables you need.
+environment:
+  INSIDER_LANGUAGES: 'java,c++,c#' # a comma separated list of the languages to analyse (just a sample example)
+  INSIDER_LINGUIST_FILE: "${instrument}/languages.yml" # a file containing languages to extension mappings according to [GitHub Linguist](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
+  INSIDER_DEPEXT_MAX_NAMESPACE_LENGTH: 200 # the maximum length of a namespace for DepExt analysis
+```
 
 ## Acknowledgements
 
