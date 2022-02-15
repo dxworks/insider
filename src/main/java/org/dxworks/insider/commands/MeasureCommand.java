@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static org.dxworks.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
-public class MeasureCommand implements InsiderCommand {
+public class MeasureCommand implements AllFilesCommand {
     @Override
     public boolean parse(List<String> args) {
         return args.size() == 1;

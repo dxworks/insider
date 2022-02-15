@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class IndentationCount implements InsiderCommand {
+public class IndentationCount implements AllFilesCommand {
     @Override
     public boolean parse(List<String> args) {
         return args.size() == 1;
