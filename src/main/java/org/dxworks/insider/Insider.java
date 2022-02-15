@@ -99,6 +99,7 @@ public class Insider {
                 }
             } catch (Exception e) {
                 System.out.println("Command " + insiderCommand.getName() + "finished with errors");
+                e.printStackTrace();
             }
         });
 

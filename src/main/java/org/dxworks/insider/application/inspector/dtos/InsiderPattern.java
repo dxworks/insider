@@ -92,6 +92,9 @@ public class InsiderPattern {
 
         regexFlags = 0 ;
 
+        if(modifiers == null)
+            modifiers = new ArrayList<>();
+
         if(modifiers.contains("i"))
             regexFlags = regexFlags | CASE_INSENSITIVE;
 
