@@ -36,6 +36,15 @@ public class InsiderConfiguration {
         return _instance;
     }
 
+    public static boolean hasAcceptedExtension(String filePath) {
+        LinguistService linguistService = LinguistService.getInstance();
+        if (getInstance().getLanguages().isEmpty()) {
+            return linguistService.hasAcceptedExtension(filePath, linguistService.getProgrammingLanguages());
+        }
+
+        return linguistService.hasAcceptedExtension(filePath);
+    }
+
     public void load() {
 
         System.out.println("Reading configuration");

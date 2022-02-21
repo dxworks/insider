@@ -27,7 +27,7 @@ public class ConvertCommand implements NoFilesCommand {
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
+    public void execute(List<String> args) {
         try {
             transformJsonFileToCsv(sourceFile, targetFile);
         } catch (IOException e) {

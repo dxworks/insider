@@ -27,7 +27,7 @@ public class DiagnoseCommand implements NoFilesCommand {
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
+    public void execute(List<String> args) {
 
         JsonFingerprintParser jsonFingerprintParser = new JsonFingerprintParser();
         List<Technology> jsonTechnologies = jsonFingerprintParser.parseTechnologiesFile(file);

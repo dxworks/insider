@@ -59,11 +59,7 @@ public interface InsiderCommand {
         return true;
     }
 
-    default boolean acceptsFile(String path) {
-        return true;
-    }
-
-    void execute(List<InsiderFile> insiderFiles, List<String> args);
+    void execute(List<String> args);
 
     String usage();
 

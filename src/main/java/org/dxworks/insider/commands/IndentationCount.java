@@ -1,44 +1,25 @@
 package org.dxworks.insider.commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.InsiderResult;
 import org.dxworks.insider.configuration.InsiderConfiguration;
 import org.dxworks.insider.constants.InsiderConstants;
 
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class IndentationCount implements AllFilesCommand {
+public class IndentationCount implements FilesCommand {
+
+    private List<InsiderResult> insiderResults = new ArrayList<>();
+
     @Override
     public boolean parse(List<String> args) {
         return args.size() == 1;
-    }
-
-    @SneakyThrows
-    @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
-        List<InsiderResult> insiderResults = insiderFiles.stream().flatMap(file -> {
-                    IntSummaryStatistics summary = Arrays.stream(file.getContent().split("\n"))
-                            .filter(l -> !l.isBlank())
-                            .mapToInt(this::getLineIndentation)
-                            .summaryStatistics();
-
-                    return Stream.of(new InsiderResult("max_indentation", "complexity", file.getFullyQualifiedName(), summary.getMax()),
-                            new InsiderResult("avg_indentation", "complexity", file.getFullyQualifiedName(), (int) Math.round(summary.getAverage())),
-                            new InsiderResult("total_indentation", "complexity", file.getFullyQualifiedName(), (int) summary.getSum())
-                            );
-                }
-        ).collect(Collectors.toList());
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        objectMapper.writeValue(Path.of(InsiderConstants.RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-indentation.json").toFile(), insiderResults);
     }
 
     private int getLineIndentation(String l) {
@@ -65,5 +46,32 @@ public class IndentationCount implements AllFilesCommand {
     @Override
     public String getName() {
         return INDENT;
+    }
+
+    @Override
+    public void init(List<String> commandArgs) {
+
+    }
+
+    @Override
+    public void analyse(InsiderFile file) {
+        IntSummaryStatistics summary = Arrays.stream(file.getContent().split("\n"))
+                .filter(l -> !l.isBlank())
+                .mapToInt(this::getLineIndentation)
+                .summaryStatistics();
+
+        insiderResults.add(new InsiderResult("max_indentation", "complexity", file.getFullyQualifiedName(), summary.getMax()));
+        insiderResults.add(new InsiderResult("avg_indentation", "complexity", file.getFullyQualifiedName(), (int) Math.round(summary.getAverage())));
+        insiderResults.add(new InsiderResult("total_indentation", "complexity", file.getFullyQualifiedName(), (int) summary.getSum()));
+    }
+
+    @Override
+    public void writeResults() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(Path.of(InsiderConstants.RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-indentation.json").toFile(), insiderResults);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

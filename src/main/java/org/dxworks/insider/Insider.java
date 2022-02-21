@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,17 +45,17 @@ public class Insider {
 
         if (args.length == 0) {
             System.err.println("No command found");
-            helpCommand.execute(null, argsList);
+            helpCommand.execute(argsList);
             return;
         }
 
         if (versionCommand.parse(argsList)) {
-            versionCommand.execute(null, argsList);
+            versionCommand.execute(argsList);
             return;
         }
 
         if (helpCommand.parse(argsList)) {
-            helpCommand.execute(null, argsList);
+            helpCommand.execute(argsList);
             return;
         }
 
@@ -68,42 +68,58 @@ public class Insider {
                 .collect(Collectors.toMap(Function.identity(), Insider::getInsiderCommand, (a, b) -> b, LinkedHashMap::new));
 
         readInsiderConfiguration();
-        List<InsiderFile> insiderFiles = allCommandsConfig.values()
-                .stream()
-                .allMatch(it -> it instanceof NoFilesCommand)
-                ? new ArrayList<>()
-                : getInsiderFiles(allCommandsConfig);
 
-        AtomicInteger index = new AtomicInteger(1);
-        int commandsSize = allCommandsConfig.size();
-        allCommandsConfig.forEach((commandArgs, insiderCommand) -> {
-            System.out.printf("*******************\nCommand %s (%d/%d) \n*******************\n", insiderCommand.getName(), index.getAndIncrement(), commandsSize);
+        Map<List<String>, InsiderCommand> noFileCommands = allCommandsConfig.entrySet().stream()
+                .filter(it -> it.getValue() instanceof NoFilesCommand)
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+        Map<List<String>, FilesCommand> fileCommands = allCommandsConfig.entrySet().stream()
+                .filter(it -> it.getValue() instanceof FilesCommand)
+                .collect(Collectors.toMap(Entry::getKey, t -> (FilesCommand) t.getValue()));
+
+        executeNonFileCommands(noFileCommands);
+
+        executeFileCommands(fileCommands);
+
+        System.out.println("Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " finished analysis");
+    }
+
+    private static void executeNonFileCommands(Map<List<String>, InsiderCommand> noFileCommands) {
+        noFileCommands.forEach((commandArgs, insiderCommand) -> {
+            System.out.printf("*******************\nCommand %s\n*******************\n", insiderCommand.getName());
 
             boolean isValidInput = insiderCommand.parse(commandArgs);
             if (!isValidInput) {
                 log.error("Input is not valid!");
-                helpCommand.execute(null, commandArgs);
+                helpCommand.execute(commandArgs);
                 return;
             }
 
-            List<InsiderFile> acceptedFiles =
-                    insiderFiles.stream().filter(it -> hasAcceptedExtension(it.getPath())).collect(Collectors.toList());
-
             try {
-                if (insiderCommand instanceof NoFilesCommand) {
-                    insiderCommand.execute(null, commandArgs);
-                } else if (insiderCommand instanceof AllFilesCommand) {
-                    insiderCommand.execute(insiderFiles, commandArgs);
-                } else {
-                    insiderCommand.execute(acceptedFiles, commandArgs);
-                }
+                insiderCommand.execute(commandArgs);
             } catch (Exception e) {
                 System.out.println("Command " + insiderCommand.getName() + "finished with errors");
                 e.printStackTrace();
             }
         });
+    }
 
-        System.out.println("Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " finished analysis");
+    private static void executeFileCommands(Map<List<String>, FilesCommand> fileCommands) {
+        List<FilesCommand> initialisedFileCommands = fileCommands.entrySet().stream()
+                .filter(entry -> {
+                    FilesCommand command = entry.getValue();
+                    boolean isValid = command.parse(entry.getKey());
+                    if (!isValid) {
+                        System.out.printf("Incorrect configuration of command %s.\nCorrect usage: ", command.getName());
+                        System.out.println(command.usage());
+                    }
+                    return isValid;
+                })
+                .peek(entry -> entry.getValue().init(entry.getKey()))
+                .map(Entry::getValue).collect(Collectors.toList());
+
+        readFilesAndExecute(initialisedFileCommands);
+        initialisedFileCommands.forEach(FilesCommand::writeResults);
     }
 
     private static List<List<String>> extractCommands(String[] args) {
@@ -158,12 +174,10 @@ public class Insider {
         reportUnknownExtensions();
     }
 
-    private static List<InsiderFile> getInsiderFiles(Map<List<String>, InsiderCommand> insiderCommand) {
+    private static void readFilesAndExecute(List<FilesCommand> commands) {
         Ignorer ignorer = new IgnorerBuilder(Paths.get(CONFIGURATION_FOLDER, ".ignore")).compile();
 
-        if (!insiderCommand.values().stream().allMatch(it -> it instanceof NoFilesCommand))
-            return readProjectFiles(InsiderConfiguration.getInstance().getRootFolder(), ignorer);
-        else return new ArrayList<>();
+        readProjectFiles(InsiderConfiguration.getInstance().getRootFolder(), ignorer, commands);
     }
 
     private static void reportUnknownExtensions() {
@@ -173,8 +187,7 @@ public class Insider {
                 .forEach(lang -> System.out.println("Unknown language " + lang));
     }
 
-    private static List<InsiderFile> readProjectFiles(String rootFolder, Ignorer ignorer) {
-        List<InsiderFile> insiderFiles = new ArrayList<>();
+    private static void readProjectFiles(String rootFolder, Ignorer ignorer, List<FilesCommand> commands) {
         try {
             List<Path> pathList = Files.walk(Paths.get(rootFolder))
                     .filter(Files::isRegularFile)
@@ -184,14 +197,15 @@ public class Insider {
                 for (Path path : pathList) {
                     pb.step();
                     try {
-                        insiderFiles.add(InsiderFile.builder()
+                        InsiderFile insiderFile = InsiderFile.builder()
                                 .path(path.toAbsolutePath().toString())
                                 .name(path.getFileName().toString())
                                 .extension(FilenameUtils.getExtension(path.getFileName().toString()))
                                 .content(new String(Files.readAllBytes(path)))
                                 .size(Files.size(path))
-                                .build());
-                    } catch (IOException e) {
+                                .build();
+                        commands.stream().filter(c -> c.acceptsFile(insiderFile.getPath())).forEach(c -> c.analyse(insiderFile));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -199,16 +213,6 @@ public class Insider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return insiderFiles;
     }
 
-    private static boolean hasAcceptedExtension(String filePath) {
-        LinguistService linguistService = LinguistService.getInstance();
-        if (InsiderConfiguration.getInstance().getLanguages().isEmpty()) {
-            return linguistService.hasAcceptedExtension(filePath, linguistService.getProgrammingLanguages());
-        }
-
-        return linguistService.hasAcceptedExtension(filePath);
-    }
 }

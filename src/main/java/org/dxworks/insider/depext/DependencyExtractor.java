@@ -24,8 +24,7 @@ public class DependencyExtractor {
     private int counterFiles = 0;
     private int countIgnoredFiles = 0;
 
-    public void processAndWriteResults(List<InsiderFile> files) {
-        files.forEach(this::execute);
+    public void generateResults() {
         System.out.println("\n\nTotal files in folder: " + counterFiles);
         System.out.println("Files skipped: " + countIgnoredFiles + "\n");
 
@@ -53,7 +52,7 @@ public class DependencyExtractor {
         }
     }
 
-    private void execute(InsiderFile insiderFile) {
+    public void execute(InsiderFile insiderFile) {
         AbstractImportsProcessor processor = createProcessor(insiderFile);
 
         counterFiles++;

@@ -17,7 +17,7 @@ public class HelpCommand implements NoFilesCommand {
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
+    public void execute(List<String> args) {
         String usage = "Insider " + InsiderConfiguration.getInstance().getInsiderVersion() + " -  usage guide:\n";
         usage += "Configure the source root and the project id in the config/insider-conf.properties file\n\n";
 

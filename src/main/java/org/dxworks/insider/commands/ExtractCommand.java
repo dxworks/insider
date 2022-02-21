@@ -5,17 +5,12 @@ import org.dxworks.insider.depext.DependencyExtractor;
 
 import java.util.List;
 
-public class ExtractCommand implements InsiderCommand {
+public class ExtractCommand implements FilesCommand {
     private final DependencyExtractor dependencyExtractor = new DependencyExtractor();
 
     @Override
     public boolean parse(List<String> args) {
         return true;
-    }
-
-    @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
-        dependencyExtractor.processAndWriteResults(insiderFiles);
     }
 
     @Override
@@ -31,5 +26,19 @@ public class ExtractCommand implements InsiderCommand {
     @Override
     public boolean acceptsFile(String path) {
         return dependencyExtractor.acceptFile(path);
+    }
+
+    @Override
+    public void init(List<String> commandArgs) {
+    }
+
+    @Override
+    public void analyse(InsiderFile file) {
+        dependencyExtractor.execute(file);
+    }
+
+    @Override
+    public void writeResults() {
+        dependencyExtractor.generateResults();
     }
 }

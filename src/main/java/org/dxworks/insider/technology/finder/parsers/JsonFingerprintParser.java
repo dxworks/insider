@@ -2,6 +2,7 @@ package org.dxworks.insider.technology.finder.parsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.dxworks.insider.technology.finder.model.FindCommandConfigFile;
 import org.dxworks.insider.technology.finder.model.Technology;
 import org.dxworks.insider.technology.finder.model.json.JsonConfigurationDTO;
 import org.dxworks.insider.technology.finder.model.json.TechnologyJsonDTO;
@@ -41,6 +42,16 @@ public class JsonFingerprintParser implements FingerprintsParser {
             log.error("Could not write JSON file!", e);
             throw e;
         }
+    }
+
+    public FindCommandConfigFile parseFile(String filePath) {
+        JsonConfigurationDTO configurationDTO = getConfigurationDTO(filePath);
+        if (configurationDTO == null)
+            return null;
+
+        return new FindCommandConfigFile(configurationDTO.getTechnologies().stream()
+                .map(TechnologyJsonDTO::toTechnology)
+                .collect(Collectors.toList()), configurationDTO.getOutputFileName());
     }
 
     public JsonConfigurationDTO getConfigurationDTO(String filePath) {

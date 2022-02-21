@@ -27,7 +27,7 @@ commands:
 parameters:
   findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json'
   inspectConfig: 'config/rules'
-  max-heap: 4g
+  max-heap: 12g
 
 environment:
   INSIDER_PROJECTID: "${repoName}"

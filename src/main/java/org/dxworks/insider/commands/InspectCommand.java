@@ -2,17 +2,14 @@ package org.dxworks.insider.commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.tongfei.progressbar.ProgressBar;
-import me.tongfei.progressbar.ProgressBarBuilder;
-import me.tongfei.progressbar.ProgressBarStyle;
 import org.apache.commons.lang.math.IntRange;
 import org.dxworks.insider.ChronosTag;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.InsiderResult;
-import org.dxworks.insider.configuration.InsiderConfiguration;
 import org.dxworks.insider.application.inspector.dtos.Rule;
 import org.dxworks.insider.application.inspector.services.CommentService;
 import org.dxworks.insider.application.inspector.services.RuleService;
+import org.dxworks.insider.configuration.InsiderConfiguration;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -25,9 +22,13 @@ import java.util.stream.Stream;
 import static org.dxworks.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
 @Slf4j
-public class InspectCommand implements InsiderCommand {
+public class InspectCommand implements FilesCommand {
 
     private List<String> ruleFiles;
+
+    private List<Rule> rules;
+
+    private List<InsiderResult> insiderResults = new ArrayList<>();
 
     @Override
     public boolean parse(List<String> args) {
@@ -38,44 +39,6 @@ public class InspectCommand implements InsiderCommand {
         ruleFiles = files.stream().filter(filePath -> folderExists(filePath) || fileExists(filePath)).collect(Collectors.toList());
 
         return !ruleFiles.isEmpty() && files.size() == ruleFiles.size();
-    }
-
-    @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
-        RuleService ruleService = new RuleService();
-        List<Rule> rules = ruleService.getRuleFromFiles(ruleFiles);
-        rules.forEach(Rule::transformPatterns);
-
-        List<InsiderResult> insiderResults;
-
-        try (ProgressBar pb = new ProgressBarBuilder()
-                .setInitialMax(insiderFiles.size())
-                .setUnit(" Files", 1)
-                .setTaskName("Inspecting...")
-                .setStyle(ProgressBarStyle.ASCII)
-                .setUpdateIntervalMillis(100)
-                .setPrintStream(System.err)
-                .build()) {
-            insiderResults = insiderFiles.parallelStream()
-                    .flatMap(insiderFile -> {
-                        List<IntRange> commentRanges = getCommentRanges(insiderFile);
-
-                        Stream<InsiderResult> insiderResultStream = rules.parallelStream()
-                                .flatMap(rule -> rule.analyze(insiderFile, commentRanges).stream());
-                        pb.step();
-                        return insiderResultStream;
-                    })
-                    .collect(Collectors.toList());
-
-            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), "appinspector." + insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
-            Map<String, Map<String, List<ChronosTag>>> chronosResult = Map.of("file", Map.of("concerns", chronosTags));
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), chronosResult);
-        } catch (IOException e) {
-            log.error("Inspect command finished unsuccessfully!", e);
-        }
     }
 
     private List<IntRange> getCommentRanges(InsiderFile insiderFile) {
@@ -94,5 +57,36 @@ public class InspectCommand implements InsiderCommand {
     @Override
     public String getName() {
         return INSPECT;
+    }
+
+    @Override
+    public void init(List<String> commandArgs) {
+        RuleService ruleService = new RuleService();
+        rules = ruleService.getRuleFromFiles(ruleFiles);
+        rules.forEach(Rule::transformPatterns);
+    }
+
+    @Override
+    public void analyse(InsiderFile file) {
+        List<IntRange> commentRanges = getCommentRanges(file);
+
+        insiderResults.addAll(
+                rules.parallelStream()
+                .flatMap(rule -> rule.analyze(file, commentRanges).stream())
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public void writeResults() {
+        try {
+            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), "appinspector." + insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            Map<String, Map<String, List<ChronosTag>>> chronosResult = Map.of("file", Map.of("concerns", chronosTags));
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-tags.json").toFile(), insiderResults);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-chronos-tags.json").toFile(), chronosResult);
+        } catch (IOException e) {
+            log.error("Inspect command finished unsuccessfully!", e);
+        }
     }
 }

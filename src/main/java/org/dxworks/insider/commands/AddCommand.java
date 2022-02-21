@@ -27,7 +27,7 @@ public class AddCommand extends ConvertCommand {
     }
 
     @Override
-    public void execute(List<InsiderFile> insiderFiles, List<String> args) {
+    public void execute(List<String> args) {
 
         try {
             JsonFingerprintParser jsonFingerprintParser = new JsonFingerprintParser();
