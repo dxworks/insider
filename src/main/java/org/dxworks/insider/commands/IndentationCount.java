@@ -1,6 +1,7 @@
 package org.dxworks.insider.commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.dxworks.insider.ChronosTag;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.InsiderResult;
 import org.dxworks.insider.configuration.InsiderConfiguration;
@@ -8,10 +9,8 @@ import org.dxworks.insider.constants.InsiderConstants;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class IndentationCount implements FilesCommand {
 
@@ -68,8 +67,11 @@ public class IndentationCount implements FilesCommand {
     @Override
     public void writeResults() {
         try {
+            List<ChronosTag> chronosTags = insiderResults.stream().map(insiderResult -> new ChronosTag(insiderResult.getFile(), "complexity." + insiderResult.getName(), insiderResult.getValue())).collect(Collectors.toList());
+            Map<String, Map<String, List<ChronosTag>>> chronosResult = Map.of("file", Map.of("concerns", chronosTags));
+
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writeValue(Path.of(InsiderConstants.RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-indentation.json").toFile(), insiderResults);
+            objectMapper.writeValue(Path.of(InsiderConstants.RESULTS_FOLDER, InsiderConfiguration.getInstance().getProjectID() + "-indentation.json").toFile(), chronosResult);
         } catch (IOException e) {
             e.printStackTrace();
         }
