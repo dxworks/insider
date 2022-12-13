@@ -52,5 +52,20 @@
       "vb"
     ],
     "inline": "'"
+  },
+  {
+    "languages": [
+      "COBOL"
+    ],
+    "inlinePatterns": [
+      {
+        "pattern": "^.{6}[*/](.*)$",
+        "modifiers": ["g", "m"]
+      },
+      {
+        "pattern": "(\\*>)(.*)$",
+        "modifiers": ["g", "m"]
+      }
+    ]
   }
 ]

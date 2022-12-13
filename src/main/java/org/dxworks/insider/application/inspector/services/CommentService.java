@@ -61,6 +61,13 @@ public class CommentService {
                     inlineComments.add(new IntRange(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
                 }
             }
+            commentStyle.getInlinePatterns().forEach(it -> {
+                Matcher matcher = Pattern.compile(it.getPattern(), it.createModifier()).matcher(file.getContent());
+                while (matcher.find()) {
+                    int start = matcher.start();
+                    inlineComments.add(new IntRange(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
+                }
+            });
         }
 
         return inlineComments;

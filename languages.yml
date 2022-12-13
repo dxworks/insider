@@ -382,6 +382,13 @@ COBOL:
   - ".ccp"
   - ".cobol"
   - ".cpy"
+  - ".COB"
+  - ".CBL"
+  - ".CCP"
+  - ".COBOL"
+  - ".CPY"
+  aliases:
+  - "cobol"
 CODEOWNERS:
   type: "data"
   filenames:

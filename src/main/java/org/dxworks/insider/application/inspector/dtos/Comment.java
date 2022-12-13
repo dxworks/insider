@@ -14,4 +14,5 @@ public class Comment {
     private String inline;
     private String preffix;
     private String suffix;
+    private List<CommentPattern> inlinePatterns;
 }
