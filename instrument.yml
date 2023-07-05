@@ -25,7 +25,7 @@ commands:
 #    unix: ./insider.sh indent
 
 parameters:
-  findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json'
+  findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json config/fingerprints/generated_code.json'
   inspectConfig: 'config/rules'
   max-heap: 8g
 
