@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Extract Semver
         id: semver_parser
@@ -47,6 +47,45 @@ jobs:
       - name: Create Archive
         run: zip -r insider.zip insider
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@dxworks'
+
+      - name: Prepare Node App
+        run: |
+          npm ci
+          npm run build
+
+
+      - name: Setup Version
+        run: |
+          ls -al node_modules/.bin
+          node_modules/.bin/json -I -f package.json -e "this.version='$VERSION'"
+        env:
+          VERSION: ${{ steps.semver_parser.outputs.semver }}
+
+      - name: Publish NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node with NPM Package Registry
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@dxworks'
+
+      - name: Publish on NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Prepare Release Notes
         run: touch ${{ github.workspace }}/releaseNotes/v${{ steps.semver_parser.outputs.semver }}.md
 
@@ -61,28 +100,3 @@ jobs:
           draft: false
           fail_on_unmatched_files: true
           files: insider.zip
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@dxworks'
-
-      - name: Prepare Node App
-        run: |
-          npm install
-          npm run build
-
-      - name: Setup Version
-        run: |
-          ls -al node_modules/.bin
-          node_modules/.bin/json -I -f package.json -e "this.version='$VERSION'"
-        env:
-          VERSION: ${{ steps.semver_parser.outputs.semver }}
-
-      - name: Publish NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
