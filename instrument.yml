@@ -24,6 +24,10 @@ commands:
 #    win: insider.bat indent
 #    unix: ./insider.sh indent
 
+  - name: insider-cloc
+    win: java -Xmx${max-heap} -jar insider.jar count
+    unix: java -Xmx${max-heap} -jar insider.jar count
+
 parameters:
   findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json config/fingerprints/generated_code.json'
   inspectConfig: 'config/rules'

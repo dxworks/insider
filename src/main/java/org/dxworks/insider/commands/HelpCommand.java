@@ -34,7 +34,8 @@ public class HelpCommand implements NoFilesCommand {
                         new InspectCommand(),
                         new ExtractCommand(),
                         new MeasureCommand(),
-                        new IndentationCount())
+                        new IndentationCount(),
+                        new ClocCommand())
                 .map(InsiderCommand::usage)
                 .map(s -> "\t" + s)
                 .collect(Collectors.joining("\n"));

@@ -144,6 +144,8 @@ public class Insider {
                 return new IndentationCount();
             case InsiderCommand.MEASURE:
                 return new MeasureCommand();
+            case InsiderCommand.COUNT:
+                return new ClocCommand();
             default:
                 return null;
         }
