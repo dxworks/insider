@@ -2,3 +2,15 @@
 **/.git/**
 **/*.iml
 **/node_modules/**
+**/*.pdb
+**/*.dll
+**/*.nupkg
+**/.vs/**
+**/bin/Debug/**
+**/bin/Release/**
+**/bin/x64/Debug**
+**/bin/x64/Release/**
+**/obj/Debug/**
+**/obj/Release/**
+**/obj/x64/Debug/**
+**/obj/x64/Release/**
