@@ -14,6 +14,7 @@ public class ImportItem {
     }
 
     public String toString() {
-        return attribute.isEmpty() ? name : name + "," + attribute;
+        String escapedName = CsvUtils.escapeCsvValue(name);
+        return attribute.isEmpty() ? escapedName : escapedName + "," + CsvUtils.escapeCsvValue(attribute);
     }
 }

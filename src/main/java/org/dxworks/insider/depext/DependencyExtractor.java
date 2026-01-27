@@ -20,6 +20,7 @@ public class DependencyExtractor {
     private static final String scalaExtension = "scala";
     private static final String csExtension = "cs";
     private static final String groovyExtension = "groovy";
+    private static final String rustExtension = "rs";
     private final List<ImportResult> resultsList = new ArrayList<>();
     private int counterFiles = 0;
     private int countIgnoredFiles = 0;
@@ -34,6 +35,7 @@ public class DependencyExtractor {
             System.out.println(CSharpImportsProcessor.counter + " C# files processed");
         if (CPPImportsProcessor.counter > 0) System.out.println(CPPImportsProcessor.counter + " C++ files processed");
         if (VBImportsProcessor.counter > 0) System.out.println(VBImportsProcessor.counter + " VB.NET files processed");
+        if (RustImportsProcessor.counter > 0) System.out.println(RustImportsProcessor.statistics());
 
 
         String outputFilename = "results/" + InsiderConfiguration.getInstance().getProjectID() + "-depext.csv";
@@ -76,6 +78,7 @@ public class DependencyExtractor {
             return new CSharpImportsProcessor(insiderFile);
         else if (cppExtensions.contains(extension)) return new CPPImportsProcessor(insiderFile);
         else if (extension.endsWith(visualBasicExtension)) return new VBImportsProcessor(insiderFile);
+        else if (extension.endsWith(rustExtension)) return new RustImportsProcessor(insiderFile);
 
 
         return null;
@@ -95,6 +98,7 @@ public class DependencyExtractor {
         acceptedExtensions.add(scalaExtension);
         acceptedExtensions.add(groovyExtension);
         acceptedExtensions.add(csExtension);
+        acceptedExtensions.add(rustExtension);
         return acceptedExtensions.stream().anyMatch(path::endsWith);
     }
 

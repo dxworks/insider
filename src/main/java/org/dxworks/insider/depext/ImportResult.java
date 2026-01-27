@@ -13,12 +13,16 @@ public class ImportResult {
     List<ImportItem> importedItems;
 
     public String toString() {
+        String escapedFilename = CsvUtils.escapeCsvValue(filename);
+        String escapedLanguage = CsvUtils.escapeCsvValue(language);
+        String escapedNamespace = CsvUtils.escapeCsvValue(namespace);
+        
         if (importedItems.isEmpty())
-            return filename + "," + language + "," + namespace + "," + linesOfCode + ",";
+            return escapedFilename + "," + escapedLanguage + "," + escapedNamespace + "," + linesOfCode + ",";
 
         List<String> importLines = importedItems.stream().map(ImportItem::toString).collect(Collectors.toList());
 
-        String fileColumns = filename + "," + language + "," + namespace + "," + linesOfCode;
+        String fileColumns = escapedFilename + "," + escapedLanguage + "," + escapedNamespace + "," + linesOfCode;
 
         List<String> rows = new ArrayList<>();
 
