@@ -1,8 +1,18 @@
-FROM openjdk:11
+FROM eclipse-temurin:11-jre
+
 WORKDIR /app
-ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
+
+# Non-root user for security
+RUN useradd -r -u 10001 -g root appuser
+
 COPY ./build/libs/insider-*.jar /app/insider.jar
 COPY config/ /app/config/
-
 COPY bin/insider.sh /app/insider.sh
-RUN chmod +x /app/insider.sh
+
+RUN chmod +x /app/insider.sh \
+ && chown -R 10001:0 /app
+
+USER 10001
+
+ENTRYPOINT ["/app/insider.sh"]
+
