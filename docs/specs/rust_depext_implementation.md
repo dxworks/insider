@@ -53,7 +53,7 @@ We need to extend the Insider dependency extractor to support Rust projects. The
 The depext system uses a template method pattern:
 
 1. **`AbstractImportsProcessor`** - Base class that:
-   - Removes comments from file content
+   - Removes comments from file content (`FileUtils.removeComments`)
    - Iterates through each line
    - Calls abstract methods `namespaceLine()` and `importLine()`
    - Collects namespace (first match) and all import items
@@ -81,7 +81,7 @@ Each file produces multiple rows (one per import), with file metadata repeated.
 
 - **No post-processing**: The tool runs on client infrastructure without debugging access
 - **Minimal complexity**: Keep processing simple and deterministic
-- **No cross-file analysis**: Each file is processed independently
+- **Limited cross-file analysis**: Some Rust namespace cases require reading parent module files (see `#[path]` support)
 - **No output format changes**: Must maintain existing CSV structure
 
 ## Solution
@@ -94,7 +94,8 @@ We will implement a **pragmatic, minimal approach** that:
 3. Finds the crate root and reads crate name from `Cargo.toml`
 4. Calculates namespace based on file path relative to `{crate_root}/src/`
 5. Parses `use` statements and keeps them as-is in the output
-6. Does NOT parse `mod` declarations (assumes file structure matches module structure)
+6. Does NOT build a full module tree from `mod` declarations (assumes file structure matches module structure)
+7. Supports a limited `#[path]` attribute resolution for namespaces (see Known Limitations)
 
 **Assumptions**: 
 - Module names match file/directory names (true ~95% of the time in idiomatic Rust)
@@ -114,6 +115,8 @@ For each `.rs` file **under a `src/` directory**:
    - `src/module.rs` → `{crate_name}::module`
    - `src/network/mod.rs` → `{crate_name}::network`
    - `src/network/tcp.rs` → `{crate_name}::network::tcp`
+
+Additionally, `#[path]` attributes on `mod` declarations can override the physical path when calculating namespace.
 
 **Note**: This algorithm correctly handles multi-crate workspaces:
 - Files in `crates/network-lib/src/session.rs` → finds `crates/network-lib/Cargo.toml` → namespace `network_lib::session`
@@ -137,6 +140,11 @@ Parse `use` statements and extract as `ImportItem`:
 - Track `pub` attribute for re-exports (important for API boundaries)
 - Track `glob` attribute for wildcard imports (affects dependency precision)
 - Keep relative paths (`crate::`, `super::`, `self::`) as-is
+
+**Preprocessing**:
+- Multi-line `use` statements are joined before parsing (including nested braces)
+- Line endings are normalized to handle CRLF files
+- String literal contents are neutralized before parsing to avoid treating `//` inside string literals as comments
 
 **Attribute semantics** (aligned with existing languages):
 - `""` (empty): Regular imports - default case
@@ -207,18 +215,52 @@ Files under `src/` directories get full namespace calculation:
 - Workspace member crates (`/crates/*/src/`)
 - Build tool crates (`/xtask/src/`)
 
+### Path Attribute Support
+
+The implementation **now supports** `#[path]` attributes on `mod` declarations:
+- When calculating namespace, the processor checks parent module files (`mod.rs` or `parent.rs`) for `#[path]` attributes
+- If a `#[path]` attribute is found that points to the current file, the logical module name from the `mod` declaration is used instead of the physical directory structure
+- For files directly under `src/`, the processor also checks crate root module files in this order: `src/lib.rs`, `src/main.rs`, `src/mod.rs`
+- **Example**: If `example-app/src/network/mod.rs` contains:
+  ```rust
+  #[path = "custom/protocol/mod.rs"]
+  pub mod protocol;
+  ```
+  The file at `example-app/src/network/custom/protocol/mod.rs` will be correctly assigned namespace `network::protocol` (logical path) instead of `network::custom::protocol` (physical path)
+
+This feature requires parsing parent module files but maintains reasonable complexity by only checking immediate parent modules.
+
 ### Processing Limitations
 1. **Module name mismatches**: If a `mod` declaration uses a different name than the file/directory, the namespace will be incorrect
 2. **Conditional compilation**: `#[cfg(...)]` attributes on `mod` declarations are ignored
 3. **Inline modules**: `mod inline_module { ... }` in the same file are not detected
-4. **Path attributes**: `#[path = "custom/path.rs"]` on `mod` declarations are not handled
+   - **Impact**: Imports inside inline module blocks cannot have their namespace context determined, leading to ambiguous `use super::*` statements
+   - **Example**: If `crates/example-ipc/src/lib.rs` contains:
+     ```rust
+     #[cfg(test)]
+     mod connection_tests {
+       use super::*;
+       // ...
+     }
+     
+     #[cfg(test)]
+     mod tests {
+       use super::*;
+       use tempfile::tempdir;
+     }
+     ```
+     Both inline modules will have their imports extracted with the file's namespace (`example_ipc`), but the actual namespace should be `example_ipc::connection_tests` and `example_ipc::tests` respectively. The `use super::*` statements cannot be correctly resolved without knowing the inline module context
+   - **Workaround**: This requires parsing module block structure within files, which adds significant complexity to the line-by-line processing model
 
 These limitations are acceptable given the constraint of minimal complexity and the focus on production code structure.
+
+### String Literals and Comments
+
+The extractor does not attempt a full Rust lexer/parser. To avoid false positives where string literals contain `use ...` or `//`, string literal contents are neutralized during preprocessing so that comment-like sequences inside strings do not affect `use` detection.
 
 ## Future Enhancements
 
 If higher accuracy is needed:
 1. Parse `mod` declarations to build accurate module tree (requires two-pass processing)
-2. Handle `#[path]` attributes for non-standard file locations
-3. Detect and handle inline modules
-4. Support for `#[cfg]` conditional compilation
+2. Detect and handle inline modules
+3. Support for `#[cfg]` conditional compilation
