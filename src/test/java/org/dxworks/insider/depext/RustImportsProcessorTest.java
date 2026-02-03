@@ -65,6 +65,14 @@ public class RustImportsProcessorTest {
     }
 
     @Test
+    public void testPathAttributeInSiblingModuleFileForNestedFile() throws IOException {
+        // Simulate src/ui/select_dropdown.rs declaring a nested module file via #[path]
+        processFile("src/ui/select_dropdown.rs", "#[path = \"select_dropdown/choice.rs\"]\nmod choice;\n");
+        ImportResult result = processFile("src/ui/select_dropdown/choice.rs", DUMMY_CONTENT);
+        assertEquals("test_crate::ui::select_dropdown::choice", result.namespace);
+    }
+
+    @Test
     public void testNestedModuleNamespace() throws IOException {
         ImportResult result = processFile("src/network/tcp.rs", DUMMY_CONTENT);
         assertEquals("test_crate::network::tcp", result.namespace);

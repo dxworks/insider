@@ -221,12 +221,9 @@ public class RustNamespaceResolver {
             if (Files.exists(siblingRs)) {
                 String logicalName = findPathDeclarationFor(siblingRs, targetFile);
                 if (logicalName != null) {
-                    // For sibling .rs, prefix excludes the current dir name
-                    List<String> siblingPrefix = new ArrayList<>();
-                    for (int i = 0; i < depth - 1; i++) {
-                        siblingPrefix.add(relative.getName(i).toString());
-                    }
-                    return joinWithPrefix(siblingPrefix, logicalName);
+                    // Sibling .rs represents the current module (e.g., ui/select_dropdown.rs => ui::select_dropdown)
+                    // so the prefix MUST include the current dir name.
+                    return joinWithPrefix(prefixSegments, logicalName);
                 }
             }
         }
