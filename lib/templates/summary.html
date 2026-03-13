@@ -1,0 +1,55 @@
+<section class="insider-summary {{statusClass}}">
+  <style>
+    .insider-summary {
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      background: #ffffff;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .insider-summary h2 {
+      margin-top: 0;
+    }
+
+    .insider-summary.status-success {
+      border-left: 4px solid #1a7f37;
+    }
+
+    .insider-summary.status-warning {
+      border-left: 4px solid #9a6700;
+    }
+
+    .insider-summary.status-error {
+      border-left: 4px solid #cf222e;
+    }
+
+    .insider-summary .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px 16px;
+      margin: 12px 0;
+    }
+
+    .insider-summary .summary-item {
+      padding: 6px 8px;
+      background: #f6f8fa;
+      border-radius: 6px;
+    }
+  </style>
+
+  <h2>Insider</h2>
+  <p>Status: <strong>{{status}}</strong></p>
+
+  <div class="summary-grid">
+    <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFiles}}</div>
+    <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotal}}</div>
+    <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotal}}</div>
+    <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotal}}</div>
+    <div class="summary-item"><strong>Java files</strong><br>{{metrics.javaFiles}} ({{metrics.javaPercent}}%)</div>
+    <div class="summary-item"><strong>.NET files</strong><br>{{metrics.dotnetFiles}} ({{metrics.dotnetPercent}}%)</div>
+    <div class="summary-item"><strong>Generated at</strong><br>{{generatedAt}}</div>
+  </div>
+</section>
