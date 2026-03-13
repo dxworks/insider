@@ -1,10 +1,9 @@
 name: insider
 id: insider
 version: 1.0.0
-runOrder: 400
 
 actions:
-  run:
+  start:
     parameters:
       max-heap: 8g
       findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json config/fingerprints/generated_code.json'
@@ -34,7 +33,7 @@ actions:
         id: generate-summary
         dir: ${instrumentPath}
         command:
-          win: py -3 insider-summary.py "${instrumentPath}/results"
+          windows: py -3 insider-summary.py "${instrumentPath}/results"
           unix: python3 insider-summary.py "${instrumentPath}/results"
 
   pack:
