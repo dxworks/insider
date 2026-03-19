@@ -246,7 +246,7 @@ def _resolve_status(cloc_count: int, has_data_quality_issues: bool) -> str:
 
 
 def _iso_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+    return datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
 
 
 def _to_status_class(status: str) -> str:
