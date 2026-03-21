@@ -15,7 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run Trivy filesystem scanner
+      - name: Run Trivy filesystem scanner (table)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 0
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Run Trivy filesystem scanner (sarif)
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
@@ -26,7 +35,7 @@ jobs:
           severity: MEDIUM,HIGH,CRITICAL
 
       - name: Upload filesystem scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-fs-results.sarif
@@ -49,7 +58,16 @@ jobs:
       - name: Build Docker image
         run: docker build -t insider:${{ github.sha }} .
 
-      - name: Run Trivy image scanner
+      - name: Run Trivy image scanner (table)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: insider:${{ github.sha }}
+          format: table
+          exit-code: 0
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Run Trivy image scanner (sarif)
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
@@ -60,7 +78,7 @@ jobs:
           severity: MEDIUM,HIGH,CRITICAL
 
       - name: Upload image scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-image-results.sarif
