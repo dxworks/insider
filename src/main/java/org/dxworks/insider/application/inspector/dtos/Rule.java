@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.InsiderResult;
 import org.dxworks.insider.technology.finder.LinguistService;
@@ -31,7 +31,7 @@ public class Rule {
     private String _comment;
 
 
-    public List<InsiderResult> analyze(InsiderFile file, List<IntRange> commentRanges) {
+    public List<InsiderResult> analyze(InsiderFile file, List<Range<Integer>> commentRanges) {
         if (appliesTo(file)) {
             List<PatternMatch> matches = patterns.parallelStream()
                     .flatMap(pattern -> pattern.getMatches(file, commentRanges).stream())

@@ -93,7 +93,6 @@ fabric.properties
 
 
 .gradle/
-gradle/
 build/
 results/
 site/

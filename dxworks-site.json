@@ -8,6 +8,6 @@
       "name": "Mario Rivis"
     }
   ],
-  "technologies": ["kotlin", "gradle"],
+  "technologies": ["java", "gradle"],
   "docs": "https://dxworks.github.io/insider"
 }

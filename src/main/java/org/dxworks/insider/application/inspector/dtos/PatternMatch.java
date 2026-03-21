@@ -3,7 +3,7 @@ package org.dxworks.insider.application.inspector.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 
 @Data
 @Builder
@@ -17,7 +17,7 @@ public class PatternMatch {
     private int startIndex;
     private int endIndex;
 
-    public IntRange getAbsoluteRange() {
-        return new IntRange(globalEndIndex, globalEndIndex);
+    public Range<Integer> getAbsoluteRange() {
+        return Range.of(globalEndIndex, globalEndIndex);
     }
 }

@@ -17,6 +17,12 @@ jobs:
         run: |
           echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
       - name: Set Version
         run: echo ${TAG_NAME} > src/main/resources/insider-version
       - name: Build

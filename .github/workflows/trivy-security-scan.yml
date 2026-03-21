@@ -1,0 +1,94 @@
+name: Trivy Security Scan
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  trivy-fs-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scanner (table)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 0
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Run Trivy filesystem scanner (sarif)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-fs-results.sarif
+          exit-code: 1
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Upload filesystem scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-fs-results.sarif
+          category: trivy-fs
+
+  trivy-image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: Gradle Build
+        run: gradle clean build
+
+      - name: Build Docker image
+        run: docker build -t insider:${{ github.sha }} .
+
+      - name: Run Trivy image scanner (table)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: insider:${{ github.sha }}
+          format: table
+          exit-code: 0
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Run Trivy image scanner (sarif)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: insider:${{ github.sha }}
+          format: sarif
+          output: trivy-image-results.sarif
+          exit-code: 1
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Upload image scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-image-results.sarif
+          category: trivy-image
+
+      - name: Post PR comment with image scan results
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const script = require('./scripts/trivy-image-comment.js');
+            await script({ github, context });
