@@ -1,7 +1,7 @@
 package org.dxworks.insider.commands;
 
-import org.dxworks.ignorerLibrary.Ignorer;
-import org.dxworks.ignorerLibrary.IgnorerBuilder;
+import org.dxworks.utils.ignorer.Ignorer;
+import org.dxworks.utils.ignorer.IgnorerBuilder;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.configuration.InsiderConfiguration;
 

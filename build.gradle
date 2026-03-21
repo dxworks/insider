@@ -17,10 +17,6 @@ java {
 repositories {
     mavenCentral()
     mavenLocal()
-    maven {
-        name 'ossrh'
-        url 'https://s01.oss.sonatype.org/content/repositories/snapshots'
-    }
 }
 
 dependencies {
@@ -43,9 +39,10 @@ dependencies {
 
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.26'
 
-    implementation 'org.dxworks:dx-ignore:1.1.0-SNAPSHOT'
-    implementation 'org.dxworks:argumenthor:1.1.0-SNAPSHOT'
-    implementation 'org.dxworks:dx-linguist:1.0.0-SNAPSHOT'
+    implementation 'org.dxworks.utils:dx-ignore:1.1.0'
+    implementation 'org.dxworks.utils:argumenthor:1.1.0'
+    implementation 'org.dxworks.utils:dx-linguist:1.0.0'
+
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
 

@@ -2,35 +2,49 @@ package org.dxworks.insider.depext;
 
 import org.dxworks.insider.InsiderFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Processes Rust source files to extract namespace and import information.
+ * 
+ * This class orchestrates three focused components:
+ * 1. {@link RustContentPreprocessor} - Prepares content (string neutralization, multi-line joining)
+ * 2. {@link RustCrateResolver} - Finds crate name and root from Cargo.toml
+ * 3. {@link RustNamespaceResolver} - Calculates namespace from file path and #[path] attributes
+ * 
+ * Import parsing (use statements) is handled directly here as it's simple line-by-line logic.
+ */
 public class RustImportsProcessor extends AbstractImportsProcessor {
+    
     public static int counter = 0;
-    private static final Pattern CRATE_NAME_PATTERN = Pattern.compile("^\\s*name\\s*=\\s*\"([^\"]+)\"");
+    
+    private static final Pattern USE_STATEMENT_PATTERN = Pattern.compile("^(pub\\s+)?use\\s+.*");
+    
+    private static final RustContentPreprocessor contentPreprocessor = new RustContentPreprocessor();
+    private static final RustCrateResolver crateResolver = new RustCrateResolver();
+    private static final RustNamespaceResolver namespaceResolver = new RustNamespaceResolver();
 
     public RustImportsProcessor(InsiderFile insiderFile) {
-        super(insiderFile);
-        
+        super(contentPreprocessor.preprocess(insiderFile));
         counter++;
-        
+        namespace = resolveNamespace(insiderFile);
+    }
+    
+    private String resolveNamespace(InsiderFile insiderFile) {
         String relativePath = insiderFile.getFullyQualifiedName();
-        if (!isUnderSrcDirectory(relativePath)) {
-            namespace = "";
-            return;
+        String absolutePath = insiderFile.getPath();
+        
+        if (!namespaceResolver.isUnderSrcDirectory(relativePath)) {
+            return "";
         }
         
         try {
-            String crateName = findCrateNameFromPath(insiderFile.getPath());
-            namespace = calculateNamespace(relativePath, crateName);
+            RustCrateResolver.CrateInfo crateInfo = crateResolver.resolve(absolutePath);
+            return namespaceResolver.resolve(absolutePath, relativePath, crateInfo.getName(), crateInfo.getRoot());
         } catch (Exception e) {
-            namespace = "";
+            return "";
         }
     }
 
@@ -51,113 +65,43 @@ public class RustImportsProcessor extends AbstractImportsProcessor {
 
     @Override
     protected List<ImportItem> importLine(String trimmedLine) {
-        String cleanedLine = trimmedLine.replaceAll("/\\*[#\\s]*\\*/", "").trim();
+        String cleanedLine = removeInlineComments(trimmedLine);
         
-        if (!cleanedLine.matches("^(pub\\s+)?use\\s+.*")) return null;
-        
-        String attribute = "";
-        String line = cleanedLine;
-        
-        if (line.matches("^pub\\s+use\\s+.*")) {
-            attribute = "pub";
-            line = line.replaceFirst("^pub\\s+use\\s+", "");
-        } else {
-            line = line.replaceFirst("^use\\s+", "");
+        if (!isUseStatement(cleanedLine)) {
+            return null;
         }
         
-        line = line.replaceAll(";$", "").trim();
+        boolean isPublic = cleanedLine.startsWith("pub ");
+        String importPath = extractImportPath(cleanedLine);
+        String attribute = buildAttribute(isPublic, importPath);
         
-        if (line.contains("*")) {
-            attribute = attribute.isEmpty() ? "glob" : attribute + ",glob";
-        }
-        
-        return Collections.singletonList(new ImportItem(line, attribute));
+        return Collections.singletonList(new ImportItem(importPath, attribute));
     }
-
-    private boolean isUnderSrcDirectory(String filePath) {
-        String normalizedPath = filePath.replace("\\", "/");
-        return normalizedPath.contains("/src/");
+    
+    private String removeInlineComments(String line) {
+        return line.replaceAll("/\\*[#\\s]*\\*/", "").trim();
     }
-
-    private String findCrateNameFromPath(String filePath) throws IOException {
-        Path rootFolder = Paths.get(org.dxworks.insider.configuration.InsiderConfiguration.getInstance().getRootFolder()).toAbsolutePath();
-        Path path = Paths.get(filePath).toAbsolutePath();
-        Path currentDir = path.getParent();
-        
-        while (currentDir != null) {
-            Path cargoTomlPath = currentDir.resolve("Cargo.toml");
-            if (Files.exists(cargoTomlPath)) {
-                String crateName = extractCrateNameFromCargoToml(cargoTomlPath);
-                if (crateName != null) {
-                    return crateName.replace("-", "_");
-                }
-            }
-            
-            // Stop if we've reached the root folder
-            if (currentDir.equals(rootFolder)) {
-                break;
-            }
-            
-            currentDir = currentDir.getParent();
-        }
-        
-        throw new IOException("Could not find Cargo.toml with [package] section");
+    
+    private boolean isUseStatement(String line) {
+        return USE_STATEMENT_PATTERN.matcher(line).matches();
     }
-
-    private String extractCrateNameFromCargoToml(Path cargoTomlPath) throws IOException {
-        List<String> lines = Files.readAllLines(cargoTomlPath);
-        boolean inPackageSection = false;
-        
-        for (String line : lines) {
-            String trimmed = line.trim();
-            
-            if (trimmed.equals("[package]")) {
-                inPackageSection = true;
-                continue;
-            }
-            
-            if (trimmed.startsWith("[") && !trimmed.equals("[package]")) {
-                inPackageSection = false;
-                continue;
-            }
-            
-            if (inPackageSection) {
-                Matcher matcher = CRATE_NAME_PATTERN.matcher(trimmed);
-                if (matcher.find()) {
-                    return matcher.group(1);
-                }
-            }
-        }
-        
-        return null;
+    
+    private String extractImportPath(String line) {
+        String withoutKeywords = line.replaceFirst("^pub\\s+use\\s+", "")
+                                     .replaceFirst("^use\\s+", "");
+        return withoutKeywords.replaceAll(";$", "").trim();
     }
-
-    private String calculateNamespace(String filePath, String crateName) {
-        String normalizedPath = filePath.replace("\\", "/");
+    
+    private String buildAttribute(boolean isPublic, String importPath) {
+        boolean isGlob = importPath.contains("*");
         
-        int srcIndex = normalizedPath.lastIndexOf("/src/");
-        if (srcIndex == -1) {
-            return crateName;
+        if (isPublic && isGlob) {
+            return "pub,glob";
+        } else if (isPublic) {
+            return "pub";
+        } else if (isGlob) {
+            return "glob";
         }
-        
-        String relativePath = normalizedPath.substring(srcIndex + 5);
-        
-        if (relativePath.equals("lib.rs") || relativePath.equals("main.rs")) {
-            return crateName;
-        }
-        
-        relativePath = relativePath.replaceAll("\\.rs$", "");
-        
-        if (relativePath.endsWith("/mod")) {
-            relativePath = relativePath.substring(0, relativePath.length() - 4);
-        }
-        
-        String modulePathPart = relativePath.replace("/", "::");
-        
-        if (modulePathPart.isEmpty()) {
-            return crateName;
-        }
-        
-        return crateName + "::" + modulePathPart;
+        return "";
     }
 }
