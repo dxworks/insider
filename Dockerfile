@@ -1,5 +1,4 @@
 FROM eclipse-temurin:21-jre-alpine
-RUN apk upgrade --no-cache
 WORKDIR /app
 ENV JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 COPY ./build/libs/insider-*.jar /app/insider.jar
