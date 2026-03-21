@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   security-events: write
+  pull-requests: write
 
 jobs:
   trivy-fs-scan:
@@ -83,3 +84,11 @@ jobs:
         with:
           sarif_file: trivy-image-results.sarif
           category: trivy-image
+
+      - name: Post PR comment with image scan results
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const script = require('./scripts/trivy-image-comment.js');
+            await script({ github, context });
