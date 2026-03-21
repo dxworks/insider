@@ -1,6 +1,6 @@
 package org.dxworks.insider.application.inspector.services;
 
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.technology.finder.LinguistService;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class CommentServiceTest {
         String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
 
         CommentService commentService = CommentService.getInstance();
-        List<IntRange> commentRanges = commentService.extractInlineCommentLines(
+        List<Range<Integer>> commentRanges = commentService.extractInlineCommentLines(
                 InsiderFile.builder()
                         .name("CM201M.CBL")
                         .path("cobol/CM201M.CBL")

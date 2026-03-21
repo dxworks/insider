@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 import org.dxworks.insider.InsiderFile;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class InsiderPattern {
     @JsonIgnore
     private int regexFlags = -1;
 
-    public List<PatternMatch> getMatches(InsiderFile file, List<IntRange> commentRanges) {
+    public List<PatternMatch> getMatches(InsiderFile file, List<Range<Integer>> commentRanges) {
         if (hasErrors)
             return Collections.emptyList();
 
@@ -107,21 +107,21 @@ public class InsiderPattern {
         return regexFlags;
     }
 
-    private List<PatternMatch> getCommentMatches(InsiderFile file, List<IntRange> commentRanges) {
+    private List<PatternMatch> getCommentMatches(InsiderFile file, List<Range<Integer>> commentRanges) {
         return matchesInEntireFile(file).stream()
                 .filter(patternMatch -> isInComment(patternMatch, commentRanges))
                 .collect(Collectors.toList());
     }
 
-    private boolean isInComment(PatternMatch patternMatch, List<IntRange> commentRanges) {
+    private boolean isInComment(PatternMatch patternMatch, List<Range<Integer>> commentRanges) {
         return commentRanges.stream().anyMatch(range -> range.containsRange(patternMatch.getAbsoluteRange()));
     }
 
-    private boolean isOutsideOfComment(PatternMatch patternMatch, List<IntRange> commentRanges) {
-        return commentRanges.stream().noneMatch(range -> range.overlapsRange(patternMatch.getAbsoluteRange()));
+    private boolean isOutsideOfComment(PatternMatch patternMatch, List<Range<Integer>> commentRanges) {
+        return commentRanges.stream().noneMatch(range -> range.isOverlappedBy(patternMatch.getAbsoluteRange()));
     }
 
-    private List<PatternMatch> getCodeMatches(InsiderFile file, List<IntRange> commentRanges) {
+    private List<PatternMatch> getCodeMatches(InsiderFile file, List<Range<Integer>> commentRanges) {
         return matchesInEntireFile(file).stream()
                 .filter(patternMatch -> isOutsideOfComment(patternMatch, commentRanges))
                 .collect(Collectors.toList());

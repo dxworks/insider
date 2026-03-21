@@ -6,7 +6,7 @@ import me.tongfei.progressbar.ConsoleProgressBarConsumer;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 import org.dxworks.insider.ChronosTag;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.InsiderResult;
@@ -59,7 +59,7 @@ public class InspectCommand implements InsiderCommand {
                 .build()) {
             insiderResults = insiderFiles.parallelStream()
                     .flatMap(insiderFile -> {
-                        List<IntRange> commentRanges = getCommentRanges(insiderFile);
+                        List<Range<Integer>> commentRanges = getCommentRanges(insiderFile);
 
                         Stream<InsiderResult> insiderResultStream = rules.parallelStream()
                                 .flatMap(rule -> rule.analyze(insiderFile, commentRanges).stream());
@@ -79,8 +79,8 @@ public class InspectCommand implements InsiderCommand {
         }
     }
 
-    private List<IntRange> getCommentRanges(InsiderFile insiderFile) {
-        List<IntRange> commentRanges = new ArrayList<>();
+    private List<Range<Integer>> getCommentRanges(InsiderFile insiderFile) {
+        List<Range<Integer>> commentRanges = new ArrayList<>();
         CommentService commentService = CommentService.getInstance();
         commentRanges.addAll(commentService.extractInlineCommentLines(insiderFile));
         commentRanges.addAll(commentService.extractMultilineCommentLines(insiderFile));
