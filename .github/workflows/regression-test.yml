@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Publish test report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v3
         if: always()
         with:
           name: Regression Results
@@ -42,7 +42,7 @@ jobs:
           fail-on-error: false
 
       - name: Upload report artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: regression-report
