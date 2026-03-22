@@ -3,61 +3,45 @@ on:
     tags:
       - 'v*-voyager'
 
-name: Create Release
+name: Release Voyager
 
 jobs:
-  release:
-    name: Release
+  parse-tag:
     runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.parse.outputs.semver }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Tag Name
-        id: tag_name
+      - id: parse
         run: |
-          echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
+          TAG="${GITHUB_REF#refs/tags/v}"
+          echo "semver=${TAG%-voyager}" >> $GITHUB_OUTPUT
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'temurin'
+  gate:
+    needs: [parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-gate.yml@v1
+    with:
+      java-version: '21'
+    permissions:
+      contents: read
+      security-events: write
 
-      - name: Set Version
-        run: echo ${TAG_NAME} > src/main/resources/insider-version
-      - name: Build
-        run: gradle clean build
-      - name: Prepare Assets
-        run: |
-          mkdir insider
-          mkdir insider/results
-          cp README.md insider/README.md
-          cp build/libs/insider*.jar insider/insider.jar
-          cp bin/insider.sh insider/insider.sh
-          chmod +x insider/insider.sh
-          cp bin/insider.bat insider/insider.bat
-          cp instrument.yml insider/instrument.yml
-          cp languages.yml insider/languages.yml
-          cp -R config insider/config
-      - name: Create Archive
-        run: zip -r insider.zip insider
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Insider ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./insider.zip
-          asset_name: insider-voyager.zip
-          asset_content_type: application/zip
+  archive:
+    needs: [gate, parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-archive.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      java-version: '21'
+      prepare-script: ./scripts/prepare-release-voyager.sh
+    permissions:
+      contents: read
+
+  github-release:
+    needs: [parse-tag, archive]
+    uses: dxworks/pipelines/.github/workflows/release-github.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      tag: ${{ github.ref_name }}
+      release-name: Insider ${{ needs.parse-tag.outputs.semver }} Voyager
+      asset-name: insider-voyager.zip
+    permissions:
+      contents: write

@@ -4,105 +4,73 @@ on:
       - 'v*'
       - '!**-voyager'
 
-name: Create Release
+name: Release
 
 jobs:
-  release:
-    name: Release
+  parse-tag:
     runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.parse.outputs.semver }}
+    steps:
+      - id: parse
+        run: echo "semver=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+  gate:
+    needs: [parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-gate.yml@v1
+    with:
+      java-version: '21'
     permissions:
-      contents: write
+      contents: read
+      security-events: write
+
+  archive:
+    needs: [gate, parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-archive.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      java-version: '21'
+    permissions:
+      contents: read
+
+  npm:
+    needs: [gate, parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-npm.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      node-version: '20'
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+  docker:
+    needs: [gate, parse-tag]
+    uses: dxworks/pipelines/.github/workflows/release-docker.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      image-name: dxworks/insider
+      java-version: '21'
+      build-script: ./scripts/build.sh
+    secrets:
+      dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    permissions:
+      contents: read
       packages: write
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Extract Semver
-        id: semver_parser
-        run: |
-          semver=${TAG#"refs/tags/v"}
-          semver=${semver%"-voyager"}
-
-          echo ::set-output name=semver::$semver
-        env:
-          TAG: ${{ github.ref }}
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'temurin'
-
-      - name: Set Version
-        run: echo ${{ steps.semver_parser.outputs.semver }} > src/main/resources/insider-version
-      - name: Build
-        run: gradle clean build
-      - name: Prepare Assets
-        run: |
-          mkdir insider
-          mkdir insider/results
-          cp README.md insider/README.md
-          cp build/libs/insider*.jar insider/insider.jar
-          cp bin/insider.sh insider/insider.sh
-          cp bin/insider.bat insider/insider.bat
-          chmod +x insider/insider.sh
-          cp languages.yml insider/languages.yml
-          cp -R config insider/config
-
-      - name: Create Archive
-        run: zip -r insider.zip insider
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@dxworks'
-
-      - name: Prepare Node App
-        run: |
-          npm ci
-          npm run build
-
-
-      - name: Setup Version
-        run: |
-          ls -al node_modules/.bin
-          node_modules/.bin/json -I -f package.json -e "this.version='$VERSION'"
-        env:
-          VERSION: ${{ steps.semver_parser.outputs.semver }}
-
-      - name: Publish NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node with NPM Package Registry
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
-          scope: '@dxworks'
-
-      - name: Publish on NPM
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Prepare Release Notes
-        run: touch ${{ github.workspace }}/releaseNotes/v${{ steps.semver_parser.outputs.semver }}.md
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: Insider ${{ steps.semver_parser.outputs.semver }}
-          body_path: ${{ github.workspace }}/releaseNotes/v${{ steps.semver_parser.outputs.semver }}.md
-          body: ""
-          prerelease: false
-          draft: false
-          fail_on_unmatched_files: true
-          files: insider.zip
+  github-release:
+    needs: [parse-tag, archive, npm, docker]
+    if: |
+      always() &&
+      needs.archive.result == 'success' &&
+      (needs.npm.result == 'success' || needs.npm.result == 'skipped') &&
+      (needs.docker.result == 'success' || needs.docker.result == 'skipped')
+    uses: dxworks/pipelines/.github/workflows/release-github.yml@v1
+    with:
+      version: ${{ needs.parse-tag.outputs.semver }}
+      tag: ${{ github.ref_name }}
+      release-name: Insider ${{ needs.parse-tag.outputs.semver }}
+      asset-name: insider.zip
+    permissions:
+      contents: write
