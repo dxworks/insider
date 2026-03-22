@@ -40,8 +40,7 @@
     "sort-package-json": "^1.52.0"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "dxw": {
     "commands": [
