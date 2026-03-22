@@ -5,6 +5,11 @@ on:
     branches:
       - dev
 
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
 jobs:
   trivy-fs:
     uses: dxworks/pipelines/.github/workflows/trivy-fs-scan.yml@v1
@@ -13,11 +18,44 @@ jobs:
       security-events: write
 
   trivy-image:
-    uses: dxworks/pipelines/.github/workflows/trivy-image-scan.yml@v1
-    with:
-      image-ref: dxworks/insider:latest
-      post-pr-comment: true
-    permissions:
-      contents: read
-      security-events: write
-      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: Gradle Build
+        run: gradle clean build
+
+      - name: Build Docker image
+        run: docker build -t insider:${{ github.sha }} .
+
+      - name: Run Trivy image scanner (table)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: insider:${{ github.sha }}
+          format: table
+          exit-code: 0
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Run Trivy image scanner (sarif)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: insider:${{ github.sha }}
+          format: sarif
+          output: trivy-image-results.sarif
+          exit-code: 1
+          severity: MEDIUM,HIGH,CRITICAL
+
+      - name: Upload image scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-image-results.sarif
+          category: trivy-image
