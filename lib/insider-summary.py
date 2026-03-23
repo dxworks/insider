@@ -9,6 +9,25 @@ from summary_extract import extract_insider_summary
 from summary_render import render_summary
 
 
+def build_missing_payload() -> dict[str, object]:
+    return {
+        'tool': 'insider',
+        'status': 'missing',
+        'metadata': {},
+        'markdown': '\n'.join([
+            '## Insider',
+            '',
+            '- Status: missing',
+            '- Summary input is missing',
+        ]),
+        'templateModel': {
+            'status': 'missing',
+            'statusClass': 'status-missing',
+            'isMissing': True,
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         prog='insider-summary.py',
@@ -20,7 +39,15 @@ def main() -> int:
     target_directory = Path(args.results_directory).resolve()
 
     try:
-        payload = extract_insider_summary(target_directory)
+        cloc_files = list(target_directory.glob('*-cloc.csv'))
+        if len(cloc_files) == 0:
+            print(
+                "summary input missing for insider: expected '*-cloc.csv' files "
+                f"in '{target_directory}'; generating missing summary artifacts"
+            )
+            payload = build_missing_payload()
+        else:
+            payload = extract_insider_summary(target_directory)
         rendered = render_summary(target_directory, payload)
 
         print(f"Generated summary markdown at {rendered['summaryMdPath']}")

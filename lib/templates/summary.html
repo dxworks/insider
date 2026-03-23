@@ -26,6 +26,10 @@
       border-left: 4px solid #cf222e;
     }
 
+    .insider-summary.status-missing {
+      border-left: 4px solid #8c959f;
+    }
+
     .insider-summary .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -43,13 +47,17 @@
   <h2>Insider</h2>
   <p>Status: <strong>{{status}}</strong></p>
 
-  <div class="summary-grid">
-    <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFiles}}</div>
-    <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotal}}</div>
-    <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotal}}</div>
-    <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotal}}</div>
-    <div class="summary-item"><strong>Java files</strong><br>{{metrics.javaFiles}} ({{metrics.javaPercent}}%)</div>
-    <div class="summary-item"><strong>.NET files</strong><br>{{metrics.dotnetFiles}} ({{metrics.dotnetPercent}}%)</div>
-    <div class="summary-item"><strong>Generated at</strong><br>{{generatedAt}}</div>
-  </div>
+  {{#if isMissing}}
+    <p>Summary input is missing</p>
+  {{else}}
+    <div class="summary-grid">
+      <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFiles}}</div>
+      <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotal}}</div>
+      <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotal}}</div>
+      <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotal}}</div>
+      <div class="summary-item"><strong>Java files</strong><br>{{metrics.javaFiles}} ({{metrics.javaPercent}}%)</div>
+      <div class="summary-item"><strong>.NET files</strong><br>{{metrics.dotnetFiles}} ({{metrics.dotnetPercent}}%)</div>
+      <div class="summary-item"><strong>Generated at</strong><br>{{generatedAt}}</div>
+    </div>
+  {{/if}}
 </section>
