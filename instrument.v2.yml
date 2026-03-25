@@ -26,8 +26,9 @@ actions:
           java -Xmx${max-heap} -jar insider.jar count
 
   summary:
-    summaryMdFile: results/summary.md
-    summaryHtmlFile: results/summary.html
+    md-file: results/summary.md
+    html-file: results/summary.html
+    category: Technology Breakdown
     commands:
       generate-summary:
         id: generate-summary
