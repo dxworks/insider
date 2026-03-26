@@ -201,9 +201,9 @@ def _create_summary_payload(
         [
             '## Insider',
             '',
-            f'- CLOC files: {len(cloc_files)}',
-            f'- Total files: {files_total}',
-            f'- Total lines: {lines_total}',
+            f'- CLOC files: {_format_int(len(cloc_files))}',
+            f'- Total files: {_format_int(files_total)}',
+            f'- Total lines: {_format_int(lines_total)}',
             f'- Total size: {size_total_formatted}',
             '',
             '### Technology Breakdown',
@@ -211,7 +211,7 @@ def _create_summary_payload(
             '| Technology | Files | Lines |',
             '| --- | ---: | ---: |',
             *[
-                f"| {row['name']} | {row['files']} | {row['lines']} |"
+                f"| {row['name']} | {row['filesFormatted']} | {row['linesFormatted']} |"
                 for row in technology_breakdown
             ],
         ]
@@ -221,9 +221,9 @@ def _create_summary_payload(
         'generatedAt': generated_at,
         'technologyBreakdown': technology_breakdown,
         'metrics': {
-            'clocFiles': len(cloc_files),
-            'filesTotal': files_total,
-            'linesTotal': lines_total,
+            'clocFilesFormatted': _format_int(len(cloc_files)),
+            'filesTotalFormatted': _format_int(files_total),
+            'linesTotalFormatted': _format_int(lines_total),
             'sizeTotal': size_total,
             'sizeTotalFormatted': size_total_formatted,
             'javaFiles': java_files,
@@ -281,10 +281,17 @@ def _build_technology_breakdown(
         except Exception:
             continue
 
-    rows = [
-        {'name': tech, 'files': values['files'], 'lines': values['lines']}
-        for tech, values in technology_aggregates.items()
-    ]
+    rows = []
+    for tech, values in technology_aggregates.items():
+        rows.append(
+            {
+                'name': tech,
+                'files': values['files'],
+                'lines': values['lines'],
+                'filesFormatted': _format_int(values['files']),
+                'linesFormatted': _format_int(values['lines']),
+            }
+        )
 
     rows.sort(key=lambda row: (-row['lines'], -row['files'], row['name'].lower()))
 
@@ -418,6 +425,10 @@ def _format_size(size_in_bytes: int) -> str:
         return f'{int(value)} {units[unit_index]}'
 
     return f'{value:.1f} {units[unit_index]}'
+
+
+def _format_int(value: int) -> str:
+    return f'{value:,}'
 
 
 def _resolve_status(cloc_count: int, has_data_quality_issues: bool) -> str:

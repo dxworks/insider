@@ -47,9 +47,9 @@
     <p>Summary input is missing</p>
   {{else}}
     <div class="summary-grid">
-      <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFiles}}</div>
-      <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotal}}</div>
-      <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotal}}</div>
+      <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFilesFormatted}}</div>
+      <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotalFormatted}}</div>
+      <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotalFormatted}}</div>
       <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotalFormatted}}</div>
       <div class="summary-item"><strong>Generated at</strong><br>{{generatedAt}}</div>
     </div>
@@ -67,8 +67,8 @@
         {{#each technologyBreakdown}}
           <tr>
             <td>{{name}}</td>
-            <td class="num">{{files}}</td>
-            <td class="num">{{lines}}</td>
+            <td class="num">{{filesFormatted}}</td>
+            <td class="num">{{linesFormatted}}</td>
           </tr>
         {{/each}}
       </tbody>
