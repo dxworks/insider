@@ -17,6 +17,30 @@
       background: #f6f8fa;
       border-radius: 6px;
     }
+
+    .insider-summary .technology-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    .insider-summary .technology-table th,
+    .insider-summary .technology-table td {
+      border: 1px solid #d0d7de;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .insider-summary .technology-table th {
+      background: #f6f8fa;
+      font-weight: 600;
+    }
+
+    .insider-summary .technology-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
   </style>
 
   {{#if isMissing}}
@@ -26,10 +50,28 @@
       <div class="summary-item"><strong>CLOC files</strong><br>{{metrics.clocFiles}}</div>
       <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotal}}</div>
       <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotal}}</div>
-      <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotal}}</div>
-      <div class="summary-item"><strong>Java files</strong><br>{{metrics.javaFiles}} ({{metrics.javaPercent}}%)</div>
-      <div class="summary-item"><strong>.NET files</strong><br>{{metrics.dotnetFiles}} ({{metrics.dotnetPercent}}%)</div>
+      <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotalFormatted}}</div>
       <div class="summary-item"><strong>Generated at</strong><br>{{generatedAt}}</div>
     </div>
+
+    <h3>Technology Breakdown</h3>
+    <table class="technology-table">
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Files</th>
+          <th>Lines</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each technologyBreakdown}}
+          <tr>
+            <td>{{name}}</td>
+            <td class="num">{{files}}</td>
+            <td class="num">{{lines}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
   {{/if}}
 </section>

@@ -171,8 +171,16 @@ def _create_summary_payload(
     dotnet_files: int,
     has_data_quality_issues: bool,
 ) -> dict[str, Any]:
+    extension_to_technology, filename_to_technology = _load_language_maps()
+    technology_breakdown = _build_technology_breakdown(
+        cloc_files,
+        extension_to_technology,
+        filename_to_technology,
+    )
+
     java_percent = _percent(java_files, files_total)
     dotnet_percent = _percent(dotnet_files, files_total)
+    size_total_formatted = _format_size(size_total)
     generated_at = _iso_now()
 
     status = _resolve_status(cloc_count=len(cloc_files), has_data_quality_issues=has_data_quality_issues)
@@ -193,25 +201,31 @@ def _create_summary_payload(
         [
             '## Insider',
             '',
-            f'- Status: {status}',
             f'- CLOC files: {len(cloc_files)}',
             f'- Total files: {files_total}',
             f'- Total lines: {lines_total}',
-            f'- Total size: {size_total}',
-            f'- Java footprint: {java_percent}% and {java_files} files',
-            f'- .NET footprint: {dotnet_percent}% and {dotnet_files} files',
+            f'- Total size: {size_total_formatted}',
+            '',
+            '### Technology Breakdown',
+            '',
+            '| Technology | Files | Lines |',
+            '| --- | ---: | ---: |',
+            *[
+                f"| {row['name']} | {row['files']} | {row['lines']} |"
+                for row in technology_breakdown
+            ],
         ]
     )
 
     template_model = {
-        'status': status,
-        'statusClass': _to_status_class(status),
         'generatedAt': generated_at,
+        'technologyBreakdown': technology_breakdown,
         'metrics': {
             'clocFiles': len(cloc_files),
             'filesTotal': files_total,
             'linesTotal': lines_total,
             'sizeTotal': size_total,
+            'sizeTotalFormatted': size_total_formatted,
             'javaFiles': java_files,
             'javaPercent': java_percent,
             'dotnetFiles': dotnet_files,
@@ -228,6 +242,160 @@ def _create_summary_payload(
     }
 
 
+def _build_technology_breakdown(
+    cloc_files: list[Path],
+    extension_to_technology: dict[str, str],
+    filename_to_technology: dict[str, str],
+) -> list[dict[str, Any]]:
+    technology_aggregates: dict[str, dict[str, int]] = {}
+
+    for cloc_file in cloc_files:
+        try:
+            with cloc_file.open('r', encoding='utf-8', errors='replace', newline='') as handle:
+                reader = csv.reader(handle)
+                header = next(reader, None)
+                if not _is_expected_header(header):
+                    continue
+
+                for row in reader:
+                    if len(row) < 3:
+                        continue
+
+                    file_path_value = row[0].strip().strip('"')
+                    try:
+                        file_lines = int(row[1])
+                    except (TypeError, ValueError):
+                        continue
+
+                    technology = _detect_technology(
+                        file_path_value,
+                        extension_to_technology,
+                        filename_to_technology,
+                    )
+
+                    if technology not in technology_aggregates:
+                        technology_aggregates[technology] = {'files': 0, 'lines': 0}
+
+                    technology_aggregates[technology]['files'] += 1
+                    technology_aggregates[technology]['lines'] += file_lines
+        except Exception:
+            continue
+
+    rows = [
+        {'name': tech, 'files': values['files'], 'lines': values['lines']}
+        for tech, values in technology_aggregates.items()
+    ]
+
+    rows.sort(key=lambda row: (-row['lines'], -row['files'], row['name'].lower()))
+
+    return rows
+
+
+def _detect_technology(
+    file_path_value: str,
+    extension_to_technology: dict[str, str],
+    filename_to_technology: dict[str, str],
+) -> str:
+    normalized_path = file_path_value.replace('\\', '/')
+    file_name = Path(normalized_path).name.lower()
+
+    if file_name in filename_to_technology:
+        return filename_to_technology[file_name]
+
+    extension = Path(normalized_path).suffix.lower()
+    if extension in extension_to_technology:
+        return extension_to_technology[extension]
+
+    return 'Other'
+
+
+def _load_language_maps() -> tuple[dict[str, str], dict[str, str]]:
+    language_file = _resolve_languages_file()
+    if language_file is None:
+        return {}, {}
+
+    try:
+        lines = language_file.read_text(encoding='utf-8', errors='replace').splitlines()
+    except Exception:
+        return {}, {}
+
+    extension_to_technology: dict[str, str] = {}
+    filename_to_technology: dict[str, str] = {}
+    current_language: str | None = None
+    current_section: str | None = None
+
+    for raw_line in lines:
+        line = raw_line.rstrip('\n')
+        stripped = line.strip()
+
+        if not stripped or stripped == '---' or stripped.startswith('#'):
+            continue
+
+        if _is_language_key_line(line):
+            current_language = _normalize_language_name(stripped[:-1].strip())
+            current_section = None
+            continue
+
+        if current_language is None:
+            continue
+
+        if stripped == 'extensions:':
+            current_section = 'extensions'
+            continue
+
+        if stripped == 'filenames:':
+            current_section = 'filenames'
+            continue
+
+        if stripped.endswith(':') and not stripped.startswith('- '):
+            current_section = None
+            continue
+
+        if not stripped.startswith('- ') or current_section is None:
+            continue
+
+        value = _strip_optional_quotes(stripped[2:].strip()).lower()
+        if not value:
+            continue
+
+        if current_section == 'extensions':
+            extension_to_technology.setdefault(value, current_language)
+            continue
+
+        if current_section == 'filenames':
+            filename_to_technology.setdefault(value, current_language)
+
+    return extension_to_technology, filename_to_technology
+
+
+def _resolve_languages_file() -> Path | None:
+    current = Path(__file__).resolve().parent
+    candidates = [
+        current / 'languages.yml',
+        current.parent / 'languages.yml',
+    ]
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    return None
+
+
+def _is_language_key_line(line: str) -> bool:
+    return not line.startswith(' ') and line.strip().endswith(':')
+
+
+def _normalize_language_name(raw_name: str) -> str:
+    return _strip_optional_quotes(raw_name)
+
+
+def _strip_optional_quotes(value: str) -> str:
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+        return value[1:-1]
+    return value
+
+
 def _percent(value: int, total: int) -> str:
     if total <= 0:
         return '0'
@@ -235,6 +403,21 @@ def _percent(value: int, total: int) -> str:
     if percent.is_integer():
         return str(int(percent))
     return f'{percent:.2f}'.rstrip('0').rstrip('.')
+
+
+def _format_size(size_in_bytes: int) -> str:
+    units = ['B', 'KB', 'MB', 'GB', 'TB']
+    value = float(size_in_bytes)
+    unit_index = 0
+
+    while value >= 1024 and unit_index < len(units) - 1:
+        value /= 1024
+        unit_index += 1
+
+    if unit_index == 0:
+        return f'{int(value)} {units[unit_index]}'
+
+    return f'{value:.1f} {units[unit_index]}'
 
 
 def _resolve_status(cloc_count: int, has_data_quality_issues: bool) -> str:
@@ -247,13 +430,3 @@ def _resolve_status(cloc_count: int, has_data_quality_issues: bool) -> str:
 
 def _iso_now() -> str:
     return datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
-
-
-def _to_status_class(status: str) -> str:
-    if status == 'success':
-        return 'status-success'
-    if status == 'partial':
-        return 'status-warning'
-    if status == 'failed':
-        return 'status-error'
-    return 'status-unknown'

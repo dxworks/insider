@@ -17,12 +17,9 @@ def build_missing_payload() -> dict[str, object]:
         'markdown': '\n'.join([
             '## Insider',
             '',
-            '- Status: missing',
             '- Summary input is missing',
         ]),
         'templateModel': {
-            'status': 'missing',
-            'statusClass': 'status-missing',
             'isMissing': True,
         },
     }
