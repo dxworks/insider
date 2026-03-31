@@ -28,7 +28,7 @@
     "local": "npm run build && npm i"
   },
   "dependencies": {
-    "commander": "11.1.0",
+    "commander": "^14.0.3",
     "java-caller": "^2.7.0"
   },
   "overrides": {
