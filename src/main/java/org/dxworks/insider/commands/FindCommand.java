@@ -2,6 +2,7 @@ package org.dxworks.insider.commands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import me.tongfei.progressbar.ConsoleProgressBarConsumer;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -57,7 +58,7 @@ public class FindCommand implements InsiderCommand {
                 .setTaskName("Matching")
                 .setStyle(ProgressBarStyle.ASCII)
                 .setUpdateIntervalMillis(100)
-                .setPrintStream(System.err)
+                .setConsumer(new ConsoleProgressBarConsumer(System.err))
                 .build()) {
                 insiderResults = insiderFiles.parallelStream()
                     .flatMap(insiderFile ->

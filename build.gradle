@@ -1,14 +1,21 @@
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '6.6'
+    id 'io.freefair.lombok' version '9.2.0'
 }
 
 group 'org.dxworks'
 version '2.6.0-SNAPSHOT'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencyLocking {
+    lockAllConfigurations()
 }
 
 repositories {
@@ -19,27 +26,27 @@ repositories {
 dependencies {
 
     //command line runner
-    implementation group: 'info.picocli', name: 'picocli', version: '4.0.0-alpha-2'
+    implementation group: 'info.picocli', name: 'picocli', version: '4.7.7'
 
-    implementation group: 'me.tongfei', name: 'progressbar', version: '0.7.2'
+    implementation group: 'me.tongfei', name: 'progressbar', version: '0.10.2'
 
     //data format parsers
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0.rc1'
-    implementation 'com.opencsv:opencsv:4.1'
-    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.21.1'
+    implementation 'com.opencsv:opencsv:5.12.0'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
 
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation 'commons-lang:commons-lang:2.6'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
-    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.21.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
+    implementation 'org.apache.commons:commons-collections4:4.5.0'
 
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.26'
 
     implementation 'org.dxworks.utils:dx-ignore:1.1.0'
     implementation 'org.dxworks.utils:argumenthor:1.1.0'
     implementation 'org.dxworks.utils:dx-linguist:1.0.0'
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
 
 jar {

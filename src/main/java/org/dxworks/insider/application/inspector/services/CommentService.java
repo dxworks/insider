@@ -3,7 +3,7 @@ package org.dxworks.insider.application.inspector.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.math.IntRange;
+import org.apache.commons.lang3.Range;
 import org.dxworks.insider.InsiderFile;
 import org.dxworks.insider.application.inspector.dtos.Comment;
 import org.dxworks.insider.exceptions.InsiderException;
@@ -48,8 +48,8 @@ public class CommentService {
         }
     }
 
-    public List<IntRange> extractInlineCommentLines(InsiderFile file) {
-        List<IntRange> inlineComments = new ArrayList<>();
+    public List<Range<Integer>> extractInlineCommentLines(InsiderFile file) {
+        List<Range<Integer>> inlineComments = new ArrayList<>();
 
         Comment commentStyle = getCommentForFile(file);
         if (commentStyle != null) {
@@ -58,14 +58,14 @@ public class CommentService {
                 Matcher matcher = Pattern.compile(inlineCommentPrefix).matcher(file.getContent());
                 while (matcher.find()) {
                     int start = matcher.start();
-                    inlineComments.add(new IntRange(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
+                    inlineComments.add(Range.of(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
                 }
             }
             commentStyle.getInlinePatterns().forEach(it -> {
                 Matcher matcher = Pattern.compile(it.getPattern(), it.createModifier()).matcher(file.getContent());
                 while (matcher.find()) {
                     int start = matcher.start();
-                    inlineComments.add(new IntRange(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
+                    inlineComments.add(Range.of(start, file.getLineBreaks().get(file.getLineNumberOfAbsoluteCharacterIndex(start)).intValue()));
                 }
             });
         }
@@ -79,21 +79,21 @@ public class CommentService {
         return comments.stream().filter(comment -> comment.getLanguages().stream().anyMatch(languages::contains)).findFirst().orElse(null);
     }
 
-    public List<IntRange> extractMultilineCommentLines(InsiderFile file) {
-        List<IntRange> multilineCommentLinePairs = new ArrayList<>();
+    public List<Range<Integer>> extractMultilineCommentLines(InsiderFile file) {
+        List<Range<Integer>> multilineCommentLinePairs = new ArrayList<>();
 
         Comment commentStyle = getCommentForFile(file);
         if (commentStyle != null) {
             String multilineCommentPrefix = commentStyle.getPreffix();
             String multilineCommentSuffix = commentStyle.getSuffix();
             if (multilineCommentPrefix != null && multilineCommentSuffix != null) {
-                List<IntRange> enclosingQuotes = new ArrayList<>();
+                List<Range<Integer>> enclosingQuotes = new ArrayList<>();
                 String content = file.getContent();
 
                 List<Integer> quotesIndex = getIndexesForSubstring(file.getContent(), "\"");
                 if (quotesIndex.size() % 2 == 0) {
                     for (int i = 0; i < quotesIndex.size(); i += 2) {
-                        enclosingQuotes.add(new IntRange(quotesIndex.get(i), quotesIndex.get(i + 1)));
+                        enclosingQuotes.add(Range.of(quotesIndex.get(i), quotesIndex.get(i + 1)));
                     }
                 } else {
                     log.warn("Could not get Quotes because we found odd number of quotes in file: " + file.getPath());
@@ -110,15 +110,15 @@ public class CommentService {
                     log.warn("Comments not well matched for file: " + file.getPath() + "!\nPrefix indexes: " + prefixCommentIndexes + "\nSuffix indexes: " + suffixCommentIndexes);
                 }
                 for (int i = 0; i < Math.min(prefixCommentIndexes.size(), suffixCommentIndexes.size()); i++) {
-                    multilineCommentLinePairs.add(new IntRange(prefixCommentIndexes.get(i), suffixCommentIndexes.get(i)));
+                    multilineCommentLinePairs.add(Range.of(prefixCommentIndexes.get(i), suffixCommentIndexes.get(i)));
                 }
             }
         }
         return multilineCommentLinePairs;
     }
 
-    private boolean isNotInQuotes(Integer index, List<IntRange> enclosingQuotes) {
-        return enclosingQuotes.stream().anyMatch(interval -> interval.containsInteger(index));
+    private boolean isNotInQuotes(Integer index, List<Range<Integer>> enclosingQuotes) {
+        return enclosingQuotes.stream().anyMatch(interval -> interval.contains(index));
     }
 
     private List<Integer> getIndexesForSubstring(String content, String substring) {

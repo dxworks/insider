@@ -31,14 +31,16 @@
     "commander": "11.1.0",
     "java-caller": "^2.7.0"
   },
+  "overrides": {
+    "tar": "^7.5.11"
+  },
   "devDependencies": {
     "json": "^11.0.0",
     "rimraf": "^3.0.2",
     "sort-package-json": "^1.52.0"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "dxw": {
     "commands": [

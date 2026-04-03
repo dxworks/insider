@@ -1,173 +1,100 @@
-# AGENTS Guide for `insider`
+# AGENTS.md
 
-This file is for coding agents working in this repository.
-It documents how to build, test, lint, and follow project conventions.
+> Project conventions and context for AI coding agents.
 
-## Project Snapshot
+## Project Overview
 
-- Language: Java (primary), with a small Node wrapper/package step.
-- Build tool: Gradle Wrapper (`./gradlew`) with Gradle 9 wrapper.
-- Java compatibility for code: Java 11 (`sourceCompatibility`/`targetCompatibility`).
-- Java runtime required by Gradle 9: Java 17+ to run the wrapper.
-- Test framework: JUnit 4 (`org.junit.Test`, `org.junit.Assert`).
-- Packaging: Gradle builds JAR, npm scripts assemble distribution assets.
+**Insider** is a regex-based code analysis tool by DXWorks. It detects code smells, library usage, and software topics using only regular expressions — no AST parsing — making it language-independent. Built with Java 21 and Gradle 9, distributed as a JAR, npm package (`@dxworks/insider`), and Docker image.
 
-## Repository Rules Discovery
+## Build & Run
 
-- Cursor rules: none found (`.cursor/rules/` and `.cursorrules` not present).
-- Copilot rules: none found (`.github/copilot-instructions.md` not present).
-- If these files are added later, treat them as higher-priority guidance than this file.
+```bash
+# Build (includes tests)
+gradle clean build
 
-## Environment Setup
+# Build without tests
+gradle clean build -x test
 
-1. Use Java 17+ to run Gradle wrapper commands.
-2. Use Node 18+ for npm packaging flows (matches CI release workflow).
-3. Prefer wrapper commands over system Gradle (`./gradlew ...`).
-4. Keep working directory at repository root when running commands below.
+# Run tests
+gradle test
 
-## Build Commands
+# Run
+java -Xmx4g -jar build/libs/insider-*.jar <command> [options]
+```
 
-### Main build
+## Project Structure
 
-- Linux/macOS: `./gradlew clean build`
-- Windows: `gradlew.bat clean build`
+```
+src/main/java/org/dxworks/insider/   # Main source code
+  ├── Insider.java                   # Entry point (main class)
+  ├── commands/                      # CLI commands (Command pattern)
+  ├── depext/                        # Dependency extraction (per-language processors)
+  ├── technology/finder/             # Library/technology detection via regex
+  ├── application/inspector/         # Rule-based code inspection
+  ├── configuration/                 # Config management (singleton)
+  ├── library/detector/              # Library detection
+  ├── constants/                     # Constants
+  └── utils/                         # Utilities
+src/test/                            # JUnit 4 tests
+config/                              # Runtime config (fingerprints, rules, comments, ignore patterns)
+lib/                                 # Node.js CLI wrapper
+bin/                                 # Shell/batch execution scripts
+docs/                                # MkDocs documentation
+releaseNotes/                        # Per-version release notes
+scripts/                             # Automation/regression scripts
+```
 
-This compiles Java sources, runs tests, and creates the runnable JAR in `build/libs/`.
+## Key Conventions
 
-### Fast compile-only loops
+- **Java 21** — use modern Java features where appropriate.
+- **Lombok** — used extensively (`@Slf4j`, `@Getter`, `@Data`, etc.). Do not write boilerplate that Lombok handles.
+- **Command pattern** — all operations implement `InsiderCommand`. Three variants: `NoFilesCommand` (no file input), `AllFilesCommand` (all files), and regular commands (filtered by extension).
+- **Configuration** — singleton via `InsiderConfiguration.getInstance()`. Supports properties file (`config/insider-conf.properties`) and environment variables (`INSIDER_*`).
+- **Logging** — SLF4J with Logback. Use `@Slf4j` annotation.
+- **CLI framework** — Picocli for argument parsing.
+- **Testing** — JUnit 4 (`@Test`, `Assert.*`). Tests live in `src/test/java/` mirroring the main source tree.
+- **Dependency locking** — Gradle lock file is committed (`gradle.lockfile`). Run `gradle dependencies --write-locks` after changing dependencies.
 
-- `./gradlew clean classes`
-- `./gradlew testClasses`
+## Dependencies
 
-Use these when you only need compile feedback.
+Managed in `build.gradle`. Key libraries: Jackson (JSON/YAML), OpenCSV, Commons IO/Lang3/Collections4, Picocli, Logback. DXWorks internal libs: `dx-ignore`, `argumenthor`, `dx-linguist`.
 
-### Package npm distribution assets
+## CI/CD
 
-- `npm ci`
-- `npm run build`
+GitHub Actions workflows in `.github/workflows/`. Most use reusable workflows from [`dxworks/pipelines`](https://github.com/dxworks/pipelines).
 
-`npm run build` expects a built JAR at `build/libs/insider*.jar` and creates `dist/`.
+### PR workflows (on PRs to `dev`)
+- **build.yml** — builds on every push
+- **regression-test.yml** — compares output against latest release
+- **trivy-security-scan.yml** — Trivy filesystem scan (reusable) + Docker image build & scan (inline)
 
-## Test Commands
+### Release workflows (on tag push)
+- **release.yml** — triggered by `v*` tags (excluding `*-voyager`). Composable pipeline:
+  `parse-tag → gate → archive / npm / docker (parallel) → github-release`
+- **release-voyager.yml** — triggered by `v*-voyager` tags. Same pattern but only: `gate → archive → github-release` (no npm/Docker)
 
-### Run all tests
+### Scheduled workflows
+- **trivy-daily-scan.yml** — daily Trivy scan of dependencies + Docker Hub image (`dxworks/insider:latest`)
 
-- Linux/macOS: `./gradlew test`
-- Windows: `gradlew.bat test`
+### Release scripts (convention-based)
+- `scripts/build.sh` — build the project (called by reusable workflows)
+- `scripts/prepare-release.sh` — package release assets into ZIP
+- `scripts/prepare-release-voyager.sh` — same but includes `instrument.yml`
 
-### Run a single test class (important)
+### Reusable workflows (`dxworks/pipelines@v1`)
+- `release-gate.yml` — quality gate (build + test + Trivy scan)
+- `release-archive.yml` — build and package release archive
+- `release-npm.yml` — publish to GitHub Packages + npmjs.org (OIDC Trusted Publishers)
+- `release-docker.yml` — multi-arch Docker build (amd64 + arm64) with Trivy scan gate
+- `release-github.yml` — create GitHub Release with auto-generated notes
+- `trivy-fs-scan.yml`, `trivy-image-scan.yml`, `trivy-daily-scan.yml` — security scanning
 
-- `./gradlew test --tests "org.dxworks.insider.utils.FileUtilsTest"`
+## Branching
 
-### Run a single test method (important)
+- Main branch: **dev**
+- Releases are tagged `v*` (e.g., `v2.13.0`)
+- Voyager releases are tagged `v*-voyager` (e.g., `v2.13.0-voyager`)
 
-- `./gradlew test --tests "org.dxworks.insider.utils.FileUtilsTest.removeComments"`
-- `./gradlew test --tests "org.dxworks.insider.depext.RustImportsProcessorTest.testLibRsNamespace"`
+## Output
 
-### Run tests in one package
-
-- `./gradlew test --tests "org.dxworks.insider.depext.*"`
-
-### Useful test debugging flags
-
-- `./gradlew test --tests "..." --info`
-- `./gradlew test --tests "..." --stacktrace`
-
-## Lint / Static Analysis
-
-There is no dedicated Checkstyle/Spotless/PMD configuration in this repository.
-
-Use these as practical "lint" gates:
-
-- `./gradlew check` (includes test lifecycle checks)
-- `./gradlew build` (full validation used in CI)
-
-If introducing a new lint tool, keep it minimal and consistent with existing style.
-
-## Documentation Commands
-
-- Local docs preview (if `mkdocs` installed): `mkdocs serve`
-- Build docs: `mkdocs build`
-
-CI docs release workflow uses `mkdocs gh-deploy --force` from branch `docs`.
-
-## Code Style Guidelines
-
-### Formatting and structure
-
-- Use 4 spaces for indentation; do not use tabs.
-- Keep braces on the same line for class/method/control declarations.
-- Keep one public top-level class/interface per file.
-- Use short logical spacing blocks; avoid excessive blank lines.
-- Prefer readable streams; avoid deeply nested lambda chains when plain loops are clearer.
-
-### Imports
-
-- Order imports by groups: third-party, then `org.dxworks...`, then `java...`, with blank lines between groups.
-- Put static imports after normal imports (current test style follows this).
-- Prefer explicit imports; avoid new wildcard imports unless there is a strong local precedent.
-- Remove unused imports.
-
-### Types and APIs
-
-- Target Java 11 language features for source code compatibility.
-- Prefer interfaces in signatures (`List`, `Map`) and concrete types in constructors.
-- Use generics explicitly; avoid raw types.
-- Avoid introducing `var` unless it improves readability clearly.
-- Keep DTOs/simple models concise; Lombok (`@Data`, `@NoArgsConstructor`, etc.) is accepted in this codebase.
-
-### Naming conventions
-
-- Classes/interfaces: `PascalCase`.
-- Methods/fields/local variables: `camelCase`.
-- Constants: `UPPER_SNAKE_CASE`.
-- Package names: all lowercase (`org.dxworks.insider...`).
-- Test methods: descriptive `camelCase`, usually behavior-focused.
-
-### Error handling and logging
-
-- Prefer logging with context for recoverable failures (`log.error`, `log.warn`).
-- Preserve causes when rethrowing (`new InsiderException(message, cause)`).
-- Fail fast on invalid CLI input; print usage/help as current commands do.
-- Do not silently swallow exceptions unless the flow intentionally degrades gracefully.
-- When graceful fallback is used, return stable defaults (for example, empty namespace/string) and continue.
-
-### CLI and command behavior
-
-- Keep command parsing strict and deterministic.
-- Validate file/folder inputs before execution (`fileExists`, `folderExists` patterns).
-- Keep output paths consistent with `results/` and project configuration conventions.
-- For user-facing errors, keep messages actionable and concise.
-
-### File/path handling
-
-- Use `Path`/`Paths`/`Files` from `java.nio.file` for filesystem operations.
-- Normalize separators to `/` when producing cross-platform relative paths.
-- Avoid hardcoded absolute paths.
-
-### Concurrency and performance
-
-- Existing code uses `parallelStream()` in hot paths; preserve thread-safety when editing those flows.
-- Avoid shared mutable state in parallel sections unless synchronized.
-- Keep memory usage in mind when reading full file content.
-
-### Tests
-
-- Follow JUnit 4 style annotations (`@Test`, `@Before`, `@Rule`).
-- Use `TemporaryFolder` for filesystem isolation when needed.
-- Prefer focused assertions with clear expected values.
-- Add regression tests for parsing/path edge cases when fixing bugs.
-
-## Change Management for Agents
-
-- Keep changes minimal and localized to the requested behavior.
-- Do not refactor unrelated modules in the same patch.
-- Update tests alongside behavior changes.
-- Run at least targeted tests for edited areas; run full `./gradlew test` when practical.
-- If build tooling fails because of Java runtime mismatch, report it and provide the exact required JDK version.
-
-## CI Alignment
-
-- CI build workflow executes: `gradle clean build`.
-- Release workflows also run Gradle build and npm packaging.
-- Before proposing release-impacting changes, verify both Java build and npm packaging paths still work.
+Results are written to a `results/` directory as JSON/CSV files, named with the project ID prefix.

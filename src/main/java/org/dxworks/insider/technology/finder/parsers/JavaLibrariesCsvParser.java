@@ -2,6 +2,7 @@ package org.dxworks.insider.technology.finder.parsers;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import lombok.extern.slf4j.Slf4j;
 import org.dxworks.insider.technology.finder.exceptions.FingerprintParseException;
 import org.dxworks.insider.technology.finder.model.Technology;
@@ -50,7 +51,7 @@ public class JavaLibrariesCsvParser implements FingerprintsParser {
                                     .map(ImportUtils::wrapImportPackage)
                                     .collect(Collectors.toList())))
                     .collect(Collectors.toList());
-        } catch (IOException e) {
+        } catch (IOException | CsvException e) {
             log.error("Could not read JSON technologies file!", e);
         }
         return Collections.emptyList();

@@ -1,0 +1,36 @@
+# Java source and build
+src/
+build/
+gradle/
+gradlew
+gradlew.bat
+build.gradle
+settings.gradle
+gradle.lockfile
+*.class
+*.jar
+
+# IDE
+.idea/
+*.iml
+*.iws
+
+# CI/CD
+.github/
+scripts/
+Dockerfile
+
+# Test and config files
+releaseNotes/
+results/
+bin/
+config/
+*.yml
+*.md
+!dist/**
+
+# Other
+node_modules/
+.gradle/
+site/
+.java-version
