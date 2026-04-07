@@ -1,0 +1,44 @@
+name: insider
+id: insider
+version: 1.0.0
+
+actions:
+  start:
+    parameters:
+      max-heap: 8g
+      findConfig: 'config/fingerprints/code_smells.json config/fingerprints/libraries.json config/fingerprints/generated_code.json'
+      inspectConfig: 'config/rules'
+    environment:
+      INSIDER_PROJECTID: ${repoName}
+      INSIDER_ROOTFOLDER: ${repo}
+      INSIDER_LANGUAGES: ''
+      INSIDER_LINGUIST_FILE: ${instrumentPath}/languages.yml
+    commands:
+      insider-run-all:
+        id: insider-run-all
+        dir: ${instrumentPath}
+        command: >-
+          java -Xmx${max-heap} -jar insider.jar detect AND indent AND extract AND measure AND inspect ${inspectConfig} AND find ${findConfig}
+      insider-cloc:
+        id: insider-cloc
+        dir: ${instrumentPath}
+        command: >-
+          java -Xmx${max-heap} -jar insider.jar count
+
+  summary:
+    md-file: results/summary.md
+    html-file: results/summary.html
+    category: Technology Breakdown
+    commands:
+      generate-summary:
+        id: generate-summary
+        dir: ${instrumentPath}
+        command:
+          windows: py -3 insider-summary.py "${instrumentPath}/results"
+          unix: python3 insider-summary.py "${instrumentPath}/results"
+
+  pack:
+    with:
+      locations:
+        - source: ${instrumentDir}/results
+          destination: /results

@@ -57,6 +57,19 @@ insider.sh find config/libraries.json config/code_smells.json
 The commands will generate two *.json* files (**_PROJECT_ID-libraries.json_** and **_PROJECT_ID-code_smells.json_**) in
 the **results** folder.
 
+### Summary Command
+
+Insider also provides a summary command for Voyager-compatible artifacts:
+
+```
+insider summary <path/to/results>
+```
+
+It reads `*-cloc.csv` files from the target results folder and generates:
+
+- `summary.md` (frontmatter metadata + markdown)
+- `summary.html` (rendered HTML section)
+
 ## Voyager Integration
 
 Insider is also a Voyager Instrument. To configure Insider from Voyager you can add the following fields in the `mission.yml` file:
