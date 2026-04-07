@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -181,27 +180,22 @@ def _create_summary_payload(
     java_percent = _percent(java_files, files_total)
     dotnet_percent = _percent(dotnet_files, files_total)
     size_total_formatted = _format_size(size_total)
-    generated_at = _iso_now()
-
     status = _resolve_status(cloc_count=len(cloc_files), has_data_quality_issues=has_data_quality_issues)
 
     metadata = {
         'files.total': files_total,
         'lines.total': lines_total,
         'size.total': size_total,
-        'cloc.files': len(cloc_files),
         'languages.java.files': java_files,
         'languages.java.percent': java_percent,
         'languages.dotnet.files': dotnet_files,
         'languages.dotnet.percent': dotnet_percent,
-        'generated.at': generated_at,
     }
 
     markdown = '\n'.join(
         [
             '## Insider',
             '',
-            f'- CLOC files: {_format_int(len(cloc_files))}',
             f'- Total files: {_format_int(files_total)}',
             f'- Total lines: {_format_int(lines_total)}',
             f'- Total size: {size_total_formatted}',
@@ -218,10 +212,8 @@ def _create_summary_payload(
     )
 
     template_model = {
-        'generatedAt': generated_at,
         'technologyBreakdown': technology_breakdown,
         'metrics': {
-            'clocFilesFormatted': _format_int(len(cloc_files)),
             'filesTotalFormatted': _format_int(files_total),
             'linesTotalFormatted': _format_int(lines_total),
             'sizeTotal': size_total,
@@ -437,22 +429,3 @@ def _resolve_status(cloc_count: int, has_data_quality_issues: bool) -> str:
     if has_data_quality_issues:
         return 'partial'
     return 'success'
-
-
-def _iso_now() -> str:
-    local_now = datetime.now().astimezone()
-    return f"{local_now.strftime('%Y-%m-%d %H:%M:%S')} {_format_gmt_offset(local_now.strftime('%z'))}"
-
-
-def _format_gmt_offset(offset: str) -> str:
-    if len(offset) != 5:
-        return 'GMT+0'
-
-    sign = offset[0]
-    hours = int(offset[1:3])
-    minutes = int(offset[3:5])
-
-    if minutes == 0:
-        return f'GMT{sign}{hours}'
-
-    return f'GMT{sign}{hours}:{minutes:02d}'
