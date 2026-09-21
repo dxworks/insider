@@ -32,7 +32,9 @@
     "java-caller": "^2.7.0"
   },
   "overrides": {
-    "tar": "^7.5.11"
+    "tar": "^7.5.22",
+    "brace-expansion@1": "^1.1.16",
+    "picomatch@2": "^2.3.2"
   },
   "devDependencies": {
     "json": "^11.0.0",
