@@ -1,5 +1,6 @@
 package org.dxworks.insider.commands;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dxworks.utils.ignorer.Ignorer;
 import org.dxworks.utils.ignorer.IgnorerBuilder;
 import org.dxworks.insider.InsiderFile;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.dxworks.insider.constants.InsiderConstants.CONFIGURATION_FOLDER;
 import static org.dxworks.insider.constants.InsiderConstants.RESULTS_FOLDER;
 
+@Slf4j
 public class ClocCommand implements NoFilesCommand {
     private static final int BUFFER_SIZE = 8192;
 
@@ -47,24 +49,45 @@ public class ClocCommand implements NoFilesCommand {
 
         Ignorer ignorer = new IgnorerBuilder(Paths.get(CONFIGURATION_FOLDER, ".ignore")).compile();
 
+        countFolder(startPath, csvPath, ignorer);
+    }
+
+    /**
+     * Walks {@code startPath} and writes one CSV row per accepted regular file to {@code csvPath}.
+     * <p>
+     * Symbolic links, directories and other non-regular entries are skipped. A file that cannot be
+     * read is logged and skipped, so a single bad entry never truncates the rest of the output.
+     */
+    void countFolder(Path startPath, Path csvPath, Ignorer ignorer) {
         try (BufferedWriter writer = Files.newBufferedWriter(csvPath, StandardCharsets.UTF_8)) {
             writer.write("file,lines,size\n");
             Files.walkFileTree(startPath, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (ignorer.accepts(file)) {
+                    if (!attrs.isRegularFile() || !ignorer.accepts(file)) {
+                        return FileVisitResult.CONTINUE;
+                    }
+                    try {
                         long lines = countLines(file);
-                        long size = Files.size(file);
+                        long size = attrs.size();
                         String relativePath = startPath.relativize(file).toString();
 
                         writer.write("\"" + relativePath + "\"" + "," + lines + "," + size);
                         writer.newLine();
+                    } catch (IOException e) {
+                        log.warn("Could not count lines in {}: {}", file, e.getMessage());
                     }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException e) {
+                    log.warn("Could not visit {}: {}", file, e.getMessage());
                     return FileVisitResult.CONTINUE;
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Could not write line counts to {}", csvPath, e);
         }
     }
 
