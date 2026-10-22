@@ -17,6 +17,13 @@ cp bin/insider.bat insider/insider.bat
 chmod +x insider/insider.sh
 cp instrument.yml insider/instrument.yml
 cp instrument.v2.yml insider/instrument.v2.yml
+
+# The tool's version, from the release tag, in both manifests (V1 and V2)
+for f in insider/instrument.yml insider/instrument.v2.yml; do
+  awk -v v="$VERSION" '!/^version:/ {print} /^name:/ {print "version: " v}' "$f" > "$f.tmp"
+  mv "$f.tmp" "$f"
+done
+
 cp languages.yml insider/languages.yml
 cp -R config insider/config
 cp lib/insider-summary.py insider/insider-summary.py
