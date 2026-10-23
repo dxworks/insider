@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -373,12 +375,35 @@ def _resolve_languages_file() -> Path | None:
         current / 'languages.yml',
         current.parent / 'languages.yml',
     ]
+    configured_file = os.environ.get('INSIDER_LINGUIST_FILE')
+    if configured_file is None:
+        configured_file = _read_property(Path('config') / 'insider-conf.properties', 'linguist.file')
+    if configured_file is not None:
+        candidates = [Path(configured_file.strip('"\''))]
+    candidates.append(Path.home() / '.linguist' / 'languages.yml')
 
     for candidate in candidates:
-        if candidate.exists():
+        if candidate.is_file() and candidate.suffix in ('.yml', '.yaml'):
             return candidate
 
     return None
+
+
+def _read_property(properties_file: Path, key: str) -> str | None:
+    try:
+        lines = properties_file.read_text(encoding='utf-8', errors='replace').splitlines()
+    except Exception:
+        return None
+
+    value = None
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith(('#', '!')):
+            continue
+        parts = re.split(r'\s*[=:]\s*|\s+', stripped, maxsplit=1)
+        if parts[0] == key:
+            value = parts[1] if len(parts) > 1 else ''
+    return value
 
 
 def _is_language_key_line(line: str) -> bool:

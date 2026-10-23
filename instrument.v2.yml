@@ -29,6 +29,8 @@ actions:
     md-file: results/summary.md
     html-file: results/summary.html
     category: Technology Breakdown
+    environment:
+      INSIDER_LINGUIST_FILE: ${instrumentPath}/languages.yml
     commands:
       generate-summary:
         id: generate-summary
