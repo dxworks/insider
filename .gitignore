@@ -99,3 +99,6 @@ site/
 .java-version
 dist
 node_modules
+
+# copied from the dx-linguist jar by the build
+/languages.yml
