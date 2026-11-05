@@ -31,7 +31,7 @@ dependencies {
     implementation group: 'me.tongfei', name: 'progressbar', version: '0.10.2'
 
     //data format parsers
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.21.6'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.21.8'
     implementation 'com.opencsv:opencsv:5.12.0'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
