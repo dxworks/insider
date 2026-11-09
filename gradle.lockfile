@@ -2,8 +2,8 @@
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
 # To regenerate this file, run: ./gradlew :dependencies --write-locks
-ch.qos.logback:logback-classic:1.5.38=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
-ch.qos.logback:logback-core:1.5.38=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+ch.qos.logback:logback-classic:1.6.5=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+ch.qos.logback:logback-core:1.6.5=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-annotations:2.21=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-core:2.21.8=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-databind:2.21.8=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
@@ -33,6 +33,6 @@ org.jetbrains:annotations:13.0=compileClasspath,runtimeClasspath,testCompileClas
 org.jline:jline-native:3.29.0=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.jline:jline-terminal:3.29.0=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.projectlombok:lombok:1.18.42=annotationProcessor,compileClasspath,lombok,testAnnotationProcessor,testCompileClasspath
-org.slf4j:slf4j-api:2.0.17=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+org.slf4j:slf4j-api:2.0.19=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.yaml:snakeyaml:2.5=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 empty=
