@@ -51,5 +51,8 @@
         "command": "insiderCommand"
       }
     ]
+  },
+  "engines": {
+    "node": ">=26"
   }
 }
