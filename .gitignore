@@ -99,3 +99,6 @@ site/
 .java-version
 dist
 node_modules
+
+# Shared docs theme, added at build time
+docs/stylesheets/dxworks-theme.css
