@@ -27,6 +27,10 @@ theme:
 extra_css:
   - stylesheets/dxworks-theme.css
 
+# Internal design notes, not published
+exclude_docs: |
+  specs/
+
 nav:
   - Home: 'index.md'
   - 'Installation': 'queryLanguage.md'
