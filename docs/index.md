@@ -14,7 +14,7 @@ from Github, the `insider.zip` archive and unzip it to a specific location. The 
 * `insider-*.jar` - the executable jar file
 * `insider.bat` - a batch script for executing Insider on Windows
 * `insider.sh` - a shell script for executing insider on Windows
-* `config` - a folder for configuration files, described more in the [Configuration Section](#Configuration)
+* `config` - a folder for configuration files, described more in the [Configuration Section](#configuration)
 * `results` - a folder where Insider will output the results.
 
 ### From Docker

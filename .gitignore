@@ -102,3 +102,6 @@ node_modules
 
 # copied from the dx-linguist jar by the build
 /languages.yml
+
+# Shared docs theme, added at build time
+docs/stylesheets/dxworks-theme.css
