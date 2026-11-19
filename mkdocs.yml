@@ -2,6 +2,30 @@ site_name: Dxworks Insider
 
 theme:
   name: material
+  features:
+    - content.code.copy
+
+  palette:
+    # Toggle light mode
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+
+    # Toggle dark mode
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+extra_css:
+  - stylesheets/dxworks-theme.css
 
 nav:
   - Home: 'index.md'
