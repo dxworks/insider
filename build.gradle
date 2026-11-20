@@ -44,10 +44,23 @@ dependencies {
 
     implementation 'org.dxworks.utils:dx-ignore:1.1.0'
     implementation 'org.dxworks.utils:argumenthor:1.1.0'
-    implementation 'org.dxworks.utils:dx-linguist:1.0.0'
+    implementation 'org.dxworks.utils:dx-linguist:1.1.0'
 
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
+
+// languages.yml is the one shared copy from the dx-linguist jar, written to the project root
+tasks.register('copyLanguagesYml') {
+    def linguistJar = configurations.runtimeClasspath.filter { it.name.startsWith('dx-linguist-') }
+    def languagesYml = file('languages.yml')
+    inputs.files(linguistJar)
+    outputs.file(languagesYml)
+    doLast {
+        languagesYml.bytes = zipTree(linguistJar.singleFile).matching { include 'org/dxworks/linguist/languages.yml' }.singleFile.bytes
+    }
+}
+
+processResources.dependsOn 'copyLanguagesYml'
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

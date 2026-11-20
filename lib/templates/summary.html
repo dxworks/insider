@@ -1,0 +1,167 @@
+<section class="insider-summary">
+  <style>
+    .insider-summary {
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .insider-summary .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px 16px;
+      margin: 4px 0;
+    }
+
+    .insider-summary .summary-item {
+      padding: 6px 8px;
+      background: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .insider-summary .technology-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    .insider-summary .technology-table th,
+    .insider-summary .technology-table td {
+      border: 1px solid #d0d7de;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .insider-summary .technology-table th {
+      background: #f6f8fa;
+      font-weight: 600;
+    }
+
+    .insider-summary .technology-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .insider-summary .table-pagination {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .insider-summary .table-pagination button {
+      border: 1px solid #d0d7de;
+      background: #f6f8fa;
+      color: #1f2328;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .insider-summary .table-pagination button[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .insider-summary .page-indicator {
+      font-size: 0.9rem;
+      color: #57606a;
+    }
+  </style>
+
+  {{#if isMissing}}
+    <p>Summary input is missing</p>
+  {{else}}
+    <div class="summary-grid">
+      <div class="summary-item"><strong>Total files</strong><br>{{metrics.filesTotalFormatted}}</div>
+      <div class="summary-item"><strong>Total lines</strong><br>{{metrics.linesTotalFormatted}}</div>
+      <div class="summary-item"><strong>Total size</strong><br>{{metrics.sizeTotalFormatted}}</div>
+    </div>
+
+    <h3>Technology Breakdown</h3>
+    <table class="technology-table">
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Files</th>
+          <th>Lines</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each technologyBreakdown}}
+          <tr>
+            <td>{{name}}</td>
+            <td class="num">{{filesFormatted}}</td>
+            <td class="num">{{linesFormatted}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="table-pagination" data-page-size="10">
+      <button type="button" class="prev-page" aria-label="Previous page">&larr;</button>
+      <span class="page-indicator">Page 1 of 1</span>
+      <button type="button" class="next-page" aria-label="Next page">&rarr;</button>
+    </div>
+
+    <script>
+      (function () {
+        var section = document.currentScript && document.currentScript.closest('.insider-summary')
+        if (!section) {
+          return
+        }
+
+        var pagination = section.querySelector('.table-pagination')
+        var tableBody = section.querySelector('.technology-table tbody')
+        if (!pagination || !tableBody) {
+          return
+        }
+
+        var rows = Array.prototype.slice.call(tableBody.querySelectorAll('tr'))
+        var pageSize = Number(pagination.getAttribute('data-page-size') || '10')
+        var indicator = pagination.querySelector('.page-indicator')
+        var previousButton = pagination.querySelector('.prev-page')
+        var nextButton = pagination.querySelector('.next-page')
+        if (!indicator || !previousButton || !nextButton) {
+          return
+        }
+
+        var totalPages = Math.max(1, Math.ceil(rows.length / pageSize))
+        var currentPage = 1
+
+        function renderPage() {
+          var start = (currentPage - 1) * pageSize
+          var end = start + pageSize
+
+          rows.forEach(function (row, index) {
+            row.style.display = index >= start && index < end ? '' : 'none'
+          })
+
+          indicator.textContent = 'Page ' + currentPage + ' of ' + totalPages
+          previousButton.disabled = currentPage === 1
+          nextButton.disabled = currentPage === totalPages
+        }
+
+        previousButton.addEventListener('click', function () {
+          if (currentPage > 1) {
+            currentPage -= 1
+            renderPage()
+          }
+        })
+
+        nextButton.addEventListener('click', function () {
+          if (currentPage < totalPages) {
+            currentPage += 1
+            renderPage()
+          }
+        })
+
+        if (rows.length <= pageSize) {
+          pagination.style.display = 'none'
+        }
+
+        renderPage()
+      })()
+    </script>
+  {{/if}}
+</section>

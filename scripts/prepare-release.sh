@@ -9,6 +9,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 mkdir -p insider/results
+mkdir -p insider/templates
 cp README.md insider/README.md
 cp build/libs/insider*.jar insider/insider.jar
 cp bin/insider.sh insider/insider.sh
@@ -16,5 +17,9 @@ cp bin/insider.bat insider/insider.bat
 chmod +x insider/insider.sh
 cp languages.yml insider/languages.yml
 cp -R config insider/config
+cp lib/insider-summary.py insider/insider-summary.py
+cp lib/summary_extract.py insider/summary_extract.py
+cp lib/summary_render.py insider/summary_render.py
+cp lib/templates/summary.html insider/templates/summary.html
 
 zip -r insider.zip insider
